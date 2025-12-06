@@ -231,7 +231,8 @@
             background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center;
         }
         .video-container {
-            width: 90%; max-width: 800px; aspect-ratio: 16/9;
+            /* 【修正 16】 Width 100% for mobile full-width display */
+            width: 100%; max-width: 100%; aspect-ratio: 16/9;
             background: #000; border: 1px solid #00ffff;
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
         }
