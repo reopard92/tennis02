@@ -200,37 +200,25 @@
         .no-data { text-align: center; padding: 20px; font-size: 0.8rem; color: #666; }
 
         /* =========================================
-           SMARTPHONE OPTIMIZATION (Layout Fix: 100% Width & Vertical)
+           SMARTPHONE OPTIMIZATION (Layout Fix: Full Width)
            ========================================= */
         @media (max-width: 600px) {
-            .container { padding: 10px; padding-bottom: 80px; }
+            /* コンテナの余白を極限まで削る */
+            .container { padding: 5px; padding-bottom: 80px; }
             .header-area { margin-top: 10px; }
             
-            .player-inputs {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-            .input-group {
-                display: flex;
-                align-items: center;
-                background: rgba(255,255,255,0.05);
-                padding: 5px 10px;
-                border-radius: 4px;
-            }
-            .input-group label {
-                margin-bottom: 0;
-                margin-right: 10px;
-                width: 20px;
-                font-size: 0.8rem;
-            }
+            .player-inputs { grid-template-columns: 1fr; gap: 8px; }
+            .input-group { display: flex; align-items: center; background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 4px; }
+            .input-group label { margin-bottom: 0; margin-right: 10px; width: 20px; font-size: 0.8rem; }
             
             h1 { font-size: 1.4rem; padding-left: 50px; }
             #matchDate { top: -25px; right: 0; font-size: 0.75rem; }
             .coin-toss-section { width: 60px; top: 5px; }
             
-            /* 【修正】INPUTテーブル: 縦積みレイアウト + パワーゲージ + 幅固定&中央寄せ */
+            /* 【修正】INPUTテーブル: 幅制限なし (100%) */
             #r1_matchTableBody, #r2_matchTableBody {
                 display: block;
+                width: 100%; /* フルワイド */
             }
             #r1_matchTableBody tr, #r2_matchTableBody tr {
                 display: grid;
@@ -243,11 +231,11 @@
                 background: rgba(20,20,30,0.6);
                 padding: 10px;
                 
-                /* 【ここを修正】幅を固定して中央寄せ */
+                /* 【ここを修正】最大幅制限を削除 */
                 width: 100%;
-                max-width: 400px;
-                margin-left: auto;
-                margin-right: auto;
+                max-width: none; /* 制限解除 */
+                margin-left: 0;
+                margin-right: 0;
                 box-sizing: border-box; 
             }
             
@@ -279,21 +267,21 @@
                 border: none;
                 padding: 2px 0;
                 color: #fff;
-                white-space: normal; /* 折り返し許可 */
+                white-space: normal;
                 word-break: break-all;
             }
             
             /* 3. スコアA */
             #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3) {
                 grid-row: 3;
-                text-align: left; /* 左寄せ */
+                text-align: left;
                 border: none;
                 padding: 0;
                 display: flex;
                 align-items: center;
             }
 
-            /* 4. VS & ゲージ (中央) */
+            /* 4. VS & ゲージ */
             #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
                 grid-row: 3;
                 text-align: center;
@@ -314,7 +302,7 @@
             /* 5. スコアB */
              #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
                 grid-row: 3;
-                text-align: right; /* 右寄せ */
+                text-align: right;
                 border: none;
                 padding: 0;
                 display: flex;
@@ -330,7 +318,7 @@
                 border: none;
                 padding: 2px 0;
                 color: #fff;
-                white-space: normal; /* 折り返し許可 */
+                white-space: normal;
                 word-break: break-all;
             }
 
@@ -348,9 +336,9 @@
                 color: #888;
             }
             
-            /* 配置調整用のグリッド再定義（行内） */
+            /* 3カラム調整 */
             #r1_matchTableBody tr, #r2_matchTableBody tr {
-                 grid-template-columns: 60px 1fr 60px; /* スコア - 名前/VS - スコア */
+                 grid-template-columns: 60px 1fr 60px;
             }
             #r1_matchTableBody td:nth-of-type(1), 
             #r1_matchTableBody td:nth-of-type(2), 
@@ -360,16 +348,16 @@
             #r2_matchTableBody td:nth-of-type(2), 
             #r2_matchTableBody td:nth-of-type(6), 
             #r2_matchTableBody td:nth-of-type(7) {
-                grid-column: 1 / 4; /* 全幅 */
+                grid-column: 1 / 4;
             }
             #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3) {
-                grid-column: 1; /* 左 */
+                grid-column: 1;
             }
             #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
-                grid-column: 2; /* 中央 (VSゲージ) */
+                grid-column: 2;
             }
              #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
-                grid-column: 3; /* 右 */
+                grid-column: 3;
             }
             
             .stat-value { font-size: 1.5rem; }
@@ -705,6 +693,8 @@
             
             // ペアA
             const cTA = document.createElement("td"); cTA.textContent=`${pl[pat[0]]} & ${pl[pat[1]]}`; row.appendChild(cTA);
+            
+            // スコアA
             const cSA = document.createElement("td"); cSA.className="score-cell";
             const sA = createScoreSelect(); sA.setAttribute('data-type','scoreA'); 
             if(currentScores[idx]) sA.value = currentScores[idx].a;
@@ -726,11 +716,13 @@
                 </div>`;
             row.appendChild(cVs);
             
-            // ペアB
+            // スコアB
             const cSB = document.createElement("td"); cSB.className="score-cell";
             const sB = createScoreSelect(); sB.setAttribute('data-type','scoreB'); 
             if(currentScores[idx]) sB.value = currentScores[idx].b;
             cSB.appendChild(sB); row.appendChild(cSB);
+            
+            // ペアB
             const cTB = document.createElement("td"); cTB.textContent=`${pl[pat[2]]} & ${pl[pat[3]]}`; row.appendChild(cTB);
             
             // REST
