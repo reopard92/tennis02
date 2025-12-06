@@ -88,7 +88,7 @@
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             font-size: 0.7rem; font-weight: bold; color: #333;
-            cursor: pointer; /* Clickable */
+            cursor: pointer;
         }
         /* btn-toss removed */
         .spinning { animation: spin 0.5s infinite ease-in-out; }
@@ -172,6 +172,80 @@
 
         .sector-filter::-webkit-scrollbar { display: none; }
 
+        /* LEARN PAGE STYLES */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .video-card {
+            background: rgba(20, 20, 30, 0.6);
+            border: 1px solid #00ffff;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .video-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+        .video-thumb {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+            background-size: cover;
+            background-position: center;
+        }
+        .video-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .video-play-icon {
+            font-size: 2rem;
+            color: #00ffff;
+            filter: drop-shadow(0 0 5px #00ffff);
+            border: 2px solid #00ffff;
+            border-radius: 50%;
+            width: 50px; height: 50px;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .video-info {
+            padding: 10px;
+        }
+        .video-title {
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+        .video-meta {
+            font-size: 0.7rem;
+            color: #81d4fa;
+            display: flex;
+            justify-content: space-between;
+        }
+        /* Video Modal */
+        #videoModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center;
+        }
+        .video-container {
+            width: 90%; max-width: 800px; aspect-ratio: 16/9;
+            background: #000; border: 1px solid #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+        iframe { width: 100%; height: 100%; border: none; }
+
+
         /* FOOTER */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 15, 0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255, 255, 255, 0.15); display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
         .nav-item { background: none; border: none; color: #555; font-size: 0.6rem; display: flex; flex-direction: column; align-items: center; cursor: pointer; width: 20%; }
@@ -210,7 +284,7 @@
                 top: auto; left: auto;
                 width: auto;
                 grid-column: 1;
-                /* 【修正】Left align coin, remove flex column */
+                /* 【修正】Left align coin, remove flex column, zero margins */
                 text-align: left;
                 display: block;
                 margin-left: 0;
@@ -449,6 +523,11 @@
             .stat-value { font-size: 1.5rem; }
             /* Legend Fix for Mobile: Horizontal */
             .medal-legend span, .rank-legend span { display: inline-block; margin-right: 8px; margin-bottom: 3px; font-size: 0.65rem; }
+            
+            /* LEARN PAGE MOBILE FIX */
+            .video-grid {
+                grid-template-columns: 1fr; /* Single column */
+            }
         }
     </style>
 </head>
@@ -569,20 +648,34 @@
             <span>🌑 候補生 (0~)</span> <span>🛸 パイロット (100~)</span> <span>🛰️ 士官 (300~)</span><br>
             <span>🚀 指揮官 (600~)</span> <span>🪐 艦長 (1000~)</span> <span>🌌 提督 (2000~)</span>
         </div>
-    </div>
 
-    <div id="view-pairs" class="view-section">
-        <div class="section-title">最強ペアランキング</div>
-        <div style="text-align:center; font-size:0.7rem; color:#666; margin-bottom:10px;">※2試合以上組んだペアのみ対象</div>
-        <table class="standard-table">
-            <thead><tr><th>順位</th><th>ペア</th><th>勝敗</th><th>勝率</th></tr></thead>
-            <tbody id="pairRankingBody"></tbody>
-        </table>
+        <div style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+            <div class="section-title">最強ペアランキング</div>
+            <div style="text-align:center; font-size:0.7rem; color:#666; margin-bottom:10px;">※2試合以上組んだペアのみ対象</div>
+            <table class="standard-table">
+                <thead><tr><th>順位</th><th>ペア</th><th>勝敗</th><th>勝率</th></tr></thead>
+                <tbody id="pairRankingBody"></tbody>
+            </table>
+        </div>
     </div>
 
     <div id="view-logs" class="view-section">
         <div class="section-title">対戦履歴ログ</div>
         <div id="logsContainer"></div>
+    </div>
+
+    <div id="view-learn" class="view-section">
+        <div class="section-title">TACTICAL ARCHIVES</div>
+        <div class="sector-filter-area" style="text-align:center; margin-bottom:20px;">
+            <select id="learnCategorySelect" class="sector-select" onchange="renderVideos(this.value)">
+                <option value="ALL">ALL DATA</option>
+                <option value="SERVE">LAUNCH SEQUENCE (SERVE)</option>
+                <option value="STROKE">FIRE CONTROL (STROKE)</option>
+                <option value="VOLLEY">DEFENSE SHIELD (VOLLEY)</option>
+                <option value="TACTICS">SQUAD OPS (TACTICS)</option>
+            </select>
+        </div>
+        <div id="videoGrid" class="video-grid"></div>
     </div>
 
 </div>
@@ -591,8 +684,8 @@
     <button class="nav-item active" onclick="switchMainView('match')"><span class="nav-icon">🎾</span>INPUT</button>
     <button class="nav-item" onclick="switchMainView('dashboard')"><span class="nav-icon">📈</span>TOP</button>
     <button class="nav-item" onclick="switchMainView('ranking')"><span class="nav-icon">👑</span>RANK</button>
-    <button class="nav-item" onclick="switchMainView('pairs')"><span class="nav-icon">🤝</span>PAIR</button>
     <button class="nav-item" onclick="switchMainView('logs')"><span class="nav-icon">📜</span>LOGS</button>
+    <button class="nav-item" onclick="switchMainView('learn')"><span class="nav-icon">🧠</span>LEARN</button>
 </nav>
 
 <div id="playerModal" onclick="closeModal(event)">
@@ -612,6 +705,12 @@
     </div>
 </div>
 
+<div id="videoModal" onclick="closeVideoModal(event)">
+    <div class="video-container">
+        <div id="videoPlayer"></div>
+    </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -625,6 +724,14 @@
         { name: '指揮官',     min: 600,  icon: '🚀' },
         { name: '艦長',       min: 1000, icon: '🪐' },
         { name: '提督',       min: 2000, icon: '🌌' }
+    ];
+
+    // Dummy Data for Learning Page (Manually Add IDs Here)
+    const trainingVideos = [
+        { id: "sUzpHwG_iWw", cat: "SERVE", title: "【SERVE】KINETIC CHAIN", desc: "運動連鎖を使ったサーブの基本" },
+        { id: "Jj8y3Qh4jN8", cat: "STROKE", title: "【FORE】POWER DRIVE", desc: "フォアハンドの強打メカニズム" },
+        { id: "7qJp_v1qgX0", cat: "VOLLEY", title: "【VOLLEY】WALL DEFENSE", desc: "鉄壁のボレー" },
+        { id: "exampleID1", cat: "TACTICS", title: "【DOUBLES】FORMATION A", desc: "並行陣の基本セオリー" }
     ];
 
     let isEditMode = false;
@@ -646,6 +753,7 @@
         const dd = String(today.getDate()).padStart(2, '0');
         document.getElementById('matchDate').textContent = `${yyyy}-${mm}-${dd}`;
         fetchAnalysisData();
+        renderVideos('ALL'); // Initial render for Learn page
         setTimeout(() => {
             document.getElementById('loadingScreen').style.opacity = 0;
             setTimeout(() => { document.getElementById('loadingScreen').style.display = 'none'; }, 800);
@@ -655,15 +763,56 @@
     function switchMainView(viewName) {
         document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
         const navs = document.querySelectorAll('.nav-item');
+        // Nav Mapping: INPUT(0), TOP(1), RANK(2), LOGS(3), LEARN(4)
         if(viewName === 'match') navs[0].classList.add('active');
         if(viewName === 'dashboard') navs[1].classList.add('active');
         if(viewName === 'ranking') navs[2].classList.add('active');
-        if(viewName === 'pairs') navs[3].classList.add('active');
-        if(viewName === 'logs') navs[4].classList.add('active');
+        if(viewName === 'logs') navs[3].classList.add('active');
+        if(viewName === 'learn') navs[4].classList.add('active');
+        
         document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
         document.getElementById(`view-${viewName}`).classList.add('active');
-        const titles = { 'match': 'MATCH INPUT', 'dashboard': 'DASHBOARD', 'ranking': 'RANKING', 'pairs': 'PAIR ANALYSIS', 'logs': 'MISSION LOGS' };
+        const titles = { 'match': 'MATCH INPUT', 'dashboard': 'DASHBOARD', 'ranking': 'RANKING', 'logs': 'MISSION LOGS', 'learn': 'TACTICAL ARCHIVES' };
         document.getElementById('pageTitle').textContent = titles[viewName] || 'TENNIS CHRONICLES';
+    }
+
+    // ================== LEARN PAGE LOGIC ==================
+    function renderVideos(category) {
+        const grid = document.getElementById('videoGrid');
+        grid.innerHTML = "";
+        const filtered = category === 'ALL' ? trainingVideos : trainingVideos.filter(v => v.cat === category);
+        
+        filtered.forEach(v => {
+            const card = document.createElement('div');
+            card.className = 'video-card';
+            card.onclick = () => playVideo(v.id);
+            // Using youtube thumbnail
+            const thumbUrl = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
+            card.innerHTML = `
+                <div class="video-thumb" style="background-image: url('${thumbUrl}');">
+                    <div class="video-overlay"><div class="video-play-icon">⌖</div></div>
+                </div>
+                <div class="video-info">
+                    <div class="video-meta"><span>${v.cat}</span><span>DATA: ${v.id.substring(0,4)}...</span></div>
+                    <div class="video-title">${v.title}</div>
+                    <div style="font-size:0.7rem; color:#aaa;">${v.desc}</div>
+                </div>`;
+            grid.appendChild(card);
+        });
+    }
+
+    function playVideo(id) {
+        const modal = document.getElementById('videoModal');
+        const player = document.getElementById('videoPlayer');
+        player.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        modal.style.display = 'flex';
+    }
+
+    function closeVideoModal(e) {
+        if(e.target.id === 'videoModal') {
+            document.getElementById('videoModal').style.display = 'none';
+            document.getElementById('videoPlayer').innerHTML = ''; // Stop video
+        }
     }
 
     // ================== INPUT LOGIC ==================
@@ -1265,7 +1414,7 @@
             data: {
                 labels: ['勝率', '勝利', 'MVP', '試合数', 'ゲーム'],
                 datasets: [{ 
-                    label: '能力値', // 【修正】Added Label to fix "undefined" tooltip
+                    label: '能力値', 
                     data: [tr, (p.wins/max.wins)*100, (p.mvpCount/max.mvpCount)*100, (p.matches/max.matches)*100, (p.games/max.games)*100], 
                     backgroundColor:'rgba(0,255,255,0.2)', borderColor:'#00ffff', borderWidth:2 
                 }]
