@@ -213,7 +213,12 @@
                 top: auto; left: auto;
                 width: auto;
                 grid-column: 1;
+                /* 【修正】Left align toss button */
                 text-align: left;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-left: 10px;
             }
             #matchDate {
                 position: relative;
@@ -229,6 +234,9 @@
                 max-width: 300px;
                 margin: 0 auto; /* Center alignment */
                 display: block;
+                /* 【修正】Center text in dropdown */
+                text-align: center;
+                text-align-last: center; /* For iOS Safari */
             }
             .header-ctrl-area {
                 position: relative;
@@ -238,9 +246,9 @@
                 justify-content: flex-end;
             }
             
-            /* Compact Toss Button */
-            .coin { width: 30px; height: 30px; font-size: 0.6rem; margin-bottom: 2px; }
-            .btn-toss { padding: 2px 6px; font-size: 0.6rem; }
+            /* 【修正】Smaller Compact Toss Button */
+            .coin { width: 25px; height: 25px; font-size: 0.5rem; margin-bottom: 2px; }
+            .btn-toss { padding: 1px 5px; font-size: 0.6rem; }
             /* ----------------------------------- */
             
             .player-inputs {
@@ -261,7 +269,8 @@
                 font-size: 0.8rem;
             }
             
-            h1 { font-size: 1.4rem; padding-left: 50px; }
+            /* 【修正】Center Title, Remove Left Padding */
+            h1 { font-size: 1.4rem; padding-left: 0; text-align: center; }
 
             /* 【修正】INPUTテーブル: 幅制限なし (100%) */
             #r1_matchTableBody, #r2_matchTableBody {
@@ -1209,7 +1218,27 @@
                 labels: tops.map(p=>p.name),
                 datasets: [{ label:'勝率 (%)', data: tops.map(p=>(p.wins+p.losses)>0?p.wins/(p.wins+p.losses)*100:0), backgroundColor:'rgba(255,255,255,0.1)', borderColor:'#fff', borderWidth:1 }]
             },
-            options: { responsive:true, maintainAspectRatio:false, scales:{y:{beginAtZero:true,max:100,grid:{color:'rgba(255,255,255,0.05)'}},x:{grid:{display:false}}} }
+            options: { 
+                responsive:true, 
+                maintainAspectRatio:false, 
+                scales:{y:{beginAtZero:true,max:100,grid:{color:'rgba(255,255,255,0.05)'}},x:{grid:{display:false}}},
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y.toFixed(1) + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
         });
     }
 
