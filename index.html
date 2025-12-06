@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* =========================================
-           GLOBAL THEME: DEEP SPACE (Original Preserved)
+           GLOBAL THEME: DEEP SPACE (12/3 1:00 Ver. Preserved)
            ========================================= */
         body {
             font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
@@ -167,7 +167,6 @@
         .rank-bar-fill { height: 100%; background: #00ffff; width: 0%; box-shadow: 0 0 10px #00ffff; }
         .chart-container { position: relative; height: 250px; width: 100%; margin-bottom: 30px; }
         
-        /* セクター選択バー */
         .sector-filter {
             display: flex; overflow-x: auto; gap: 10px; margin-bottom: 20px; padding-bottom: 5px; justify-content: center;
         }
@@ -296,7 +295,6 @@
     <div id="view-ranking" class="view-section">
         <div class="section-title">通算個人ランキング</div>
         
-        <!-- 【修正】セクター選択バー: クリック時イベントにthisを渡す -->
         <div class="sector-filter" id="sectorFilter">
             <button class="sector-btn active" onclick="filterRanking('ALL', this)">ALL SECTORS</button>
             <button class="sector-btn" onclick="filterRanking('練馬ステップイン', this)">練馬</button>
@@ -377,15 +375,12 @@
     ];
 
     let isEditMode = false;
-    // リロード時のリセット防止
     let isLoading = false;
-    
     let playerStatsGlobal = {};
     let radarChartInstance = null;
     let historyChartInstance = null;
     let winRateChartInstance = null;
     
-    // データ保持用
     let rawAnalysisRankings = [];
     let rawAnalysisMatches = [];
     let currentSector = 'ALL';
@@ -418,6 +413,7 @@
         document.getElementById('pageTitle').textContent = titles[viewName] || 'TENNIS CHRONICLES';
     }
 
+    // ================== INPUT LOGIC ==================
     const patterns = [[1, 2, 3, 4, 5],[1, 5, 2, 3, 4],[1, 4, 2, 5, 3],[1, 3, 4, 5, 2],[2, 4, 3, 5, 1]];
 
     function initSelectors() {
@@ -468,10 +464,12 @@
         setTimeout(() => { c.classList.remove('spinning'); c.textContent = Math.random() < 0.5 ? "HEAD" : "TAIL"; b.disabled = false; b.textContent = "TOSS"; }, 1500);
     }
 
+    // 【修正】リセット機能: スコア選択肢もDOM上でリセット
     function secureReset() {
         if (!isEditMode) return;
         if (confirm("RESET INPUT?")) {
             document.querySelectorAll('.player-select').forEach(s => s.value = "-");
+            document.querySelectorAll('.score-select').forEach(s => s.value = "-"); // スコアもクリア
             document.getElementById('courtSelect').value = "-";
             localStorage.removeItem(STORAGE_KEY);
             updateSchedule('r1'); updateSchedule('r2');
@@ -616,7 +614,6 @@
 
     function saveState() {
         if(isLoading) return;
-
         const court = document.getElementById('courtSelect').value;
         const rd = {};
         ['r1','r2'].forEach(r => {
@@ -742,14 +739,12 @@
         } catch(e) { console.error(e); }
     }
 
-    // 【修正②】セクターフィルター: ハイライトロジック修正
     function filterRanking(sector, el) {
         currentSector = sector;
         document.querySelectorAll('.sector-btn').forEach(btn => btn.classList.remove('active'));
         if(el) {
             el.classList.add('active');
         } else {
-            // 初期ロード時など要素がない場合はALLを選択状態に
             const allBtn = document.querySelector('.sector-btn');
             if(allBtn && sector === 'ALL') allBtn.classList.add('active');
         }
