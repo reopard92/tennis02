@@ -265,6 +265,7 @@
             background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center;
         }
         .video-container {
+            /* 【修正 16】 Width 100% for mobile full-width display */
             width: 100%; max-width: 100%; aspect-ratio: 16/9;
             background: #000; border: 1px solid #00ffff;
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
@@ -555,10 +556,15 @@
             /* Legend Fix for Mobile: Horizontal */
             .medal-legend span, .rank-legend span { display: inline-block; margin-right: 8px; margin-bottom: 3px; font-size: 0.65rem; }
             
-            /* LEARN PAGE MOBILE FIX */
+            /* 【修正 21】 Mobile Video Grid: 2 Columns */
             .video-grid {
-                grid-template-columns: 1fr; /* Single column */
+                grid-template-columns: repeat(2, 1fr); /* 2 columns */
+                gap: 10px;
             }
+            .video-title { font-size: 0.75rem; }
+            .video-meta { font-size: 0.6rem; }
+            .video-info { padding: 10px; }
+            .video-play-icon { width: 40px; height: 40px; font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -757,19 +763,19 @@
         { name: '提督',       min: 2000, icon: '🌌' }
     ];
 
-    // 【修正 18】 Training Videos Data (Samples deleted, User ID added, titles modified)
+    // 【修正 21】 Training Videos Data (Channel name removed, Titles updated)
     const trainingVideos = [
-        { id: "IPfPjZyKzK4", cat: "SERVE", title: "サーブ上達講座", desc: "あゆタロウチャンネル：威力と確率を上げる" },
-        { id: "XotQwO2eLjM", cat: "STROKE", title: "ストレート・クロス強打", desc: "あゆタロウチャンネル：力強い球を打つ方法" },
-        { id: "_xhTeqqF80U", cat: "VOLLEY", title: "ローボレー・ハイボレー", desc: "あゆタロウチャンネル：ボレーのコツ伝授" },
-        { id: "4tuxGRkZAnk", cat: "STROKE", title: "バックハンド安定のコツ", desc: "あゆタロウチャンネル" },
-        { id: "qXhtrKC8gjA", cat: "STROKE", title: "豪速球！肩甲骨の使い方", desc: "あゆタロウチャンネル" },
-        { id: "kSsq_s1OoB8", cat: "SERVE", title: "小柄でも速いサーブ", desc: "あゆタロウチャンネル" },
-        { id: "66Pky_Ogyl0", cat: "TACTICS", title: "前衛のポーチに出るタイミング！", desc: "あゆタロウチャンネル" },
-        { id: "J-xSKZRI9kI", cat: "SERVE", title: "最強のカットサーブ", desc: "あゆタロウチャンネル" },
-        { id: "HOwBO9yljQ4", cat: "STROKE", title: "乱打が続かない人へ", desc: "あゆタロウチャンネル" },
-        { id: "-8pVUELG1gE", cat: "STROKE", title: "バックハンドが苦手な人へ", desc: "あゆタロウチャンネル" },
-        { id: "mfDwhROR3H8", cat: "VOLLEY", title: "スマッシュの基本", desc: "あゆタロウチャンネル" }
+        { id: "IPfPjZyKzK4", cat: "SERVE", title: "サーブの威力と確率を上げる", desc: "運動連鎖を使ったサーブの基本" },
+        { id: "XotQwO2eLjM", cat: "STROKE", title: "ストローク強打の極意", desc: "力強い球を打つ方法" },
+        { id: "_xhTeqqF80U", cat: "VOLLEY", title: "ロー＆ハイボレーの基本", desc: "ボレーのコツ伝授" },
+        { id: "4tuxGRkZAnk", cat: "STROKE", title: "バックハンドを安定させる", desc: "安定のコツ" },
+        { id: "qXhtrKC8gjA", cat: "STROKE", title: "肩甲骨で豪速球を打つ", desc: "肩甲骨の使い方" },
+        { id: "kSsq_s1OoB8", cat: "SERVE", title: "小柄でも速いサーブ", desc: "身体の使い方" },
+        { id: "66Pky_Ogyl0", cat: "TACTICS", title: "前衛ポーチのタイミング", desc: "ポーチに出る判断" },
+        { id: "J-xSKZRI9kI", cat: "SERVE", title: "最強カットサーブ", desc: "曲がるサーブの打ち方" },
+        { id: "HOwBO9yljQ4", cat: "STROKE", title: "乱打が続かない人へ", desc: "安定したラリーのコツ" },
+        { id: "-8pVUELG1gE", cat: "STROKE", title: "バックハンド克服法", desc: "苦手意識をなくす" },
+        { id: "mfDwhROR3H8", cat: "VOLLEY", title: "スマッシュの基本", desc: "確実に決める方法" }
     ];
 
     let isEditMode = false;
@@ -1453,17 +1459,49 @@
         const ctxR = document.getElementById('radarChart').getContext('2d');
         if(radarChartInstance) radarChartInstance.destroy();
         const tr = (p.wins+p.losses)>0?p.wins/(p.wins+p.losses)*100:0;
+        
+        // 【修正 21】 Safe Calculation & Fixed Scale
+        const safeCalc = (val, maxVal) => maxVal > 0 ? (val / maxVal) * 100 : 0;
+
         radarChartInstance = new Chart(ctxR, {
             type: 'radar',
             data: {
                 labels: ['勝率', '勝利', 'MVP', '試合数', 'ゲーム'],
                 datasets: [{ 
                     label: '能力値', 
-                    data: [tr, (p.wins/max.wins)*100, (p.mvpCount/max.mvpCount)*100, (p.matches/max.matches)*100, (p.games/max.games)*100], 
+                    data: [
+                        p.wins + p.losses > 0 ? (p.wins/(p.wins+p.losses)*100) : 0, 
+                        safeCalc(p.wins, max.wins), 
+                        safeCalc(p.mvpCount, max.mvpCount), 
+                        safeCalc(p.matches, max.matches), 
+                        safeCalc(p.games, max.games)
+                    ], 
                     backgroundColor:'rgba(0,255,255,0.2)', borderColor:'#00ffff', borderWidth:2 
                 }]
             },
-            options: { responsive:true, maintainAspectRatio:false, scales:{r:{angleLines:{color:'rgba(255,255,255,0.2)'}, grid:{color:'rgba(255,255,255,0.2)'}, pointLabels:{color:'#00ffff',font:{size:9}}, ticks:{display:false,max:100}}} }
+            options: { 
+                responsive:true, 
+                maintainAspectRatio:false, 
+                scales:{
+                    r:{
+                        angleLines:{color:'rgba(255,255,255,0.2)'}, 
+                        grid:{color:'rgba(255,255,255,0.2)'}, 
+                        pointLabels:{color:'#00ffff',font:{size:9}}, 
+                        ticks:{display:false}, // Hide numbers
+                        min: 0, // Fixed min
+                        max: 100 // Fixed max for everyone
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw.toFixed(1);
+                            }
+                        }
+                    }
+                }
+            } 
         });
 
         const ctxH = document.getElementById('historyChart').getContext('2d');
