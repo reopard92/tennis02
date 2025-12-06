@@ -64,13 +64,7 @@
             letter-spacing: 2px;
             margin-top: 5px;
         }
-        .refresh-btn {
-            position: absolute; top: 20px; right: 20px;
-            background: transparent; border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #00ffff; border-radius: 20px; padding: 5px 10px;
-            font-size: 0.7rem; cursor: pointer; transition: 0.3s; z-index: 2000; letter-spacing: 1px;
-        }
-        .refresh-btn:hover { background: rgba(0, 255, 255, 0.1); box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); border-color: #00ffff; }
+        /* REFRESH button removed */
 
         .view-section { display: none; animation: fadeIn 0.4s ease; }
         .view-section.active { display: block; }
@@ -137,6 +131,9 @@
         .btn-ctrl.unlocked { border-color: #69f0ae; color: #69f0ae; }
         .btn-send { background: linear-gradient(135deg, #303f9f 0%, #7b1fa2 100%); color: #fff; border: none; padding: 15px 40px; border-radius: 2px; cursor: pointer; font-size: 0.95rem; letter-spacing: 3px; width: 100%; max-width: 350px; margin: 60px auto 0 auto; display: block; box-shadow: 0 10px 30px rgba(48, 63, 159, 0.3); }
         .btn-send:hover { background: linear-gradient(135deg, #3f51b5 0%, #8e24aa 100%); }
+        
+        /* Layout control for header buttons */
+        .header-ctrl-area { position: absolute; top: 0; right: 0; margin-top: 60px; display: flex; gap: 10px; }
         
         /* ANALYSIS STYLES */
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; margin-bottom: 30px; }
@@ -207,6 +204,44 @@
             .container { padding: 5px; padding-bottom: 80px; }
             .header-area { margin-top: 10px; }
             
+            /* --- HEADER LAYOUT FIX FOR MOBILE --- */
+            .input-header-area {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                row-gap: 15px;
+                padding-bottom: 10px;
+                min-height: auto;
+                margin-bottom: 20px;
+            }
+            .coin-toss-section {
+                position: relative;
+                top: auto; left: auto;
+                width: auto;
+                grid-column: 1;
+                text-align: left;
+            }
+            #matchDate {
+                position: relative;
+                top: auto; right: auto;
+                grid-column: 2;
+                text-align: right;
+                font-size: 0.8rem;
+                margin-top: 8px; /* Vertical align adjustment */
+            }
+            #courtSelect {
+                grid-column: 1 / 3; /* Full width */
+                margin: 0;
+                width: 100%;
+            }
+            .header-ctrl-area {
+                position: relative;
+                top: auto; right: auto;
+                margin-top: 0;
+                grid-column: 1 / 3;
+                justify-content: flex-end;
+            }
+            /* ----------------------------------- */
+            
             .player-inputs {
                 grid-template-columns: 1fr;
                 gap: 8px;
@@ -226,9 +261,7 @@
             }
             
             h1 { font-size: 1.4rem; padding-left: 50px; }
-            #matchDate { top: -25px; right: 0; font-size: 0.75rem; }
-            .coin-toss-section { width: 60px; top: 5px; }
-            
+
             /* 【修正】INPUTテーブル: 幅制限なし (100%) */
             #r1_matchTableBody, #r2_matchTableBody {
                 display: block;
@@ -395,7 +428,6 @@
 
 <div class="container">
     <header class="app-header">
-        <button class="refresh-btn" onclick="location.reload()">↺ REFRESH</button>
         <h1 id="pageTitle">TENNIS CHRONICLES</h1>
         <div class="subtitle">DEEP SPACE INTEGRATED SYSTEM</div>
     </header>
@@ -414,7 +446,7 @@
                 <option value="モリパーク テニスガーデン">モリパーク テニスガーデン</option>
                 <option value="白子町">白子町</option>
             </select>
-            <div style="position: absolute; top: 0; right: 0; margin-top: 60px; display: flex; gap: 10px;">
+            <div class="header-ctrl-area">
                  <button id="editBtn" class="btn-ctrl" onclick="toggleEditMode()">EDIT</button>
                  <button id="resetBtn" class="btn-ctrl" onclick="secureReset()" disabled>RESET</button>
             </div>
