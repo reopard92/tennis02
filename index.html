@@ -208,8 +208,6 @@
             justify-content: center;
             align-items: center;
         }
-        /* 【修正 10】Target mark deleted */
-        /* .video-play-icon removed from CSS as it is removed from HTML */
         
         .video-info {
             padding: 10px;
@@ -227,16 +225,7 @@
             display: flex;
             justify-content: space-between;
         }
-        /* Video Modal */
-        #videoModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center;
-        }
-        .video-container {
-            width: 90%; max-width: 800px; aspect-ratio: 16/9;
-            background: #000; border: 1px solid #00ffff;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
-        }
+        
         iframe { width: 100%; height: 100%; border: none; }
 
 
@@ -763,7 +752,7 @@
         document.getElementById('pageTitle').textContent = titles[viewName] || 'TENNIS CHRONICLES';
     }
 
-    // ================== LEARN PAGE LOGIC (UPDATED: Inline Play with Mute) ==================
+    // ================== LEARN PAGE LOGIC (UPDATED: Inline Play with Mute & Fullscreen Request) ==================
     function renderVideos(category) {
         const grid = document.getElementById('videoGrid');
         grid.innerHTML = "";
@@ -772,8 +761,8 @@
         filtered.forEach(v => {
             const card = document.createElement('div');
             card.className = 'video-card';
-            // 【修正 12】 Changed onclick to playVideoInline
-            card.onclick = function() { playVideoInline(this, v.id); };
+            // 【修正 14】 Changed to playVideoFullscreen
+            card.onclick = function() { playVideoFullscreen(this, v.id); };
             
             const thumbUrl = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
             
@@ -791,18 +780,32 @@
         });
     }
 
-    // 【修正 12 & 13】 New Inline Player Function (with Mute for Autoplay)
-    function playVideoInline(cardElement, videoId) {
-        // Find the thumbnail div within the clicked card
+    // 【修正 14】 Inline Player with Auto-Fullscreen request & Mute
+    function playVideoFullscreen(cardElement, videoId) {
         const thumbDiv = cardElement.querySelector('.video-thumb');
         if (!thumbDiv) return;
 
-        // Replace thumbnail with iframe
-        // 【修正 13】 Added &mute=1 to allow autoplay on mobile
-        thumbDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        // 1. Create iframe (mute=1 for autoplay on mobile, playsinline=0 for iOS fullscreen)
+        const src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&playsinline=0`;
         
-        // Remove onclick handler to prevent re-triggering
+        thumbDiv.innerHTML = `<iframe src="${src}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>`;
+        
+        // Remove click listener to prevent re-triggering
         cardElement.onclick = null;
+
+        // 2. Request Fullscreen API (For Android/PC)
+        const iframe = thumbDiv.querySelector('iframe');
+        
+        // requestFullscreen must be called within user gesture (click), which we are in.
+        if (iframe.requestFullscreen) {
+            iframe.requestFullscreen().catch(err => console.log("Fullscreen blocked:", err));
+        } else if (iframe.webkitRequestFullscreen) {
+            iframe.webkitRequestFullscreen();
+        } else if (iframe.mozRequestFullScreen) {
+            iframe.mozRequestFullScreen();
+        } else if (iframe.msRequestFullscreen) {
+            iframe.msRequestFullscreen();
+        }
     }
 
     // ================== INPUT LOGIC ==================
