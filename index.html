@@ -172,7 +172,7 @@
 
         .sector-filter::-webkit-scrollbar { display: none; }
 
-        /* LEARN PAGE STYLES */
+        /* LEARN PAGE STYLES (Option A: HUD Design) */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -180,17 +180,28 @@
             margin-top: 20px;
         }
         .video-card {
-            background: rgba(20, 20, 30, 0.6);
-            border: 1px solid #00ffff;
-            border-radius: 4px;
-            overflow: hidden;
+            background: rgba(10, 20, 30, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.2);
             position: relative;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+            overflow: hidden;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            /* HUD Bracket Effect via Background Gradients */
+            background-image:
+                linear-gradient(to right, #00ffff 2px, transparent 2px),
+                linear-gradient(to bottom, #00ffff 2px, transparent 2px),
+                linear-gradient(to left, #00ffff 2px, transparent 2px),
+                linear-gradient(to top, #00ffff 2px, transparent 2px);
+            background-size: 10px 10px;
+            background-position: top left, top left, bottom right, bottom right;
+            background-repeat: no-repeat;
         }
         .video-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            border-color: rgba(0, 255, 255, 0.6);
         }
         .video-thumb {
             position: relative;
@@ -200,17 +211,49 @@
             background-size: cover;
             background-position: center;
         }
+        /* Scanline Effect */
+        .scanlines {
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0,0,0,0) 0px,
+                rgba(0,0,0,0) 2px,
+                rgba(0,255,255,0.05) 3px,
+                rgba(0,0,0,0) 4px
+            );
+            pointer-events: none;
+            z-index: 2;
+        }
         .video-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.2);
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 3;
         }
-        
+        /* Target Scope Icon */
+        .video-play-icon {
+            font-size: 1.5rem;
+            color: #00ffff;
+            width: 50px; height: 50px;
+            border: 1px solid #00ffff;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            position: relative;
+            background: rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px #00ffff;
+        }
+        .video-play-icon::before, .video-play-icon::after {
+            content: ''; position: absolute; background: #00ffff;
+        }
+        .video-play-icon::before { width: 100%; height: 1px; top: 50%; left: 0; }
+        .video-play-icon::after { width: 1px; height: 100%; top: 0; left: 50%; }
+
         .video-info {
-            padding: 10px;
+            padding: 15px;
+            font-family: 'Courier New', Courier, monospace; /* Tech font */
         }
         .video-title {
             color: #fff;
@@ -218,20 +261,25 @@
             font-weight: bold;
             margin-bottom: 5px;
             line-height: 1.4;
+            text-shadow: 0 0 5px rgba(0,255,255,0.5);
         }
         .video-meta {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #81d4fa;
             display: flex;
             justify-content: space-between;
+            border-bottom: 1px solid rgba(0,255,255,0.2);
+            padding-bottom: 5px;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
         }
-        /* 【修正 15】 Video Modal Styles Restored */
+        
+        /* Video Modal */
         #videoModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center;
         }
         .video-container {
-            /* 【修正 16】 Width 100% for mobile full-width display */
             width: 100%; max-width: 100%; aspect-ratio: 16/9;
             background: #000; border: 1px solid #00ffff;
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
@@ -731,7 +779,12 @@
         { id: "_xhTeqqF80U", cat: "VOLLEY", title: "ローボレー・ハイボレー", desc: "あゆタロウチャンネル：ボレーのコツ伝授" },
         { id: "4tuxGRkZAnk", cat: "STROKE", title: "バックハンド安定のコツ", desc: "あゆタロウチャンネル" },
         { id: "qXhtrKC8gjA", cat: "STROKE", title: "豪速球！肩甲骨の使い方", desc: "あゆタロウチャンネル" },
-        { id: "kSsq_s1OoB8", cat: "SERVE", title: "小柄でも速いサーブ", desc: "あゆタロウチャンネル" }
+        { id: "kSsq_s1OoB8", cat: "SERVE", title: "小柄でも速いサーブ", desc: "あゆタロウチャンネル" },
+        { id: "66Pky_Ogyl0", cat: "TACTICS", title: "前衛のポーチに出るタイミング！", desc: "あゆタロウチャンネル" },
+        { id: "J-xSKZRI9kI", cat: "SERVE", title: "最強のカットサーブ", desc: "あゆタロウチャンネル" },
+        { id: "HOwBO9yljQ4", cat: "STROKE", title: "乱打が続かない人へ", desc: "あゆタロウチャンネル" },
+        { id: "-8pVUELG1gE", cat: "STROKE", title: "バックハンドが苦手な人へ", desc: "あゆタロウチャンネル" },
+        { id: "mfDwhROR3H8", cat: "VOLLEY", title: "スマッシュの基本", desc: "あゆタロウチャンネル" }
     ];
 
     let isEditMode = false;
@@ -776,7 +829,7 @@
         document.getElementById('pageTitle').textContent = titles[viewName] || 'TENNIS CHRONICLES';
     }
 
-    // ================== LEARN PAGE LOGIC (UPDATED: Revert to Option A - Modal Play) ==================
+    // ================== LEARN PAGE LOGIC (UPDATED: Option A - Modal Play with fixed sizing) ==================
     function renderVideos(category) {
         const grid = document.getElementById('videoGrid');
         grid.innerHTML = "";
@@ -790,10 +843,10 @@
             
             const thumbUrl = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
             
-            // 【修正 12】 DATA:ID... removed
             card.innerHTML = `
                 <div class="video-thumb" style="background-image: url('${thumbUrl}');">
-                    <div class="video-overlay"><div style="font-size:2rem;color:#00ffff;border:2px solid #00ffff;border-radius:50%;width:50px;height:50px;display:flex;justify-content:center;align-items:center;">▶</div></div>
+                    <div class="scanlines"></div>
+                    <div class="video-overlay"><div class="video-play-icon" style="border:none;box-shadow:none;background:none;font-size:3rem;text-shadow:0 0 10px #00ffff;">⌖</div></div>
                 </div>
                 <div class="video-info">
                     <div class="video-meta"><span>${v.cat}</span></div>
