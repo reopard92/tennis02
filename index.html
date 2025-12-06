@@ -131,7 +131,7 @@
         .btn-ctrl.unlocked { border-color: #69f0ae; color: #69f0ae; }
         .btn-send { background: linear-gradient(135deg, #303f9f 0%, #7b1fa2 100%); color: #fff; border: none; padding: 15px 40px; border-radius: 2px; cursor: pointer; font-size: 0.95rem; letter-spacing: 3px; width: 100%; max-width: 350px; margin: 60px auto 0 auto; display: block; box-shadow: 0 10px 30px rgba(48, 63, 159, 0.3); }
         .btn-send:hover { background: linear-gradient(135deg, #3f51b5 0%, #8e24aa 100%); }
-        .btn-send:disabled { background: #333; color: #777; cursor: not-allowed; box-shadow: none; } /* Disabled Style */
+        .btn-send:disabled { background: #333; color: #777; cursor: not-allowed; box-shadow: none; }
 
         /* Layout control for header buttons */
         .header-ctrl-area { position: absolute; top: 0; right: 0; margin-top: 60px; display: flex; gap: 10px; }
@@ -165,20 +165,14 @@
         .rank-bar-fill { height: 100%; background: #00ffff; width: 0%; box-shadow: 0 0 10px #00ffff; }
         .chart-container { position: relative; height: 250px; width: 100%; margin-bottom: 30px; }
         
-        .sector-filter {
-            display: flex; overflow-x: auto; gap: 10px; margin-bottom: 20px; padding-bottom: 5px; justify-content: center;
+        /* Dropdown styles for Ranking page */
+        .sector-select {
+            padding: 8px 15px; font-size: 1rem;
+            background-color: rgba(0, 0, 0, 0.6); color: #00ffff;
+            border: 1px solid rgba(0, 255, 255, 0.5); border-radius: 4px;
+            outline: none; cursor: pointer; width: 100%; max-width: 300px; display: block; margin: 0 auto;
         }
-        .sector-btn {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #888; padding: 8px 15px; border-radius: 20px; font-size: 0.75rem;
-            cursor: pointer; white-space: nowrap; transition: 0.3s; letter-spacing: 1px;
-        }
-        .sector-btn:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
-        .sector-btn.active {
-            background: rgba(0, 255, 255, 0.1); border-color: #00ffff;
-            color: #00ffff; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-        }
+
         .sector-filter::-webkit-scrollbar { display: none; }
 
         /* FOOTER */
@@ -275,20 +269,15 @@
                 display: block;
             }
             
-            /* 【修正 03】INPUT対戦テーブルのヘッダー非表示 */
-            .input-match-table thead {
-                display: none;
-            }
-
-            /* 【修正 03】ランキングテーブルを通常のテーブル表示に戻して横幅いっぱいにする */
-            .input-ranking-table {
+            /* 【修正 03/04】INPUT対戦テーブル以外のテーブル（ランキング、ペア、ログ）を通常表示に戻す */
+            .standard-table {
                 display: table !important; /* ブロック解除 */
                 width: 100% !important;
                 box-sizing: border-box;
             }
-            .input-ranking-table thead { display: table-header-group !important; }
-            .input-ranking-table tbody { display: table-row-group !important; }
-            .input-ranking-table tr { 
+            .standard-table thead { display: table-header-group !important; }
+            .standard-table tbody { display: table-row-group !important; }
+            .standard-table tr { 
                 display: table-row !important; 
                 width: auto !important; 
                 grid-template-columns: none !important; /* grid解除 */
@@ -297,13 +286,16 @@
                 padding: 0 !important;
                 margin: 0 !important;
             }
-            .input-ranking-table th, .input-ranking-table td {
+            .standard-table th, .standard-table td {
                 display: table-cell !important;
                 width: auto !important;
                 text-align: center !important;
                 border-bottom: 1px solid rgba(255,255,255,0.1) !important;
             }
 
+            .input-match-table thead {
+                display: none;
+            }
             
             #r1_matchTableBody tr, #r2_matchTableBody tr {
                 display: grid;
@@ -496,7 +488,7 @@
             <tbody id="r1_matchTableBody"></tbody>
         </table>
         <div style="text-align: center;" class="ranking-area"><h3>RANKING // 1st Phase</h3></div>
-        <table class="input-ranking-table">
+        <table class="standard-table">
             <thead><tr><th>#</th><th>NAME</th><th>WIN</th><th>RATE</th><th>G</th></tr></thead>
             <tbody id="r1_rankingTableBody"></tbody>
         </table>
@@ -514,13 +506,13 @@
             <tbody id="r2_matchTableBody"></tbody>
         </table>
         <div style="text-align: center;" class="ranking-area"><h3>RANKING // 2nd Phase</h3></div>
-        <table class="input-ranking-table">
+        <table class="standard-table">
             <thead><tr><th>#</th><th>NAME</th><th>WIN</th><th>RATE</th><th>G</th></tr></thead>
             <tbody id="r2_rankingTableBody"></tbody>
         </table>
 
         <div style="text-align: center; margin-top:30px;" class="ranking-area"><h3 style="color:#fff;">TOTAL RANKING (TODAY)</h3></div>
-        <table class="input-ranking-table">
+        <table class="standard-table">
             <thead><tr><th>#</th><th>NAME</th><th>WIN</th><th>RATE</th><th>G</th></tr></thead>
             <tbody id="total_input_rankingTableBody"></tbody>
         </table>
@@ -533,6 +525,7 @@
         <div class="dashboard-grid">
             <div class="stat-card"><div class="stat-label">開催回数</div><div class="stat-value highlight" id="totalMissions">0</div></div>
             <div class="stat-card"><div class="stat-label">総ゲーム数</div><div class="stat-value" id="totalGames">0</div></div>
+            <div class="stat-card"><div class="stat-label">平均ゲーム</div><div class="stat-value" id="avgGames">-</div></div>
             <div class="stat-card"><div class="stat-label">最新MVP</div><div class="stat-value" id="latestMvp">-</div></div>
         </div>
         <div class="section-title">勝率分析 (TOP 5)</div>
@@ -544,12 +537,14 @@
     <div id="view-ranking" class="view-section">
         <div class="section-title">通算個人ランキング</div>
         
-        <div class="sector-filter" id="sectorFilter">
-            <button class="sector-btn active" onclick="filterRanking('ALL', this)">ALL SECTORS</button>
-            <button class="sector-btn" onclick="filterRanking('練馬ステップイン', this)">練馬</button>
-            <button class="sector-btn" onclick="filterRanking('百草テニスガーデン', this)">百草</button>
-            <button class="sector-btn" onclick="filterRanking('モリパーク テニスガーデン', this)">モリパーク</button>
-            <button class="sector-btn" onclick="filterRanking('白子町', this)">白子町</button>
+        <div class="sector-filter-area" style="text-align:center; margin-bottom:20px;">
+            <select id="sectorSelect" class="sector-select" onchange="filterRanking(this.value)">
+                <option value="ALL">ALL SECTORS</option>
+                <option value="練馬ステップイン">練馬</option>
+                <option value="百草テニスガーデン">百草</option>
+                <option value="モリパーク テニスガーデン">モリパーク</option>
+                <option value="白子町">白子町</option>
+            </select>
         </div>
 
         <div style="text-align:center; font-size:0.7rem; color:#888; margin-bottom:10px;">行をタップして詳細を表示</div>
@@ -570,7 +565,7 @@
     <div id="view-pairs" class="view-section">
         <div class="section-title">最強ペアランキング</div>
         <div style="text-align:center; font-size:0.7rem; color:#666; margin-bottom:10px;">※2試合以上組んだペアのみ対象</div>
-        <table>
+        <table class="standard-table">
             <thead><tr><th>順位</th><th>ペア</th><th>勝敗</th><th>勝率</th></tr></thead>
             <tbody id="pairRankingBody"></tbody>
         </table>
@@ -1016,15 +1011,9 @@
         } catch(e) { console.error(e); }
     }
 
-    function filterRanking(sector, el) {
+    function filterRanking(sector) {
         currentSector = sector;
-        document.querySelectorAll('.sector-btn').forEach(btn => btn.classList.remove('active'));
-        if(el) {
-            el.classList.add('active');
-        } else {
-            const allBtn = document.querySelector('.sector-btn');
-            if(allBtn && sector === 'ALL') allBtn.classList.add('active');
-        }
+        // Selectボックスの場合はactiveクラスの切り替え不要（ブラウザ標準）
         processAnalysisData();
     }
 
@@ -1107,6 +1096,9 @@
 
         document.getElementById('totalMissions').textContent = mDates.size;
         document.getElementById('totalGames').textContent = totalG;
+        const avg = mDates.size > 0 ? (totalGames / mDates.size).toFixed(1) : "0";
+        document.getElementById('avgGames').textContent = avg;
+
         const lastD = Array.from(mDates).sort().pop();
         if(lastD) {
             const todayLogs = logs[Object.keys(logs).find(k=>k.startsWith(lastD))];
@@ -1193,7 +1185,7 @@
                     <div><span class="log-date">${l.date}</span><span class="log-court">@${l.court}</span></div>
                     <div style="font-size:0.7rem;color:#aaa;">TOP: ${winner}</div>
                 </div>
-                <div class="log-content"><table><thead><tr><th>順位</th><th>名前</th><th>勝敗</th><th>勝率</th></tr></thead><tbody>
+                <div class="log-content"><table class="standard-table"><thead><tr><th>順位</th><th>名前</th><th>勝敗</th><th>勝率</th></tr></thead><tbody>
                 ${sD.map((r,i)=>`<tr><td style="color:${i==0?'#fff':''}">${i+1}</td><td>${r.n}</td><td>${r.w}-${r.l}</td><td>${((r.w+r.l)>0?((r.w/(r.w+r.l))*100).toFixed(0)+'%':'-')}</td></tr>`).join('')}
                 </tbody></table></div>`;
             c.appendChild(div);
