@@ -236,10 +236,10 @@
             background: #000; border: 1px solid #00ffff;
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
         }
-        /* 【修正 17】 #videoPlayer sizing fix */
+        /* 【修正 17, 18】 #videoPlayer sizing fix */
         #videoPlayer {
-            width: 100%;
-            height: 100%;
+            width: 99%;
+            height: 99%;
         }
         iframe { width: 100%; height: 100%; border: none; }
 
@@ -724,11 +724,14 @@
         { name: '提督',       min: 2000, icon: '🌌' }
     ];
 
-    // 【修正 12】 Training Videos Data (Samples deleted, User ID added)
+    // 【修正 18】 Training Videos Data (Samples deleted, User ID added, titles modified)
     const trainingVideos = [
-        { id: "IPfPjZyKzK4", cat: "SERVE", title: "【ソフトテニス】サーブ上達講座", desc: "あゆタロウチャンネル：威力と確率を上げる" },
-        { id: "XotQwO2eLjM", cat: "STROKE", title: "【ソフトテニス】ストレート・クロス強打", desc: "あゆタロウチャンネル：力強い球を打つ方法" },
-        { id: "_xhTeqqF80U", cat: "VOLLEY", title: "【ソフトテニス】ローボレー・ハイボレー", desc: "あゆタロウチャンネル：ボレーのコツ伝授" }
+        { id: "IPfPjZyKzK4", cat: "SERVE", title: "サーブ上達講座", desc: "あゆタロウチャンネル：威力と確率を上げる" },
+        { id: "XotQwO2eLjM", cat: "STROKE", title: "ストレート・クロス強打", desc: "あゆタロウチャンネル：力強い球を打つ方法" },
+        { id: "_xhTeqqF80U", cat: "VOLLEY", title: "ローボレー・ハイボレー", desc: "あゆタロウチャンネル：ボレーのコツ伝授" },
+        { id: "4tuxGRkZAnk", cat: "STROKE", title: "バックハンド安定のコツ", desc: "あゆタロウチャンネル" },
+        { id: "qXhtrKC8gjA", cat: "STROKE", title: "豪速球！肩甲骨の使い方", desc: "あゆタロウチャンネル" },
+        { id: "kSsq_s1OoB8", cat: "SERVE", title: "小柄でも速いサーブ", desc: "あゆタロウチャンネル" }
     ];
 
     let isEditMode = false;
