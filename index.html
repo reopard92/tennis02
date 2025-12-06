@@ -131,7 +131,8 @@
         .btn-ctrl.unlocked { border-color: #69f0ae; color: #69f0ae; }
         .btn-send { background: linear-gradient(135deg, #303f9f 0%, #7b1fa2 100%); color: #fff; border: none; padding: 15px 40px; border-radius: 2px; cursor: pointer; font-size: 0.95rem; letter-spacing: 3px; width: 100%; max-width: 350px; margin: 60px auto 0 auto; display: block; box-shadow: 0 10px 30px rgba(48, 63, 159, 0.3); }
         .btn-send:hover { background: linear-gradient(135deg, #3f51b5 0%, #8e24aa 100%); }
-        
+        .btn-send:disabled { background: #333; color: #777; cursor: not-allowed; box-shadow: none; } /* Disabled Style */
+
         /* Layout control for header buttons */
         .header-ctrl-area { position: absolute; top: 0; right: 0; margin-top: 60px; display: flex; gap: 10px; }
         
@@ -273,6 +274,36 @@
                 width: 100% !important;
                 display: block;
             }
+            
+            /* 【修正 03】INPUT対戦テーブルのヘッダー非表示 */
+            .input-match-table thead {
+                display: none;
+            }
+
+            /* 【修正 03】ランキングテーブルを通常のテーブル表示に戻して横幅いっぱいにする */
+            .input-ranking-table {
+                display: table !important; /* ブロック解除 */
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            .input-ranking-table thead { display: table-header-group !important; }
+            .input-ranking-table tbody { display: table-row-group !important; }
+            .input-ranking-table tr { 
+                display: table-row !important; 
+                width: auto !important; 
+                grid-template-columns: none !important; /* grid解除 */
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .input-ranking-table th, .input-ranking-table td {
+                display: table-cell !important;
+                width: auto !important;
+                text-align: center !important;
+                border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+            }
+
             
             #r1_matchTableBody tr, #r2_matchTableBody tr {
                 display: grid;
@@ -460,12 +491,12 @@
             <div class="input-group"><label>IV</label><select id="r1_p4" class="player-select" onchange="updateSchedule('r1')" disabled></select></div>
             <div class="input-group"><label>V</label><select id="r1_p5" class="player-select" onchange="updateSchedule('r1')" disabled></select></div>
         </div>
-        <table>
+        <table class="input-match-table">
             <thead><tr><th>No.</th><th>PAIR A</th><th>G</th><th></th><th>G</th><th>PAIR B</th><th>REST</th></tr></thead>
             <tbody id="r1_matchTableBody"></tbody>
         </table>
         <div style="text-align: center;" class="ranking-area"><h3>RANKING // 1st Phase</h3></div>
-        <table>
+        <table class="input-ranking-table">
             <thead><tr><th>#</th><th>NAME</th><th>WIN</th><th>RATE</th><th>G</th></tr></thead>
             <tbody id="r1_rankingTableBody"></tbody>
         </table>
@@ -478,23 +509,23 @@
             <div class="input-group"><label>IV</label><select id="r2_p4" class="player-select" onchange="updateSchedule('r2')" disabled></select></div>
             <div class="input-group"><label>V</label><select id="r2_p5" class="player-select" onchange="updateSchedule('r2')" disabled></select></div>
         </div>
-        <table>
+        <table class="input-match-table">
             <thead><tr><th>No.</th><th>PAIR A</th><th>G</th><th></th><th>G</th><th>PAIR B</th><th>REST</th></tr></thead>
             <tbody id="r2_matchTableBody"></tbody>
         </table>
         <div style="text-align: center;" class="ranking-area"><h3>RANKING // 2nd Phase</h3></div>
-        <table>
+        <table class="input-ranking-table">
             <thead><tr><th>#</th><th>NAME</th><th>WIN</th><th>RATE</th><th>G</th></tr></thead>
             <tbody id="r2_rankingTableBody"></tbody>
         </table>
 
         <div style="text-align: center; margin-top:30px;" class="ranking-area"><h3 style="color:#fff;">TOTAL RANKING (TODAY)</h3></div>
-        <table>
+        <table class="input-ranking-table">
             <thead><tr><th>#</th><th>NAME</th><th>WIN</th><th>RATE</th><th>G</th></tr></thead>
             <tbody id="total_input_rankingTableBody"></tbody>
         </table>
 
-        <button id="sendButton" class="btn-send" onclick="sendToSpreadsheet()">TRANSMIT DATA</button>
+        <button id="sendButton" class="btn-send" onclick="sendToSpreadsheet()" disabled>TRANSMIT DATA</button>
     </div>
 
     <div id="view-dashboard" class="view-section">
@@ -660,12 +691,16 @@
         const resetBtn = document.getElementById('resetBtn'); 
         const inputs = document.querySelectorAll('select.player-select, select#courtSelect');
         const scores = document.querySelectorAll('select.score-select');
+        const sendBtn = document.getElementById('sendButton');
+
         if (isEditMode) {
             btn.textContent = "LOCK"; btn.classList.add("unlocked"); resetBtn.disabled = false; 
             inputs.forEach(el => el.disabled = false); scores.forEach(el => el.disabled = false);
+            if(sendBtn) sendBtn.disabled = false;
         } else {
             btn.textContent = "EDIT"; btn.classList.remove("unlocked"); resetBtn.disabled = true; 
             inputs.forEach(el => el.disabled = true); scores.forEach(el => el.disabled = true);
+            if(sendBtn) sendBtn.disabled = true;
         }
     }
 
@@ -941,7 +976,10 @@
             body: JSON.stringify({ date, court, rankings, matches })
         }).then(() => { showToast("SENT SUCCESSFULLY"); fetchAnalysisData(); })
         .catch(e => { console.error(e); showToast("FAILED"); })
-        .finally(() => { btn.disabled=false; btn.textContent="TRANSMIT DATA"; });
+        .finally(() => { 
+            btn.textContent="TRANSMIT DATA"; 
+            btn.disabled = !isEditMode;
+        });
     }
 
     function showToast(msg) {
