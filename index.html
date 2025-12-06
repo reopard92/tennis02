@@ -172,36 +172,30 @@
 
         .sector-filter::-webkit-scrollbar { display: none; }
 
-        /* LEARN PAGE STYLES (Option A: HUD Design) */
+        /* LEARN PAGE STYLES (Option B: Hologram/Glass Style) */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
+        /* 【修正 19】 Hologram/Glass Style Card */
         .video-card {
-            background: rgba(10, 20, 30, 0.8);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            position: relative;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+            background: rgba(20, 30, 40, 0.4); /* Semi-transparent */
+            backdrop-filter: blur(10px); /* Glass effect */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.3); /* Highlight top */
+            border-radius: 12px; /* Rounded corners */
             overflow: hidden;
+            position: relative;
             cursor: pointer;
-            transition: transform 0.2s;
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-            /* HUD Bracket Effect via Background Gradients */
-            background-image:
-                linear-gradient(to right, #00ffff 2px, transparent 2px),
-                linear-gradient(to bottom, #00ffff 2px, transparent 2px),
-                linear-gradient(to left, #00ffff 2px, transparent 2px),
-                linear-gradient(to top, #00ffff 2px, transparent 2px);
-            background-size: 10px 10px;
-            background-position: top left, top left, bottom right, bottom right;
-            background-repeat: no-repeat;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
         .video-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-            border-color: rgba(0, 255, 255, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), inset 0 0 10px rgba(0, 255, 255, 0.1);
+            border-color: rgba(0, 255, 255, 0.5);
         }
         .video-thumb {
             position: relative;
@@ -211,19 +205,6 @@
             background-size: cover;
             background-position: center;
         }
-        /* Scanline Effect */
-        .scanlines {
-            position: absolute; top:0; left:0; width:100%; height:100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0,0,0,0) 0px,
-                rgba(0,0,0,0) 2px,
-                rgba(0,255,255,0.05) 3px,
-                rgba(0,0,0,0) 4px
-            );
-            pointer-events: none;
-            z-index: 2;
-        }
         .video-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -231,29 +212,34 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 3;
+            transition: background 0.3s;
         }
-        /* Target Scope Icon */
+        .video-card:hover .video-overlay {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* 【修正 19】 Glowing Play Icon */
         .video-play-icon {
-            font-size: 1.5rem;
-            color: #00ffff;
-            width: 50px; height: 50px;
-            border: 1px solid #00ffff;
+            font-size: 2.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            width: 60px; height: 60px;
             border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             display: flex; justify-content: center; align-items: center;
-            position: relative;
-            background: rgba(0,0,0,0.5);
-            box-shadow: 0 0 10px #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            transition: 0.3s;
+            text-shadow: 0 0 10px rgba(0,255,255,0.8);
         }
-        .video-play-icon::before, .video-play-icon::after {
-            content: ''; position: absolute; background: #00ffff;
+        .video-card:hover .video-play-icon {
+            background: rgba(0, 255, 255, 0.2);
+            transform: scale(1.1);
+            border-color: #00ffff;
         }
-        .video-play-icon::before { width: 100%; height: 1px; top: 50%; left: 0; }
-        .video-play-icon::after { width: 1px; height: 100%; top: 0; left: 50%; }
 
         .video-info {
             padding: 15px;
-            font-family: 'Courier New', Courier, monospace; /* Tech font */
         }
         .video-title {
             color: #fff;
@@ -261,16 +247,15 @@
             font-weight: bold;
             margin-bottom: 5px;
             line-height: 1.4;
-            text-shadow: 0 0 5px rgba(0,255,255,0.5);
+            text-shadow: 0 0 5px rgba(255,255,255,0.2);
         }
         .video-meta {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: #81d4fa;
             display: flex;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(0,255,255,0.2);
-            padding-bottom: 5px;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
+            font-weight: bold;
             letter-spacing: 1px;
         }
         
@@ -843,10 +828,10 @@
             
             const thumbUrl = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
             
+            // 【修正 19】 Option B Design (Glass) - Play icon updated
             card.innerHTML = `
                 <div class="video-thumb" style="background-image: url('${thumbUrl}');">
-                    <div class="scanlines"></div>
-                    <div class="video-overlay"><div class="video-play-icon" style="border:none;box-shadow:none;background:none;font-size:3rem;text-shadow:0 0 10px #00ffff;">⌖</div></div>
+                    <div class="video-overlay"><div class="video-play-icon">▶</div></div>
                 </div>
                 <div class="video-info">
                     <div class="video-meta"><span>${v.cat}</span></div>
