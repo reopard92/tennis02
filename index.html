@@ -200,10 +200,10 @@
         .no-data { text-align: center; padding: 20px; font-size: 0.8rem; color: #666; }
 
         /* =========================================
-           SMARTPHONE OPTIMIZATION (Fixed)
+           SMARTPHONE OPTIMIZATION (Layout Fix)
            ========================================= */
         @media (max-width: 600px) {
-            .container { padding: 10px; padding-bottom: 80px; }
+            .container { padding: 10px; padding-bottom: 80px; } /* コンテナ余白削減 */
             .header-area { margin-top: 10px; }
             
             .player-inputs {
@@ -228,138 +228,94 @@
             #matchDate { top: -25px; right: 0; font-size: 0.75rem; }
             .coin-toss-section { width: 60px; top: 5px; }
             
-            /* INPUTテーブル: 縦積みレイアウト + パワーゲージ */
+            /* 【修正】INPUTテーブル: 縦積みレイアウト + パワーゲージ */
             #r1_matchTableBody, #r2_matchTableBody {
                 display: block;
             }
             #r1_matchTableBody tr, #r2_matchTableBody tr {
-                display: grid;
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto auto auto auto;
+                display: flex; /* Flexboxで縦に並べる */
+                flex-direction: column;
                 gap: 5px;
                 margin-bottom: 15px; 
                 border: 1px solid rgba(255,255,255,0.1);
                 border-radius: 4px;
                 background: rgba(20,20,30,0.6);
                 padding: 10px;
-                width: 100%; /* 幅100% */
-                box-sizing: border-box; /* パディングを含める */
+                width: 100%; 
+                box-sizing: border-box; 
             }
             
+            #r1_matchTableBody td, #r2_matchTableBody td {
+                display: block; /* セルをブロック化 */
+                width: 100%;
+                box-sizing: border-box;
+                border: none;
+                padding: 2px 0;
+                text-align: center;
+            }
+
             /* 1. 試合番号 */
             #r1_matchTableBody td:nth-of-type(1), #r2_matchTableBody td:nth-of-type(1) {
-                grid-row: 1;
-                text-align: center;
+                order: 1;
                 font-size: 0.8rem;
                 color: #888;
                 border-bottom: 1px solid rgba(255,255,255,0.05);
                 padding-bottom: 5px;
                 margin-bottom: 5px;
-                padding-left: 0 !important; /* 強制リセット */
-                width: 100%;
             }
             
-            /* 2. ペアA (名前) */
+            /* 2. ペアAエリア (名前 + スコア) - 擬似的な行を作る */
+            /* Flexコンテナ化はJSを使わずCSSだけでやるには限界があるため、
+               視覚的に「名前」の下に「スコア」が来るように順序指定 */
+
+            /* ペアA (名前) */
             #r1_matchTableBody td:nth-of-type(2), #r2_matchTableBody td:nth-of-type(2) {
-                grid-row: 2;
-                text-align: center;
-                font-size: 0.9rem;
-                border: none;
-                padding: 2px 0;
+                order: 2;
+                font-size: 1rem;
                 color: #fff;
-                padding-left: 0 !important;
+                margin-bottom: 5px;
             }
             
-            /* 3. スコアA */
+            /* スコアA */
             #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3) {
-                grid-row: 3;
-                text-align: left;
-                border: none;
-                padding: 0;
-                display: flex;
-                align-items: center;
-                padding-left: 0 !important;
+                order: 3;
+                margin-bottom: 10px;
             }
 
-            /* 4. VS & ゲージ */
+            /* VS & ゲージ */
             #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
-                grid-row: 3;
-                text-align: center;
-                border: none;
-                padding: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                padding-left: 0 !important;
+                order: 4;
+                margin-bottom: 10px;
             }
+            /* ゲージ調整 */
             #r1_matchTableBody td:nth-of-type(4) div, #r2_matchTableBody td:nth-of-type(4) div {
-                width: 100%;
-                display: flex;
                 justify-content: center;
-                gap: 5px;
             }
 
-            /* 5. スコアB */
+            /* スコアB */
              #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
-                grid-row: 3;
-                text-align: right;
-                border: none;
-                padding: 0;
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                padding-left: 0 !important;
+                order: 5;
+                margin-bottom: 5px;
             }
 
-            /* 6. ペアB (名前) */
+            /* ペアB (名前) */
             #r1_matchTableBody td:nth-of-type(6), #r2_matchTableBody td:nth-of-type(6) {
-                grid-row: 4;
-                text-align: center;
-                font-size: 0.9rem;
-                border: none;
-                padding: 2px 0;
+                order: 6;
+                font-size: 1rem;
                 color: #fff;
-                padding-left: 0 !important;
+                margin-bottom: 5px;
             }
 
-            /* 7. REST */
+            /* REST */
             #r1_matchTableBody td:nth-of-type(7), #r2_matchTableBody td:nth-of-type(7) {
-                grid-row: 5;
-                text-align: center;
+                order: 7;
                 margin-top: 10px;
                 padding-top: 5px;
                 border-top: 1px solid rgba(255,255,255,0.05);
-                border-bottom: none;
-                padding-left: 0 !important;
             }
             #r1_matchTableBody td:nth-of-type(7)::before, #r2_matchTableBody td:nth-of-type(7)::before {
                 content: "REST: ";
                 color: #888;
-            }
-            
-            /* 3カラム調整 */
-            #r1_matchTableBody tr, #r2_matchTableBody tr {
-                 grid-template-columns: 60px 1fr 60px;
-            }
-            #r1_matchTableBody td:nth-of-type(1), 
-            #r1_matchTableBody td:nth-of-type(2), 
-            #r1_matchTableBody td:nth-of-type(6), 
-            #r1_matchTableBody td:nth-of-type(7),
-            #r2_matchTableBody td:nth-of-type(1), 
-            #r2_matchTableBody td:nth-of-type(2), 
-            #r2_matchTableBody td:nth-of-type(6), 
-            #r2_matchTableBody td:nth-of-type(7) {
-                grid-column: 1 / 4;
-            }
-            #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3) {
-                grid-column: 1;
-            }
-            #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
-                grid-column: 2;
-            }
-             #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
-                grid-column: 3;
             }
             
             .stat-value { font-size: 1.5rem; }
@@ -689,25 +645,48 @@
         patterns.forEach((pat, idx) => {
             const row = document.createElement("tr");
             row.dataset.pA1=pl[pat[0]]; row.dataset.pA2=pl[pat[1]]; row.dataset.pB1=pl[pat[2]]; row.dataset.pB2=pl[pat[3]];
+            
+            // 1. MATCH NO
             const cNo = document.createElement("td"); cNo.textContent=`MATCH ${idx+1}`; row.appendChild(cNo);
+            
+            // 2. PAIR A NAME
             const cTA = document.createElement("td"); cTA.textContent=`${pl[pat[0]]} & ${pl[pat[1]]}`; row.appendChild(cTA);
             
+            // 3. SCORE A
             const cSA = document.createElement("td"); cSA.className="score-cell";
             const sA = createScoreSelect(); sA.setAttribute('data-type','scoreA'); 
             if(currentScores[idx]) sA.value = currentScores[idx].a;
             cSA.appendChild(sA); row.appendChild(cSA);
             
+            // 4. VS (GAUGE)
             const probA = getWinProbability(pl[pat[0]], pl[pat[1]]);
             const cVs = document.createElement("td"); cVs.className="vs"; 
-            cVs.innerHTML = `<div style="font-size:0.8rem;">vs</div><div style="font-size:0.6rem; color:#00ffff; white-space:nowrap;">${probA}% - ${100-probA}%</div>`;
+            cVs.innerHTML = `
+                <div style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div style="font-size:0.6rem; color:#aaa; margin-bottom:2px;">WIN PROBABILITY</div>
+                    <div style="display:flex; width:80%; height:4px; background:#333; border-radius:2px; overflow:hidden;">
+                        <div style="width:${probA}%; background:#00ffff; box-shadow:0 0 5px #00ffff;"></div>
+                        <div style="width:${100-probA}%; background:#555;"></div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; width:80%; font-size:0.6rem; margin-top:2px;">
+                        <span style="color:#00ffff;">${probA}%</span>
+                        <span style="color:#888;">${100-probA}%</span>
+                    </div>
+                </div>`;
             row.appendChild(cVs);
             
+            // 5. SCORE B
             const cSB = document.createElement("td"); cSB.className="score-cell";
             const sB = createScoreSelect(); sB.setAttribute('data-type','scoreB'); 
             if(currentScores[idx]) sB.value = currentScores[idx].b;
             cSB.appendChild(sB); row.appendChild(cSB);
+            
+            // 6. PAIR B NAME
             const cTB = document.createElement("td"); cTB.textContent=`${pl[pat[2]]} & ${pl[pat[3]]}`; row.appendChild(cTB);
+            
+            // 7. REST
             const cR = document.createElement("td"); cR.className="rest-highlight"; cR.textContent=pl[pat[4]]; row.appendChild(cR);
+            
             sA.onchange = () => checkWinner(sA, sB, cTA, cSA, cSB, cTB, rp);
             sB.onchange = () => checkWinner(sA, sB, cTA, cSA, cSB, cTB, rp);
             tb.appendChild(row);
