@@ -185,7 +185,7 @@
             border-radius: 4px;
             overflow: hidden;
             position: relative;
-            cursor: pointer;
+            /* cursor: pointer removed for better UX on inline play */
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .video-card:hover {
@@ -199,17 +199,16 @@
             background-color: #000;
             background-size: cover;
             background-position: center;
+            cursor: pointer;
         }
         .video-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        /* 【修正 10】Target mark deleted */
-        /* .video-play-icon removed from CSS as it is removed from HTML */
         
         .video-info {
             padding: 10px;
@@ -227,16 +226,7 @@
             display: flex;
             justify-content: space-between;
         }
-        /* Video Modal */
-        #videoModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center;
-        }
-        .video-container {
-            width: 90%; max-width: 800px; aspect-ratio: 16/9;
-            background: #000; border: 1px solid #00ffff;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
-        }
+        
         iframe { width: 100%; height: 100%; border: none; }
 
 
@@ -699,12 +689,6 @@
     </div>
 </div>
 
-<div id="videoModal" onclick="closeVideoModal(event)">
-    <div class="video-container">
-        <div id="videoPlayer"></div>
-    </div>
-</div>
-
 <div id="toast"></div>
 
 <script>
@@ -720,9 +704,11 @@
         { name: '提督',       min: 2000, icon: '🌌' }
     ];
 
-    // 【修正 10】 Training Videos Data (Samples deleted, User ID added)
+    // 【修正 12】 Training Videos Data (Samples deleted, User ID added)
     const trainingVideos = [
-        { id: "IPfPjZyKzK4", cat: "SERVE", title: "【ソフトテニス】サーブ上達講座", desc: "あゆタロウチャンネル：威力と確率を上げる" }
+        { id: "IPfPjZyKzK4", cat: "SERVE", title: "【ソフトテニス】サーブ上達講座", desc: "あゆタロウチャンネル：威力と確率を上げる" },
+        { id: "XotQwO2eLjM", cat: "STROKE", title: "【ソフトテニス】ストレート・クロス強打", desc: "あゆタロウチャンネル：力強い球を打つ方法" },
+        { id: "_xhTeqqF80U", cat: "VOLLEY", title: "【ソフトテニス】ローボレー・ハイボレー", desc: "あゆタロウチャンネル：ボレーのコツ伝授" }
     ];
 
     let isEditMode = false;
@@ -767,7 +753,7 @@
         document.getElementById('pageTitle').textContent = titles[viewName] || 'TENNIS CHRONICLES';
     }
 
-    // ================== LEARN PAGE LOGIC ==================
+    // ================== LEARN PAGE LOGIC (UPDATED: Inline Play) ==================
     function renderVideos(category) {
         const grid = document.getElementById('videoGrid');
         grid.innerHTML = "";
@@ -776,17 +762,18 @@
         filtered.forEach(v => {
             const card = document.createElement('div');
             card.className = 'video-card';
-            card.onclick = () => playVideo(v.id);
-            // Using youtube thumbnail
+            // 【修正 12】 Changed onclick to playVideoInline
+            card.onclick = function() { playVideoInline(this, v.id); };
+            
             const thumbUrl = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
             
-            // 【修正 10】 Removed Target Icon (⌖)
+            // 【修正 12】 DATA:ID... removed
             card.innerHTML = `
                 <div class="video-thumb" style="background-image: url('${thumbUrl}');">
                     <div class="video-overlay"></div>
                 </div>
                 <div class="video-info">
-                    <div class="video-meta"><span>${v.cat}</span><span>DATA: ${v.id.substring(0,4)}...</span></div>
+                    <div class="video-meta"><span>${v.cat}</span></div>
                     <div class="video-title">${v.title}</div>
                     <div style="font-size:0.7rem; color:#aaa;">${v.desc}</div>
                 </div>`;
@@ -794,18 +781,17 @@
         });
     }
 
-    function playVideo(id) {
-        const modal = document.getElementById('videoModal');
-        const player = document.getElementById('videoPlayer');
-        player.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-        modal.style.display = 'flex';
-    }
+    // 【修正 12】 New Inline Player Function
+    function playVideoInline(cardElement, videoId) {
+        // Find the thumbnail div within the clicked card
+        const thumbDiv = cardElement.querySelector('.video-thumb');
+        if (!thumbDiv) return;
 
-    function closeVideoModal(e) {
-        if(e.target.id === 'videoModal') {
-            document.getElementById('videoModal').style.display = 'none';
-            document.getElementById('videoPlayer').innerHTML = ''; // Stop video
-        }
+        // Replace thumbnail with iframe
+        thumbDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        
+        // Remove onclick handler to prevent re-triggering
+        cardElement.onclick = null;
     }
 
     // ================== INPUT LOGIC ==================
