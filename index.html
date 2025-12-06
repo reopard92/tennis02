@@ -122,14 +122,12 @@
         .rank-1 { color: #fff; font-weight: bold; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
         .game-count { font-weight: normal; color: #81d4fa; }
         .rest-highlight { color: #e57373; font-size: 0.85rem; padding: 2px 8px; border: none; }
-        
         .score-select { 
             width: 45px; padding: 5px; text-align: center; font-size: 1rem; 
             background-color: #222; border: 1px solid #666; color: #fff; border-radius: 2px; 
         }
         .score-select:focus { outline: none; border-color: #00ffff; background-color: #000; }
         .score-select.filled { background-color: rgba(0, 255, 255, 0.15); border-color: rgba(0, 255, 255, 0.6); font-weight: bold; color: #00ffff; }
-
         .winner { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent); color: #fff !important; font-weight: bold; text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); }
         .loser { color: #555 !important; }
         .loser select { opacity: 0.3; }
@@ -198,6 +196,117 @@
         .loader-bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: #fff; box-shadow: 0 0 10px #fff; animation: load 2s ease-in-out forwards; }
         @keyframes load { 0% { width: 0%; } 100% { width: 100%; } }
         .no-data { text-align: center; padding: 20px; font-size: 0.8rem; color: #666; }
+
+        /* =========================================
+           SMARTPHONE OPTIMIZATION (Added)
+           ========================================= */
+        @media (max-width: 600px) {
+            .container { padding: 15px; padding-bottom: 80px; }
+            .header-area { margin-top: 10px; }
+            
+            /* 【修正3】入力エリアの縦並び化 */
+            .player-inputs {
+                grid-template-columns: 1fr; /* 1列にする */
+                gap: 8px;
+            }
+            .input-group {
+                display: flex;
+                align-items: center;
+                background: rgba(255,255,255,0.05);
+                padding: 5px 10px;
+                border-radius: 4px;
+            }
+            .input-group label {
+                margin-bottom: 0;
+                margin-right: 10px;
+                width: 20px; /* 番号ラベルの幅固定 */
+                font-size: 0.8rem;
+            }
+            
+            h1 { font-size: 1.4rem; padding-left: 50px; }
+            #matchDate { top: -25px; right: 0; font-size: 0.75rem; }
+            .coin-toss-section { width: 60px; top: 5px; }
+            
+            /* 【修正1】テーブルのカード化 (レスポンシブ) */
+            /* INPUTテーブルはそのままの方が入力しやすい場合もあるが、見やすさ重視で調整 */
+            table, thead, tbody, th, td, tr { 
+                display: block; 
+            }
+            thead tr { 
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tr { 
+                margin-bottom: 15px; 
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 4px;
+                background: rgba(20,20,30,0.6);
+                padding: 10px;
+            }
+            td { 
+                border: none;
+                position: relative;
+                padding-left: 50%; 
+                text-align: right;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 5px 0;
+            }
+            /* 入力画面のテーブル特殊対応 */
+            #r1_matchTableBody td, #r2_matchTableBody td {
+                display: inline-block;
+                width: auto;
+                padding: 5px;
+                text-align: center;
+            }
+            #r1_matchTableBody tr, #r2_matchTableBody tr {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+            }
+            /* 試合番号 */
+            #r1_matchTableBody td:nth-of-type(1), #r2_matchTableBody td:nth-of-type(1) {
+                width: 100%;
+                text-align: left;
+                font-size: 0.7rem;
+                color: #888;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+                margin-bottom: 5px;
+            }
+            /* ペア名 */
+            #r1_matchTableBody td:nth-of-type(2), #r2_matchTableBody td:nth-of-type(2),
+            #r1_matchTableBody td:nth-of-type(6), #r2_matchTableBody td:nth-of-type(6) {
+                width: 40%;
+                font-size: 0.85rem;
+            }
+            /* スコア */
+            #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3),
+            #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
+                width: 15%;
+            }
+            /* VS */
+            #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
+                width: 10%;
+            }
+            /* REST */
+            #r1_matchTableBody td:nth-of-type(7), #r2_matchTableBody td:nth-of-type(7) {
+                width: 100%;
+                text-align: center;
+                margin-top: 5px;
+                font-size: 0.7rem;
+                color: #666;
+            }
+            #r1_matchTableBody td:nth-of-type(7)::before, #r2_matchTableBody td:nth-of-type(7)::before {
+                content: "REST: ";
+            }
+
+            /* 【修正5】文字サイズ調整 */
+            .stat-value { font-size: 1.5rem; }
+            .medal-legend span, .rank-legend span { display: block; margin-bottom: 3px; }
+        }
     </style>
 </head>
 <body>
@@ -375,7 +484,6 @@
     ];
 
     let isEditMode = false;
-    let isLoading = false;
     let playerStatsGlobal = {};
     let radarChartInstance = null;
     let historyChartInstance = null;
@@ -464,12 +572,11 @@
         setTimeout(() => { c.classList.remove('spinning'); c.textContent = Math.random() < 0.5 ? "HEAD" : "TAIL"; b.disabled = false; b.textContent = "TOSS"; }, 1500);
     }
 
-    // 【修正】リセット機能: スコア選択肢もDOM上でリセット
     function secureReset() {
         if (!isEditMode) return;
         if (confirm("RESET INPUT?")) {
             document.querySelectorAll('.player-select').forEach(s => s.value = "-");
-            document.querySelectorAll('.score-select').forEach(s => s.value = "-"); // スコアもクリア
+            document.querySelectorAll('.score-select').forEach(s => s.value = "-"); 
             document.getElementById('courtSelect').value = "-";
             localStorage.removeItem(STORAGE_KEY);
             updateSchedule('r1'); updateSchedule('r2');
@@ -613,7 +720,6 @@
     }
 
     function saveState() {
-        if(isLoading) return;
         const court = document.getElementById('courtSelect').value;
         const rd = {};
         ['r1','r2'].forEach(r => {
@@ -628,7 +734,6 @@
     function loadState() {
         const json = localStorage.getItem(STORAGE_KEY); if(!json) return false;
         try {
-            isLoading = true;
             const data=JSON.parse(json);
             if(data.meta && data.meta.court) document.getElementById('courtSelect').value=data.meta.court;
             ['r1','r2'].forEach(r => {
@@ -652,9 +757,8 @@
             updatePlayerOptions('r1');
             updatePlayerOptions('r2');
             applyEditMode();
-            isLoading = false;
             return true;
-        } catch(e) { console.error(e); isLoading = false; return false; }
+        } catch(e) { console.error(e); return false; }
     }
 
     function sendToSpreadsheet() {
