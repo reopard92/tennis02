@@ -200,7 +200,7 @@
         .no-data { text-align: center; padding: 20px; font-size: 0.8rem; color: #666; }
 
         /* =========================================
-           SMARTPHONE OPTIMIZATION (Layout Fix: Full Width)
+           SMARTPHONE OPTIMIZATION (Layout Fix: Full Width & Align)
            ========================================= */
         @media (max-width: 600px) {
             /* コンテナの余白を極限まで削る */
@@ -234,6 +234,13 @@
                 display: block;
                 width: 100%; /* フルワイド */
             }
+            
+            /* 【重要修正】テーブル自体の表示形式を変更し、幅を強制確保 */
+            table {
+                width: 100% !important;
+                display: block;
+            }
+            
             #r1_matchTableBody tr, #r2_matchTableBody tr {
                 display: grid;
                 grid-template-columns: 1fr;
@@ -245,9 +252,9 @@
                 background: rgba(20,20,30,0.6);
                 padding: 10px;
                 
-                /* 【ここを修正】幅を固定せず100%にする */
-                width: 100%;
-                max-width: none; /* 制限解除 */
+                /* 【修正】幅を固定せず100%にする */
+                width: 100% !important;
+                max-width: none !important;
                 margin-left: 0;
                 margin-right: 0;
                 box-sizing: border-box; 
@@ -273,15 +280,15 @@
                 margin-bottom: 5px;
             }
             
-            /* 【修正】2. ペアA (名前) 左寄せ */
+            /* 2. ペアA (名前) 【修正：左寄せ】 */
             #r1_matchTableBody td:nth-of-type(2), #r2_matchTableBody td:nth-of-type(2) {
                 grid-row: 2;
-                text-align: left; /* 左寄せに変更 */
+                text-align: left !important; /* 強制左寄せ */
                 font-size: 0.9rem;
                 border: none;
                 padding: 2px 0;
                 color: #fff;
-                white-space: normal;
+                white-space: normal; /* 折り返し許可 */
                 word-break: break-all;
             }
             
@@ -324,15 +331,15 @@
                 align-items: center;
             }
 
-            /* 【修正】6. ペアB (名前) 右寄せ */
+            /* 6. ペアB (名前) 【修正：右寄せ】 */
             #r1_matchTableBody td:nth-of-type(6), #r2_matchTableBody td:nth-of-type(6) {
                 grid-row: 4;
-                text-align: right; /* 右寄せに変更 */
+                text-align: right !important; /* 強制右寄せ */
                 font-size: 0.9rem;
                 border: none;
                 padding: 2px 0;
                 color: #fff;
-                white-space: normal;
+                white-space: normal; /* 折り返し許可 */
                 word-break: break-all;
             }
 
@@ -350,9 +357,9 @@
                 color: #888;
             }
             
-            /* 3カラム調整 */
+            /* 配置調整用のグリッド再定義（行内） */
             #r1_matchTableBody tr, #r2_matchTableBody tr {
-                 grid-template-columns: 60px 1fr 60px;
+                 grid-template-columns: 60px 1fr 60px; /* スコア - 名前/VS - スコア */
             }
             #r1_matchTableBody td:nth-of-type(1), 
             #r1_matchTableBody td:nth-of-type(2), 
@@ -362,16 +369,16 @@
             #r2_matchTableBody td:nth-of-type(2), 
             #r2_matchTableBody td:nth-of-type(6), 
             #r2_matchTableBody td:nth-of-type(7) {
-                grid-column: 1 / 4;
+                grid-column: 1 / 4; /* 全幅 */
             }
             #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3) {
-                grid-column: 1;
+                grid-column: 1; /* 左 */
             }
             #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
-                grid-column: 2;
+                grid-column: 2; /* 中央 (VSゲージ) */
             }
              #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
-                grid-column: 3;
+                grid-column: 3; /* 右 */
             }
             
             .stat-value { font-size: 1.5rem; }
@@ -702,19 +709,14 @@
             const row = document.createElement("tr");
             row.dataset.pA1=pl[pat[0]]; row.dataset.pA2=pl[pat[1]]; row.dataset.pB1=pl[pat[2]]; row.dataset.pB2=pl[pat[3]];
             
-            // 1. MATCH NO
             const cNo = document.createElement("td"); cNo.textContent=`MATCH ${idx+1}`; row.appendChild(cNo);
-            
-            // 2. PAIR A NAME
             const cTA = document.createElement("td"); cTA.textContent=`${pl[pat[0]]} & ${pl[pat[1]]}`; row.appendChild(cTA);
             
-            // 3. SCORE A
             const cSA = document.createElement("td"); cSA.className="score-cell";
             const sA = createScoreSelect(); sA.setAttribute('data-type','scoreA'); 
             if(currentScores[idx]) sA.value = currentScores[idx].a;
             cSA.appendChild(sA); row.appendChild(cSA);
             
-            // 4. VS (GAUGE)
             const probA = getWinProbability(pl[pat[0]], pl[pat[1]]);
             const cVs = document.createElement("td"); cVs.className="vs"; 
             cVs.innerHTML = `
@@ -731,18 +733,12 @@
                 </div>`;
             row.appendChild(cVs);
             
-            // 5. SCORE B
             const cSB = document.createElement("td"); cSB.className="score-cell";
             const sB = createScoreSelect(); sB.setAttribute('data-type','scoreB'); 
             if(currentScores[idx]) sB.value = currentScores[idx].b;
             cSB.appendChild(sB); row.appendChild(cSB);
-            
-            // 6. PAIR B NAME
             const cTB = document.createElement("td"); cTB.textContent=`${pl[pat[2]]} & ${pl[pat[3]]}`; row.appendChild(cTB);
-            
-            // 7. REST
             const cR = document.createElement("td"); cR.className="rest-highlight"; cR.textContent=pl[pat[4]]; row.appendChild(cR);
-            
             sA.onchange = () => checkWinner(sA, sB, cTA, cSA, cSB, cTB, rp);
             sB.onchange = () => checkWinner(sA, sB, cTA, cSA, cSB, cTB, rp);
             tb.appendChild(row);
