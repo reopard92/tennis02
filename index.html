@@ -225,7 +225,16 @@
             display: flex;
             justify-content: space-between;
         }
-        
+        /* 【修正 15】 Video Modal Styles Restored */
+        #videoModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center;
+        }
+        .video-container {
+            width: 90%; max-width: 800px; aspect-ratio: 16/9;
+            background: #000; border: 1px solid #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
         iframe { width: 100%; height: 100%; border: none; }
 
 
@@ -688,6 +697,12 @@
     </div>
 </div>
 
+<div id="videoModal" onclick="closeVideoModal(event)">
+    <div class="video-container">
+        <div id="videoPlayer"></div>
+    </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -752,7 +767,7 @@
         document.getElementById('pageTitle').textContent = titles[viewName] || 'TENNIS CHRONICLES';
     }
 
-    // ================== LEARN PAGE LOGIC (UPDATED: Inline Play with Mute & Fullscreen Request) ==================
+    // ================== LEARN PAGE LOGIC (UPDATED: Revert to Option A - Modal Play) ==================
     function renderVideos(category) {
         const grid = document.getElementById('videoGrid');
         grid.innerHTML = "";
@@ -761,15 +776,15 @@
         filtered.forEach(v => {
             const card = document.createElement('div');
             card.className = 'video-card';
-            // 【修正 14】 Changed to playVideoFullscreen
-            card.onclick = function() { playVideoFullscreen(this, v.id); };
+            // 【修正 15】 Revert to playVideo (Modal)
+            card.onclick = function() { playVideo(v.id); };
             
             const thumbUrl = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
             
             // 【修正 12】 DATA:ID... removed
             card.innerHTML = `
                 <div class="video-thumb" style="background-image: url('${thumbUrl}');">
-                    <div class="video-overlay"></div>
+                    <div class="video-overlay"><div style="font-size:2rem;color:#00ffff;border:2px solid #00ffff;border-radius:50%;width:50px;height:50px;display:flex;justify-content:center;align-items:center;">▶</div></div>
                 </div>
                 <div class="video-info">
                     <div class="video-meta"><span>${v.cat}</span></div>
@@ -780,31 +795,20 @@
         });
     }
 
-    // 【修正 14】 Inline Player with Auto-Fullscreen request & Mute
-    function playVideoFullscreen(cardElement, videoId) {
-        const thumbDiv = cardElement.querySelector('.video-thumb');
-        if (!thumbDiv) return;
+    // 【修正 15】 Option A: Modal Player Logic
+    function playVideo(id) {
+        const modal = document.getElementById('videoModal');
+        const player = document.getElementById('videoPlayer');
+        // Autoplay enabled
+        player.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        modal.style.display = 'flex';
+    }
 
-        // 1. Create iframe (mute=1 for autoplay on mobile, playsinline=0 for iOS fullscreen)
-        const src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&playsinline=0`;
-        
-        thumbDiv.innerHTML = `<iframe src="${src}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>`;
-        
-        // Remove click listener to prevent re-triggering
-        cardElement.onclick = null;
-
-        // 2. Request Fullscreen API (For Android/PC)
-        const iframe = thumbDiv.querySelector('iframe');
-        
-        // requestFullscreen must be called within user gesture (click), which we are in.
-        if (iframe.requestFullscreen) {
-            iframe.requestFullscreen().catch(err => console.log("Fullscreen blocked:", err));
-        } else if (iframe.webkitRequestFullscreen) {
-            iframe.webkitRequestFullscreen();
-        } else if (iframe.mozRequestFullScreen) {
-            iframe.mozRequestFullScreen();
-        } else if (iframe.msRequestFullscreen) {
-            iframe.msRequestFullscreen();
+    function closeVideoModal(e) {
+        // Close if clicked on background or explicitly called
+        if(e.target.id === 'videoModal') {
+            document.getElementById('videoModal').style.display = 'none';
+            document.getElementById('videoPlayer').innerHTML = ''; // Stop video by removing iframe
         }
     }
 
