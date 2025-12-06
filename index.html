@@ -224,9 +224,11 @@
                 margin-top: 8px; /* Vertical align adjustment */
             }
             #courtSelect {
-                grid-column: 1 / 3; /* Full width */
-                margin: 0;
-                width: 100%;
+                grid-column: 1 / 3;
+                width: 80%; /* not 100% to look like a centered box */
+                max-width: 300px;
+                margin: 0 auto; /* Center alignment */
+                display: block;
             }
             .header-ctrl-area {
                 position: relative;
@@ -235,6 +237,10 @@
                 grid-column: 1 / 3;
                 justify-content: flex-end;
             }
+            
+            /* Compact Toss Button */
+            .coin { width: 30px; height: 30px; font-size: 0.6rem; margin-bottom: 2px; }
+            .btn-toss { padding: 2px 6px; font-size: 0.6rem; }
             /* ----------------------------------- */
             
             .player-inputs {
@@ -438,7 +444,8 @@
             }
             
             .stat-value { font-size: 1.5rem; }
-            .medal-legend span, .rank-legend span { display: block; margin-bottom: 3px; }
+            /* Legend Fix for Mobile: Horizontal */
+            .medal-legend span, .rank-legend span { display: inline-block; margin-right: 8px; margin-bottom: 3px; font-size: 0.65rem; }
         }
     </style>
 </head>
@@ -607,7 +614,7 @@
 
 <script>
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzoybbIaxOq4EtWaBkvdPNzkN1_7lmFRnAQLbnu6A40YUQdbzX6gTfIY5CznZs13GYxZw/exec";
-    const members = ["周平", "すが", "凌矢", "祐介", "志村", "カトケン", "小田"];
+    const members = ["周平", "すが", "凌矢", "祐介", "志村", "加登", "小田"];
     const STORAGE_KEY = 'tennis_match_data_v7_holo';
     const CREW_RANKS = [
         { name: '候補生',     min: 0,    icon: '🌑' },
@@ -1096,7 +1103,7 @@
 
         document.getElementById('totalMissions').textContent = mDates.size;
         document.getElementById('totalGames').textContent = totalG;
-        const avg = mDates.size > 0 ? (totalGames / mDates.size).toFixed(1) : "0";
+        const avg = mDates.size > 0 ? (totalG / mDates.size).toFixed(1) : "0";
         document.getElementById('avgGames').textContent = avg;
 
         const lastD = Array.from(mDates).sort().pop();
