@@ -64,13 +64,7 @@
             letter-spacing: 2px;
             margin-top: 5px;
         }
-        .refresh-btn {
-            position: absolute; top: 20px; right: 20px;
-            background: transparent; border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #00ffff; border-radius: 20px; padding: 5px 10px;
-            font-size: 0.7rem; cursor: pointer; transition: 0.3s; z-index: 2000; letter-spacing: 1px;
-        }
-        .refresh-btn:hover { background: rgba(0, 255, 255, 0.1); box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); border-color: #00ffff; }
+        /* REFRESHボタン削除に伴いCSS削除 */
 
         .view-section { display: none; animation: fadeIn 0.4s ease; }
         .view-section.active { display: block; }
@@ -200,47 +194,59 @@
         .no-data { text-align: center; padding: 20px; font-size: 0.8rem; color: #666; }
 
         /* =========================================
-           SMARTPHONE OPTIMIZATION (Layout Fix: Full Width & Align)
+           SMARTPHONE OPTIMIZATION (Layout Fix: Header & List)
            ========================================= */
         @media (max-width: 600px) {
-            /* コンテナの余白を極限まで削る */
-            .container { padding: 5px; padding-bottom: 80px; }
-            .header-area { margin-top: 10px; }
+            .container { padding: 10px; padding-bottom: 80px; }
             
-            .player-inputs {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-            .input-group {
-                display: flex;
+            /* 【修正】ヘッダーレイアウト: グリッドで整理して重なり防止 */
+            .input-header-area {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                margin-bottom: 20px;
                 align-items: center;
-                background: rgba(255,255,255,0.05);
-                padding: 5px 10px;
-                border-radius: 4px;
+                position: static; /* absolute解除 */
             }
-            .input-group label {
-                margin-bottom: 0;
-                margin-right: 10px;
-                width: 20px;
-                font-size: 0.8rem;
+            /* TOSS: 左上 */
+            .coin-toss-section {
+                position: static;
+                width: auto;
+                justify-self: start;
+                transform: scale(0.9);
+                margin: 0;
             }
-            
-            h1 { font-size: 1.4rem; padding-left: 50px; }
-            #matchDate { top: -25px; right: 0; font-size: 0.75rem; }
-            .coin-toss-section { width: 60px; top: 5px; }
-            
-            /* 【修正】INPUTテーブル: 幅制限なし (100%) */
-            #r1_matchTableBody, #r2_matchTableBody {
-                display: block;
-                width: 100%; /* フルワイド */
+            /* Date: 右上 */
+            #matchDate {
+                position: static;
+                justify-self: end;
+                text-align: right;
             }
-            
-            /* 【重要修正】テーブル自体の表示形式を変更し、幅を強制確保 */
-            table {
-                width: 100% !important;
-                display: block;
+            /* Court: 2行目全幅 */
+            #courtSelect {
+                grid-column: 1 / -1;
+                width: 100%;
+                margin: 5px 0;
+                position: static;
             }
+            /* Edit Btn: 3行目右寄せ */
+            .edit-buttons-area {
+                grid-column: 1 / -1;
+                display: flex;
+                justify-content: flex-end;
+                width: 100%;
+                position: static !important; /* インラインスタイル上書き */
+                margin-top: 0 !important;
+            }
+
+            h1 { font-size: 1.4rem; margin-bottom: 10px; }
             
+            .player-inputs { grid-template-columns: 1fr; gap: 8px; }
+            .input-group { display: flex; align-items: center; background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 4px; }
+            .input-group label { margin-bottom: 0; margin-right: 10px; width: 20px; font-size: 0.8rem; }
+            
+            /* INPUTテーブル: リスト型 */
+            #r1_matchTableBody, #r2_matchTableBody { display: block; width: 100%; }
             #r1_matchTableBody tr, #r2_matchTableBody tr {
                 display: grid;
                 grid-template-columns: 1fr;
@@ -251,136 +257,44 @@
                 border-radius: 4px;
                 background: rgba(20,20,30,0.6);
                 padding: 10px;
-                
-                /* 【修正】幅を固定せず100%にする */
-                width: 100% !important;
-                max-width: none !important;
-                margin-left: 0;
-                margin-right: 0;
+                width: 100%; 
                 box-sizing: border-box; 
             }
-            
             #r1_matchTableBody td, #r2_matchTableBody td {
-                display: block;
-                width: 100%;
-                box-sizing: border-box;
-                border: none;
-                padding: 2px 0;
-                text-align: center;
+                display: block; width: 100%; box-sizing: border-box; border: none; padding: 2px 0; text-align: center;
             }
-
-            /* 1. 試合番号 */
+            /* 1. No */
             #r1_matchTableBody td:nth-of-type(1), #r2_matchTableBody td:nth-of-type(1) {
-                grid-row: 1;
-                text-align: center;
-                font-size: 0.8rem;
-                color: #888;
-                border-bottom: 1px solid rgba(255,255,255,0.05);
-                padding-bottom: 5px;
-                margin-bottom: 5px;
+                grid-row: 1; text-align: left; font-size: 0.8rem; color: #888; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; margin-bottom: 5px;
             }
-            
-            /* 2. ペアA (名前) 【修正：左寄せ】 */
-            #r1_matchTableBody td:nth-of-type(2), #r2_matchTableBody td:nth-of-type(2) {
-                grid-row: 2;
-                text-align: left !important; /* 強制左寄せ */
-                font-size: 0.9rem;
-                border: none;
-                padding: 2px 0;
-                color: #fff;
-                white-space: normal; /* 折り返し許可 */
-                word-break: break-all;
-            }
-            
-            /* 3. スコアA */
-            #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3) {
-                grid-row: 3;
-                text-align: left;
-                border: none;
-                padding: 0;
-                display: flex;
-                align-items: center;
-            }
-
-            /* 4. VS & ゲージ (中央) */
-            #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
-                grid-row: 3;
-                text-align: center;
-                border: none;
-                padding: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-            }
-            #r1_matchTableBody td:nth-of-type(4) div, #r2_matchTableBody td:nth-of-type(4) div {
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                gap: 5px;
-            }
-
-            /* 5. スコアB */
-             #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
-                grid-row: 3;
-                text-align: right;
-                border: none;
-                padding: 0;
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-            }
-
-            /* 6. ペアB (名前) 【修正：右寄せ】 */
-            #r1_matchTableBody td:nth-of-type(6), #r2_matchTableBody td:nth-of-type(6) {
-                grid-row: 4;
-                text-align: right !important; /* 強制右寄せ */
-                font-size: 0.9rem;
-                border: none;
-                padding: 2px 0;
-                color: #fff;
-                white-space: normal; /* 折り返し許可 */
-                word-break: break-all;
-            }
-
-            /* 7. REST */
+            /* 7. Rest */
             #r1_matchTableBody td:nth-of-type(7), #r2_matchTableBody td:nth-of-type(7) {
-                grid-row: 5;
-                text-align: center;
-                margin-top: 10px;
-                padding-top: 5px;
-                border-top: 1px solid rgba(255,255,255,0.05);
-                border-bottom: none;
+                grid-row: 1; text-align: right; font-size: 0.7rem; color: #666; padding-bottom: 5px; margin-bottom: 5px;
             }
-            #r1_matchTableBody td:nth-of-type(7)::before, #r2_matchTableBody td:nth-of-type(7)::before {
-                content: "REST: ";
-                color: #888;
-            }
+            #r1_matchTableBody td:nth-of-type(7)::before, #r2_matchTableBody td:nth-of-type(7)::before { content: "REST: "; color: #888; }
             
-            /* 配置調整用のグリッド再定義（行内） */
-            #r1_matchTableBody tr, #r2_matchTableBody tr {
-                 grid-template-columns: 60px 1fr 60px; /* スコア - 名前/VS - スコア */
+            /* 2. A Name (Left) */
+            #r1_matchTableBody td:nth-of-type(2), #r2_matchTableBody td:nth-of-type(2) {
+                grid-row: 2; text-align: left; font-size: 1rem; color: #fff; padding: 8px 0; width: 75%; white-space: normal; word-break: break-all;
             }
-            #r1_matchTableBody td:nth-of-type(1), 
-            #r1_matchTableBody td:nth-of-type(2), 
-            #r1_matchTableBody td:nth-of-type(6), 
-            #r1_matchTableBody td:nth-of-type(7),
-            #r2_matchTableBody td:nth-of-type(1), 
-            #r2_matchTableBody td:nth-of-type(2), 
-            #r2_matchTableBody td:nth-of-type(6), 
-            #r2_matchTableBody td:nth-of-type(7) {
-                grid-column: 1 / 4; /* 全幅 */
-            }
+            /* 3. A Score (Right) */
             #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3) {
-                grid-column: 1; /* 左 */
+                grid-row: 2; text-align: right; padding: 0; justify-self: end; width: auto; margin-top: -2px;
             }
-            #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
-                grid-column: 2; /* 中央 (VSゲージ) */
+            /* 6. B Name (Left) */
+            #r1_matchTableBody td:nth-of-type(6), #r2_matchTableBody td:nth-of-type(6) {
+                grid-row: 3; text-align: left; font-size: 1rem; color: #fff; padding: 8px 0; width: 75%; white-space: normal; word-break: break-all;
             }
+            /* 5. B Score (Right) */
              #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
-                grid-column: 3; /* 右 */
+                grid-row: 3; text-align: right; padding: 0; justify-self: end; width: auto; margin-top: -2px;
             }
-            
+            /* 4. VS (Bottom) */
+            #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
+                grid-row: 4; margin-top: 5px; padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.05);
+            }
+            #r1_matchTableBody td:nth-of-type(4) div, #r2_matchTableBody td:nth-of-type(4) div { width: 100%; justify-content: center; }
+
             .stat-value { font-size: 1.5rem; }
             .medal-legend span, .rank-legend span { display: block; margin-bottom: 3px; }
         }
@@ -395,7 +309,6 @@
 
 <div class="container">
     <header class="app-header">
-        <button class="refresh-btn" onclick="location.reload()">↺ REFRESH</button>
         <h1 id="pageTitle">TENNIS CHRONICLES</h1>
         <div class="subtitle">DEEP SPACE INTEGRATED SYSTEM</div>
     </header>
@@ -414,7 +327,8 @@
                 <option value="モリパーク テニスガーデン">モリパーク テニスガーデン</option>
                 <option value="白子町">白子町</option>
             </select>
-            <div style="position: absolute; top: 0; right: 0; margin-top: 60px; display: flex; gap: 10px;">
+            <!-- 編集ボタンエリアにクラス付与 -->
+            <div class="edit-buttons-area" style="position: absolute; top: 0; right: 0; margin-top: 60px; display: flex; gap: 10px;">
                  <button id="editBtn" class="btn-ctrl" onclick="toggleEditMode()">EDIT</button>
                  <button id="resetBtn" class="btn-ctrl" onclick="secureReset()" disabled>RESET</button>
             </div>
@@ -709,9 +623,11 @@
             const row = document.createElement("tr");
             row.dataset.pA1=pl[pat[0]]; row.dataset.pA2=pl[pat[1]]; row.dataset.pB1=pl[pat[2]]; row.dataset.pB2=pl[pat[3]];
             
+            // --- スマホリスト型レイアウト対応 ---
             const cNo = document.createElement("td"); cNo.textContent=`MATCH ${idx+1}`; row.appendChild(cNo);
-            const cTA = document.createElement("td"); cTA.textContent=`${pl[pat[0]]} & ${pl[pat[1]]}`; row.appendChild(cTA);
             
+            // ペアA
+            const cTA = document.createElement("td"); cTA.textContent=`${pl[pat[0]]} & ${pl[pat[1]]}`; row.appendChild(cTA);
             const cSA = document.createElement("td"); cSA.className="score-cell";
             const sA = createScoreSelect(); sA.setAttribute('data-type','scoreA'); 
             if(currentScores[idx]) sA.value = currentScores[idx].a;
@@ -733,12 +649,16 @@
                 </div>`;
             row.appendChild(cVs);
             
+            // ペアB
             const cSB = document.createElement("td"); cSB.className="score-cell";
             const sB = createScoreSelect(); sB.setAttribute('data-type','scoreB'); 
             if(currentScores[idx]) sB.value = currentScores[idx].b;
             cSB.appendChild(sB); row.appendChild(cSB);
             const cTB = document.createElement("td"); cTB.textContent=`${pl[pat[2]]} & ${pl[pat[3]]}`; row.appendChild(cTB);
+            
+            // REST
             const cR = document.createElement("td"); cR.className="rest-highlight"; cR.textContent=pl[pat[4]]; row.appendChild(cR);
+            
             sA.onchange = () => checkWinner(sA, sB, cTA, cSA, cSB, cTB, rp);
             sB.onchange = () => checkWinner(sA, sB, cTA, cSA, cSB, cTB, rp);
             tb.appendChild(row);
