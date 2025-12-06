@@ -208,15 +208,9 @@
             justify-content: center;
             align-items: center;
         }
-        .video-play-icon {
-            font-size: 2rem;
-            color: #00ffff;
-            filter: drop-shadow(0 0 5px #00ffff);
-            border: 2px solid #00ffff;
-            border-radius: 50%;
-            width: 50px; height: 50px;
-            display: flex; justify-content: center; align-items: center;
-        }
+        /* 【修正 10】Target mark deleted */
+        /* .video-play-icon removed from CSS as it is removed from HTML */
+        
         .video-info {
             padding: 10px;
         }
@@ -668,11 +662,11 @@
         <div class="section-title">TACTICAL ARCHIVES</div>
         <div class="sector-filter-area" style="text-align:center; margin-bottom:20px;">
             <select id="learnCategorySelect" class="sector-select" onchange="renderVideos(this.value)">
-                <option value="ALL">ALL DATA</option>
-                <option value="SERVE">LAUNCH SEQUENCE (SERVE)</option>
-                <option value="STROKE">FIRE CONTROL (STROKE)</option>
-                <option value="VOLLEY">DEFENSE SHIELD (VOLLEY)</option>
-                <option value="TACTICS">SQUAD OPS (TACTICS)</option>
+                <option value="ALL">ALL</option>
+                <option value="SERVE">SERVE</option>
+                <option value="STROKE">STROKE</option>
+                <option value="VOLLEY">VOLLEY</option>
+                <option value="TACTICS">TACTICS</option>
             </select>
         </div>
         <div id="videoGrid" class="video-grid"></div>
@@ -726,12 +720,9 @@
         { name: '提督',       min: 2000, icon: '🌌' }
     ];
 
-    // Dummy Data for Learning Page (Manually Add IDs Here)
+    // 【修正 10】 Training Videos Data (Samples deleted, User ID added)
     const trainingVideos = [
-        { id: "sUzpHwG_iWw", cat: "SERVE", title: "【SERVE】KINETIC CHAIN", desc: "運動連鎖を使ったサーブの基本" },
-        { id: "Jj8y3Qh4jN8", cat: "STROKE", title: "【FORE】POWER DRIVE", desc: "フォアハンドの強打メカニズム" },
-        { id: "7qJp_v1qgX0", cat: "VOLLEY", title: "【VOLLEY】WALL DEFENSE", desc: "鉄壁のボレー" },
-        { id: "NJTN7FBaN70", cat: "TACTICS", title: "【USER VIDEO】REQUESTED DATA", desc: "Added via code NJTN7FBaN70" } // Added user requested video ID
+        { id: "NJTN7FBaN70", cat: "TACTICS", title: "【参考動画】", desc: "User Requested Video" }
     ];
 
     let isEditMode = false;
@@ -788,9 +779,11 @@
             card.onclick = () => playVideo(v.id);
             // Using youtube thumbnail
             const thumbUrl = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
+            
+            // 【修正 10】 Removed Target Icon (⌖)
             card.innerHTML = `
                 <div class="video-thumb" style="background-image: url('${thumbUrl}');">
-                    <div class="video-overlay"><div class="video-play-icon">⌖</div></div>
+                    <div class="video-overlay"></div>
                 </div>
                 <div class="video-info">
                     <div class="video-meta"><span>${v.cat}</span><span>DATA: ${v.id.substring(0,4)}...</span></div>
