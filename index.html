@@ -122,12 +122,14 @@
         .rank-1 { color: #fff; font-weight: bold; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
         .game-count { font-weight: normal; color: #81d4fa; }
         .rest-highlight { color: #e57373; font-size: 0.85rem; padding: 2px 8px; border: none; }
+        
         .score-select { 
             width: 45px; padding: 5px; text-align: center; font-size: 1rem; 
             background-color: #222; border: 1px solid #666; color: #fff; border-radius: 2px; 
         }
         .score-select:focus { outline: none; border-color: #00ffff; background-color: #000; }
         .score-select.filled { background-color: rgba(0, 255, 255, 0.15); border-color: rgba(0, 255, 255, 0.6); font-weight: bold; color: #00ffff; }
+
         .winner { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent); color: #fff !important; font-weight: bold; text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); }
         .loser { color: #555 !important; }
         .loser select { opacity: 0.3; }
@@ -198,26 +200,43 @@
         .no-data { text-align: center; padding: 20px; font-size: 0.8rem; color: #666; }
 
         /* =========================================
-           SMARTPHONE OPTIMIZATION (Layout Fix: Split Card)
+           SMARTPHONE OPTIMIZATION (Layout Fix: List Type)
            ========================================= */
         @media (max-width: 600px) {
             .container { padding: 10px; padding-bottom: 80px; }
             .header-area { margin-top: 10px; }
             
-            .player-inputs { grid-template-columns: 1fr; gap: 8px; }
-            .input-group { display: flex; align-items: center; background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 4px; }
-            .input-group label { margin-bottom: 0; margin-right: 10px; width: 20px; font-size: 0.8rem; }
+            .player-inputs {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .input-group {
+                display: flex;
+                align-items: center;
+                background: rgba(255,255,255,0.05);
+                padding: 5px 10px;
+                border-radius: 4px;
+            }
+            .input-group label {
+                margin-bottom: 0;
+                margin-right: 10px;
+                width: 20px;
+                font-size: 0.8rem;
+            }
             
             h1 { font-size: 1.4rem; padding-left: 50px; }
             #matchDate { top: -25px; right: 0; font-size: 0.75rem; }
             .coin-toss-section { width: 60px; top: 5px; }
             
-            /* 【修正】左右分割カード型レイアウト */
-            #r1_matchTableBody, #r2_matchTableBody { display: block; }
+            /* 【修正】INPUTテーブル: リスト型レイアウト (横幅フル活用) */
+            #r1_matchTableBody, #r2_matchTableBody {
+                display: block;
+            }
             #r1_matchTableBody tr, #r2_matchTableBody tr {
                 display: grid;
-                grid-template-columns: 1fr 1fr; /* 左右50% */
-                grid-template-rows: auto auto auto; /* ヘッダー、メイン、フッター */
+                /* グリッド定義: ヘッダーエリア(No+REST) / Aエリア / Bエリア / フッター(VS) */
+                grid-template-columns: 1fr; 
+                grid-template-rows: auto auto auto auto;
                 gap: 5px;
                 margin-bottom: 15px; 
                 border: 1px solid rgba(255,255,255,0.1);
@@ -234,86 +253,108 @@
                 box-sizing: border-box;
                 border: none;
                 padding: 2px 0;
-                text-align: center;
             }
 
-            /* 1. MATCH NO (左上) */
+            /* 1. MATCH NO & 7. REST (上段にまとめる) */
+            /* RESTをNoの横に配置するために、JS側でtdの構成を変えるのは避け、CSSグリッド配置で対応 */
+            /* No */
             #r1_matchTableBody td:nth-of-type(1), #r2_matchTableBody td:nth-of-type(1) {
-                grid-column: 1;
                 grid-row: 1;
+                grid-column: 1;
                 text-align: left;
                 font-size: 0.8rem;
                 color: #888;
                 border-bottom: 1px solid rgba(255,255,255,0.05);
                 padding-bottom: 5px;
                 margin-bottom: 5px;
+                padding-left: 0 !important;
             }
             
-            /* 7. REST (右上) */
+            /* REST (右上) */
             #r1_matchTableBody td:nth-of-type(7), #r2_matchTableBody td:nth-of-type(7) {
-                grid-column: 2;
                 grid-row: 1;
+                grid-column: 1;
                 text-align: right;
                 font-size: 0.7rem;
                 color: #666;
-                border-bottom: 1px solid rgba(255,255,255,0.05);
                 padding-bottom: 5px;
                 margin-bottom: 5px;
-                padding-right: 5px;
+                padding-left: 0 !important;
+                pointer-events: none; /* クリック透過 */
             }
             #r1_matchTableBody td:nth-of-type(7)::before, #r2_matchTableBody td:nth-of-type(7)::before {
                 content: "REST: ";
                 color: #888;
             }
 
-            /* 2. ペアA名前 (左中) */
+            /* 2. ペアA (名前) */
             #r1_matchTableBody td:nth-of-type(2), #r2_matchTableBody td:nth-of-type(2) {
-                grid-column: 1;
                 grid-row: 2;
-                text-align: center;
-                font-size: 0.9rem;
+                text-align: left;
+                font-size: 1rem;
                 color: #fff;
-                padding: 5px 0;
-                border-right: 1px solid rgba(255,255,255,0.05);
+                padding: 8px 0;
+                padding-left: 0 !important;
+                /* スコアエリア分を確保 */
+                width: 75%; 
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
-            /* 3. スコアA (左下) */
+            /* 3. スコアA (右側に絶対配置風) */
             #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3) {
-                grid-column: 1;
-                grid-row: 3;
-                padding-top: 5px;
-                display: flex;
-                justify-content: center;
-                border-right: 1px solid rgba(255,255,255,0.05);
-            }
-
-            /* 6. ペアB名前 (右中) */
-            #r1_matchTableBody td:nth-of-type(6), #r2_matchTableBody td:nth-of-type(6) {
-                grid-column: 2;
                 grid-row: 2;
-                text-align: center;
-                font-size: 0.9rem;
-                color: #fff;
-                padding: 5px 0;
+                text-align: right;
+                padding: 0;
+                padding-left: 0 !important;
+                /* 右端に配置 */
+                justify-self: end;
+                width: auto;
+                margin-top: -2px;
             }
 
-            /* 5. スコアB (右下) */
-             #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
-                grid-column: 2;
+            /* 6. ペアB (名前) */
+            #r1_matchTableBody td:nth-of-type(6), #r2_matchTableBody td:nth-of-type(6) {
                 grid-row: 3;
-                padding-top: 5px;
-                display: flex;
-                justify-content: center;
+                text-align: left;
+                font-size: 1rem;
+                color: #fff;
+                padding: 8px 0;
+                padding-left: 0 !important;
+                width: 75%; 
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
-            /* 4. VS & ゲージ (最下段・横断) */
+            /* 5. スコアB (右側) */
+             #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
+                grid-row: 3;
+                text-align: right;
+                padding: 0;
+                padding-left: 0 !important;
+                justify-self: end;
+                width: auto;
+                margin-top: -2px;
+            }
+
+            /* 4. VS & ゲージ (最下段) */
             #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
-                grid-column: 1 / 3;
                 grid-row: 4;
-                margin-top: 10px;
+                margin-top: 5px;
                 padding-top: 5px;
                 border-top: 1px solid rgba(255,255,255,0.05);
+                padding-left: 0 !important;
             }
+            /* ゲージ調整 */
+            #r1_matchTableBody td:nth-of-type(4) div, #r2_matchTableBody td:nth-of-type(4) div {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* 隠すもの */
+            /* なし */
             
             .stat-value { font-size: 1.5rem; }
             .medal-legend span, .rank-legend span { display: block; margin-bottom: 3px; }
@@ -643,8 +684,10 @@
             const row = document.createElement("tr");
             row.dataset.pA1=pl[pat[0]]; row.dataset.pA2=pl[pat[1]]; row.dataset.pB1=pl[pat[2]]; row.dataset.pB2=pl[pat[3]];
             
-            // --- スマホレイアウト対応 (CSS Grid) ---
+            // --- スマホリスト型レイアウト対応 ---
             const cNo = document.createElement("td"); cNo.textContent=`MATCH ${idx+1}`; row.appendChild(cNo);
+            
+            // ペアA
             const cTA = document.createElement("td"); cTA.textContent=`${pl[pat[0]]} & ${pl[pat[1]]}`; row.appendChild(cTA);
             const cSA = document.createElement("td"); cSA.className="score-cell";
             const sA = createScoreSelect(); sA.setAttribute('data-type','scoreA'); 
@@ -667,11 +710,14 @@
                 </div>`;
             row.appendChild(cVs);
             
+            // ペアB
             const cSB = document.createElement("td"); cSB.className="score-cell";
             const sB = createScoreSelect(); sB.setAttribute('data-type','scoreB'); 
             if(currentScores[idx]) sB.value = currentScores[idx].b;
             cSB.appendChild(sB); row.appendChild(cSB);
             const cTB = document.createElement("td"); cTB.textContent=`${pl[pat[2]]} & ${pl[pat[3]]}`; row.appendChild(cTB);
+            
+            // REST
             const cR = document.createElement("td"); cR.className="rest-highlight"; cR.textContent=pl[pat[4]]; row.appendChild(cR);
             
             sA.onchange = () => checkWinner(sA, sB, cTA, cSA, cSB, cTB, rp);
