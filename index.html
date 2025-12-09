@@ -291,6 +291,42 @@
         .no-data { text-align: center; padding: 20px; font-size: 0.8rem; color: #666; }
 
         /* =========================================
+           MAP / INFO CARD STYLES
+           ========================================= */
+        .map-frame {
+            position: relative; width: 100%; padding-bottom: 75%; height: 0; 
+            overflow: hidden; border: 1px solid #00ffff; 
+            box-shadow: 0 0 15px rgba(0,255,255,0.15); margin-bottom: 20px;
+            background: #000;
+        }
+        .map-frame iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            /* Map filter for Sci-Fi look */
+            filter: invert(100%) hue-rotate(180deg) brightness(0.85) contrast(1.2) grayscale(0.5);
+        }
+        .info-card {
+            background: rgba(20, 30, 40, 0.6); 
+            border: 1px solid rgba(255,255,255,0.15); 
+            padding: 20px; 
+            border-left: 3px solid #00ffff;
+            animation: fadeIn 0.5s ease;
+        }
+        .info-row {
+            display: flex; margin-bottom: 12px; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+            padding-bottom: 6px;
+        }
+        .info-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .info-label { width: 80px; color: #00ffff; font-size: 0.75rem; letter-spacing: 1px; align-self: center; }
+        .info-val { color: #fff; font-size: 0.9rem; flex: 1; word-break: break-all; }
+        .empty-map-state {
+            text-align: center; padding: 60px 0; color: #666; 
+            font-family: 'Courier New', monospace; letter-spacing: 2px;
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+
+        /* =========================================
            SMARTPHONE OPTIMIZATION (Layout Fix: Full Width & Align)
            ========================================= */
         @media (max-width: 600px) {
@@ -696,8 +732,17 @@
 
     <div id="view-map" class="view-section">
         <div class="section-title">COURT NAVIGATION</div>
-        <div style="text-align:center; padding:50px; color:#666;">
-            NO MAP DATA LOADED
+        <div class="sector-filter-area" style="text-align:center; margin-bottom:20px;">
+            <select id="mapSectorSelect" class="sector-select" onchange="renderMapInfo(this.value)">
+                <option value="-">SELECT SECTOR</option>
+                <option value="MOGUSA">百草テニスガーデン</option>
+            </select>
+        </div>
+        <div id="mapContainer">
+            <div class="empty-map-state">
+                <div class="spinning" style="display:inline-block; margin-bottom:10px;">❖</div><br>
+                WAITING FOR NAVI INPUT...
+            </div>
         </div>
     </div>
 
@@ -818,6 +863,44 @@
         document.getElementById(`view-${viewName}`).classList.add('active');
         const titles = { 'match': 'MATCH INPUT', 'dashboard': 'DASHBOARD', 'ranking': 'RANKING', 'map': 'COURT MAP', 'learn': 'TACTICAL ARCHIVES' };
         document.getElementById('pageTitle').textContent = titles[viewName] || 'TENNIS CHRONICLES';
+    }
+
+    // ================== MAP LOGIC (NEW: CODE 23) ==================
+    const courtDatabase = {
+        "MOGUSA": {
+            name: "百草テニスガーデン",
+            address: "〒191-0033 東京都日野市百草８７８−１",
+            tel: "042-591-1212",
+            hours: "9:00～18:00",
+            // Standard Google Maps Embed for search query "百草テニスガーデン"
+            mapSrc: "https://maps.google.com/maps?q=%E7%99%BE%E8%8D%89%E3%83%86%E3%83%8B%E3%82%B9%E3%82%AC%E3%83%87%E3%83%B3&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        }
+    };
+
+    function renderMapInfo(val) {
+        const c = document.getElementById('mapContainer');
+        const data = courtDatabase[val];
+
+        if (!data) {
+            c.innerHTML = `
+            <div class="empty-map-state">
+                <div class="spinning" style="display:inline-block; margin-bottom:10px;">❖</div><br>
+                WAITING FOR NAVI INPUT...
+            </div>`;
+            return;
+        }
+
+        c.innerHTML = `
+            <div class="map-frame">
+                <iframe src="${data.mapSrc}" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+            </div>
+            <div class="info-card">
+                <div class="info-row"><div class="info-label">SECTOR</div><div class="info-val" style="color:#00ffff; font-weight:bold;">${data.name}</div></div>
+                <div class="info-row"><div class="info-label">ADDRESS</div><div class="info-val">${data.address}</div></div>
+                <div class="info-row"><div class="info-label">TEL</div><div class="info-val"><a href="tel:${data.tel}" style="color:#fff;text-decoration:none;">${data.tel}</a></div></div>
+                <div class="info-row"><div class="info-label">HOURS</div><div class="info-val">${data.hours}</div></div>
+            </div>
+        `;
     }
 
     // ================== LEARN PAGE LOGIC (UPDATED: Option A - Modal Play with fixed sizing) ==================
