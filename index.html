@@ -64,8 +64,7 @@
             letter-spacing: 2px;
             margin-top: 5px;
         }
-        /* REFRESH button removed */
-
+        
         .view-section { display: none; animation: fadeIn 0.4s ease; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -110,7 +109,6 @@
             margin-bottom: 20px; border-left: 2px solid rgba(255, 255, 255, 0.5); padding-left: 12px; display: inline-block;
         }
         .player-inputs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 25px; }
-        
         .player-inputs.mode-6 { grid-template-columns: repeat(3, 1fr); }
         .player-inputs.mode-4 { grid-template-columns: repeat(4, 1fr); }
 
@@ -181,7 +179,7 @@
         .rank-bar-fill { height: 100%; background: #00ffff; width: 0%; box-shadow: 0 0 10px #00ffff; }
         .chart-container { position: relative; height: 250px; width: 100%; margin-bottom: 30px; }
         
-        /* Dropdown styles for Ranking page */
+        /* Dropdown styles */
         .sector-select {
             padding: 8px 15px; font-size: 1rem;
             background-color: rgba(0, 0, 0, 0.6); color: #00ffff;
@@ -293,7 +291,6 @@
         iframe { width: 100%; height: 100%; border: none; }
         
         /* MAP STYLES */
-        /* 【修正 23】 Map Page Styles */
         .map-monitor {
             position: relative;
             width: 100%;
@@ -369,11 +366,9 @@
            SMARTPHONE OPTIMIZATION (Layout Fix: Full Width & Align)
            ========================================= */
         @media (max-width: 600px) {
-            /* コンテナの余白を極限まで削る */
             .container { padding: 5px; padding-bottom: 80px; }
             .header-area { margin-top: 10px; }
             
-            /* --- HEADER LAYOUT FIX FOR MOBILE --- */
             .input-header-area {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
@@ -387,7 +382,6 @@
                 top: auto; left: auto;
                 width: auto;
                 grid-column: 1;
-                /* 【修正 09】Left align coin, remove flex column, zero margins */
                 text-align: left;
                 display: block;
                 margin-left: 0;
@@ -398,17 +392,16 @@
                 grid-column: 2;
                 text-align: right;
                 font-size: 0.8rem;
-                margin-top: 8px; /* Vertical align adjustment */
+                margin-top: 8px;
             }
             #courtSelect {
                 grid-column: 1 / 3;
-                width: 80%; /* not 100% to look like a centered box */
+                width: 80%; 
                 max-width: 300px;
-                margin: 0 auto; /* Center alignment */
+                margin: 0 auto; 
                 display: block;
-                /* 【修正】Center text in dropdown */
                 text-align: center;
-                text-align-last: center; /* For iOS Safari */
+                text-align-last: center; 
             }
             .header-ctrl-area {
                 position: relative;
@@ -417,16 +410,12 @@
                 grid-column: 1 / 3;
                 justify-content: flex-end;
             }
-            
-            /* 【修正 09】Larger Icon, force no margin to sit on left edge */
             .coin { width: 40px; height: 40px; font-size: 0.7rem; margin: 0; }
-            /* ----------------------------------- */
             
             .player-inputs {
                 grid-template-columns: 1fr;
                 gap: 8px;
             }
-            /* 【修正 22】 6-Player Mode Input Layout (3 cols x 2 rows) for Mobile */
             .player-inputs.mode-6 { grid-template-columns: repeat(3, 1fr); }
             .player-inputs.mode-4 { grid-template-columns: repeat(4, 1fr); }
 
@@ -444,24 +433,20 @@
                 font-size: 0.8rem;
             }
             
-            /* 【修正】Center Title, Remove Left Padding */
             h1 { font-size: 1.4rem; padding-left: 0; text-align: center; }
 
-            /* 【修正】INPUTテーブル: 幅制限なし (100%) */
             #r1_matchTableBody, #r2_matchTableBody {
                 display: block;
-                width: 100%; /* フルワイド */
+                width: 100%;
             }
             
-            /* 【重要修正】テーブル自体の表示形式を変更し、幅を強制確保 */
             table {
                 width: 100% !important;
                 display: block;
             }
             
-            /* 【修正 03/04】INPUT対戦テーブル以外のテーブル（ランキング、ペア、ログ）を通常表示に戻す */
             .standard-table {
-                display: table !important; /* ブロック解除 */
+                display: table !important;
                 width: 100% !important;
                 box-sizing: border-box;
             }
@@ -470,7 +455,7 @@
             .standard-table tr { 
                 display: table-row !important; 
                 width: auto !important; 
-                grid-template-columns: none !important; /* grid解除 */
+                grid-template-columns: none !important;
                 border: none !important;
                 background: transparent !important;
                 padding: 0 !important;
@@ -497,8 +482,6 @@
                 border-radius: 4px;
                 background: rgba(20,20,30,0.6);
                 padding: 10px;
-                
-                /* 【修正】幅を固定せず100%にする (max-width削除) */
                 width: 100% !important;
                 max-width: none !important;
                 margin-left: 0;
@@ -515,7 +498,6 @@
                 text-align: center;
             }
 
-            /* 1. 試合番号 */
             #r1_matchTableBody td:nth-of-type(1), #r2_matchTableBody td:nth-of-type(1) {
                 grid-row: 1;
                 text-align: center;
@@ -526,19 +508,17 @@
                 margin-bottom: 5px;
             }
             
-            /* 2. ペアA (名前) 【修正：左寄せ】 */
             #r1_matchTableBody td:nth-of-type(2), #r2_matchTableBody td:nth-of-type(2) {
                 grid-row: 2;
-                text-align: left !important; /* 強制左寄せ */
+                text-align: left !important;
                 font-size: 0.9rem;
                 border: none;
                 padding: 2px 0;
                 color: #fff;
-                white-space: normal; /* 折り返し許可 */
+                white-space: normal;
                 word-break: break-all;
             }
             
-            /* 3. スコアA */
             #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3) {
                 grid-row: 3;
                 text-align: left;
@@ -548,7 +528,6 @@
                 align-items: center;
             }
 
-            /* 4. VS & ゲージ (中央) */
             #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
                 grid-row: 3;
                 text-align: center;
@@ -566,7 +545,6 @@
                 gap: 5px;
             }
 
-            /* 5. スコアB */
              #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
                 grid-row: 3;
                 text-align: right;
@@ -577,19 +555,17 @@
                 align-items: center;
             }
 
-            /* 6. ペアB (名前) 【修正：右寄せ】 */
             #r1_matchTableBody td:nth-of-type(6), #r2_matchTableBody td:nth-of-type(6) {
                 grid-row: 4;
-                text-align: right !important; /* 強制右寄せ */
+                text-align: right !important;
                 font-size: 0.9rem;
                 border: none;
                 padding: 2px 0;
                 color: #fff;
-                white-space: normal; /* 折り返し許可 */
+                white-space: normal;
                 word-break: break-all;
             }
 
-            /* 7. REST */
             #r1_matchTableBody td:nth-of-type(7), #r2_matchTableBody td:nth-of-type(7) {
                 grid-row: 5;
                 text-align: center;
@@ -603,9 +579,8 @@
                 color: #888;
             }
             
-            /* 配置調整用のグリッド再定義（行内） */
             #r1_matchTableBody tr, #r2_matchTableBody tr {
-                 grid-template-columns: 60px 1fr 60px; /* スコア - 名前/VS - スコア */
+                 grid-template-columns: 60px 1fr 60px;
             }
             #r1_matchTableBody td:nth-of-type(1), 
             #r1_matchTableBody td:nth-of-type(2), 
@@ -615,25 +590,23 @@
             #r2_matchTableBody td:nth-of-type(2), 
             #r2_matchTableBody td:nth-of-type(6), 
             #r2_matchTableBody td:nth-of-type(7) {
-                grid-column: 1 / 4; /* 全幅 */
+                grid-column: 1 / 4;
             }
             #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3) {
-                grid-column: 1; /* 左 */
+                grid-column: 1;
             }
             #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
-                grid-column: 2; /* 中央 (VSゲージ) */
+                grid-column: 2;
             }
              #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
-                grid-column: 3; /* 右 */
+                grid-column: 3;
             }
             
             .stat-value { font-size: 1.5rem; }
-            /* Legend Fix for Mobile: Horizontal */
             .medal-legend span, .rank-legend span { display: inline-block; margin-right: 8px; margin-bottom: 3px; font-size: 0.65rem; }
             
-            /* 【修正 21】 Mobile Video Grid: 2 Columns */
             .video-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns */
+                grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
             }
             .video-title { font-size: 0.75rem; }
@@ -881,7 +854,6 @@
         { name: '提督',       min: 2000, icon: '🌌' }
     ];
 
-    // 【修正 23】 Court Data
     const COURT_DATA = {
         "百草テニスガーデン": {
             address: "〒191-0033 東京都日野市百草８７８−１",
@@ -889,10 +861,8 @@
             hours: "9:00～18:00",
             query: "百草テニスガーデン"
         }
-        // Others will fallback to just map query
     };
 
-    // 【修正 18】 Training Videos Data
     const trainingVideos = [
         { id: "IPfPjZyKzK4", cat: "SERVE", title: "サーブ上達講座", desc: "あゆタロウチャンネル：威力と確率を上げる" },
         { id: "XotQwO2eLjM", cat: "STROKE", title: "ストレート・クロス強打", desc: "あゆタロウチャンネル：力強い球を打つ方法" },
@@ -907,7 +877,6 @@
         { id: "mfDwhROR3H8", cat: "VOLLEY", title: "スマッシュの基本", desc: "あゆタロウチャンネル" }
     ];
 
-    // 【修正 22】 Patterns for 4, 5, 6 players
     const PATTERNS = {
         4: [
             [1,2,3,4], [1,3,2,4], [1,4,2,3],
@@ -934,7 +903,6 @@
     let rawAnalysisMatches = [];
     let currentSector = 'ALL';
     
-    // 【修正 22】 Squad Size State
     let currentSquadSize = 5;
 
     window.onload = function() {
@@ -975,7 +943,6 @@
         document.getElementById('pageTitle').textContent = titles[viewName] || 'TENNIS CHRONICLES';
     }
 
-    // ================== MAP PAGE LOGIC (CODE NAME 23) ==================
     function updateMapDisplay(target) {
         const mapFrame = document.getElementById('googleMap');
         const statusText = document.getElementById('mapStatusText');
@@ -994,13 +961,11 @@
         statusText.style.display = 'block';
         statusText.textContent = 'SCANNING...';
         
-        // Show map
-        const query = target; // Just use name as query
-        mapFrame.src = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+        const query = target; 
+        mapFrame.src = `https://maps.google.com/maps?output=embed&q=${encodeURIComponent(query)}&t=m&z=15`;
         mapFrame.onload = function() { statusText.style.display = 'none'; };
         mapFrame.style.display = 'block';
 
-        // Update Info Panel
         const info = COURT_DATA[target];
         if (info) {
             document.getElementById('infoName').textContent = target;
@@ -1009,17 +974,13 @@
             document.getElementById('infoHours').textContent = info.hours;
             infoPanel.style.display = 'block';
         } else {
-            // No detail info, just map
             infoPanel.style.display = 'none';
         }
 
-        // Update Nav Button
         navBtn.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
         navBtn.style.display = 'flex';
     }
 
-
-    // ================== LEARN PAGE LOGIC (UPDATED: Option A - Modal Play with fixed sizing) ==================
     function renderVideos(category) {
         const grid = document.getElementById('videoGrid');
         grid.innerHTML = "";
@@ -1028,12 +989,10 @@
         filtered.forEach(v => {
             const card = document.createElement('div');
             card.className = 'video-card';
-            // 【修正 15】 Revert to playVideo (Modal)
             card.onclick = function() { playVideo(v.id); };
             
             const thumbUrl = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
             
-            // 【修正 19】 Option B Design (Glass) - Play icon updated
             card.innerHTML = `
                 <div class="video-thumb" style="background-image: url('${thumbUrl}');">
                     <div class="video-overlay"><div class="video-play-icon">▶</div></div>
@@ -1047,58 +1006,48 @@
         });
     }
 
-    // 【修正 15】 Option A: Modal Player Logic
     function playVideo(id) {
         const modal = document.getElementById('videoModal');
         const player = document.getElementById('videoPlayer');
-        // Autoplay enabled
         player.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
         modal.style.display = 'flex';
     }
 
     function closeVideoModal(e) {
-        // Close if clicked on background or explicitly called
         if(e.target.id === 'videoModal') {
             document.getElementById('videoModal').style.display = 'none';
-            document.getElementById('videoPlayer').innerHTML = ''; // Stop video by removing iframe
+            document.getElementById('videoPlayer').innerHTML = ''; 
         }
     }
 
-    // ================== INPUT LOGIC ==================
-    // 【修正 22】 Switch Squad Size
     function changeSquadSize(size) {
         currentSquadSize = size;
         document.querySelectorAll('.squad-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.squad-btn')[size - 4].classList.add('active');
         
-        // Toggle inputs V and VI
         document.getElementById('r1_p5_div').style.display = size >= 5 ? 'block' : 'none';
         document.getElementById('r2_p5_div').style.display = size >= 5 ? 'block' : 'none';
         document.getElementById('r1_p6_div').style.display = size >= 6 ? 'block' : 'none';
         document.getElementById('r2_p6_div').style.display = size >= 6 ? 'block' : 'none';
         
-        // Layout class for mobile grid
         document.querySelectorAll('.player-inputs').forEach(el => {
             el.classList.remove('mode-6', 'mode-4');
             if(size === 6) el.classList.add('mode-6');
             if(size === 4) el.classList.add('mode-4');
         });
 
-        // Round 3 visibility (Only for 4p)
         document.getElementById('round3_area').style.display = size === 4 ? 'block' : 'none';
 
-        // Table class for hiding REST (Only for 4p)
         document.querySelectorAll('.input-match-table').forEach(t => {
             if(size === 4) t.classList.add('table-mode-4');
             else t.classList.remove('table-mode-4');
         });
 
-        initSelectors(); // Re-init with new size in mind
+        initSelectors(); 
         saveState();
     }
 
     function initSelectors() {
-        // Updated to include r3 and p6
         ['r1', 'r2', 'r3'].forEach(r => {
             for(let i=1; i<=6; i++) {
                 const el = document.getElementById(`${r}_p${i}`);
@@ -1150,7 +1099,6 @@
 
     function startCoinToss() {
         const c = document.getElementById('coin');
-        // Removed button reference
         c.classList.add('spinning');
         setTimeout(() => { c.classList.remove('spinning'); c.textContent = Math.random() < 0.5 ? "HEAD" : "TAIL"; }, 1500);
     }
@@ -1195,7 +1143,6 @@
         updateInputRanking(rp); saveState();
     }
 
-    // 【修正 22】 Updated Logic for Dynamic Rounds/Sizes
     function updateSchedule(rp) {
         const p = {}; 
         for(let i=1; i<=6; i++) {
@@ -1279,7 +1226,7 @@
             // REST Display Logic
             const cR = document.createElement("td"); cR.className="rest-highlight"; 
             if(currentSquadSize === 4) {
-                cR.textContent = "-"; // Will be hidden by CSS
+                cR.textContent = "-"; 
             } else if(currentSquadSize === 5) {
                 cR.textContent = pl[pat[4]];
             } else if(currentSquadSize === 6) {
@@ -1470,55 +1417,27 @@
         });
     }
 
-    function renderVideos(category) {
-        const grid = document.getElementById('videoGrid');
-        grid.innerHTML = "";
-        const filtered = category === 'ALL' ? trainingVideos : trainingVideos.filter(v => v.cat === category);
-        filtered.forEach(v => {
-            const card = document.createElement('div');
-            card.className = 'video-card';
-            card.onclick = function() { playVideo(v.id); };
-            const thumbUrl = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
-            card.innerHTML = `
-                <div class="video-thumb" style="background-image: url('${thumbUrl}');">
-                    <div class="video-overlay"><div class="video-play-icon">▶</div></div>
-                </div>
-                <div class="video-info">
-                    <div class="video-meta"><span>${v.cat}</span></div>
-                    <div class="video-title">${v.title}</div>
-                    <div style="font-size:0.7rem; color:#aaa;">${v.desc}</div>
-                </div>`;
-            grid.appendChild(card);
-        });
-    }
-    function playVideo(id) {
-        const modal = document.getElementById('videoModal');
-        const player = document.getElementById('videoPlayer');
-        player.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-        modal.style.display = 'flex';
-    }
-    function closeVideoModal(e) {
-        if(e.target.id === 'videoModal') {
-            document.getElementById('videoModal').style.display = 'none';
-            document.getElementById('videoPlayer').innerHTML = '';
-        }
-    }
     function showToast(msg) {
         const t=document.getElementById("toast"); t.textContent=msg; t.className="show";
         setTimeout(()=>{t.className=t.className.replace("show","")},3000);
     }
+
+    // --- AI Logic ---
     function getPlayerWinRate(name) {
         if(!playerStatsGlobal || !playerStatsGlobal[name]) return 0.5; 
         const p = playerStatsGlobal[name];
         const total = p.wins + p.losses;
         return total > 0 ? p.wins / total : 0.5;
     }
+
     function getWinProbability(p1, p2) {
         if(p1 === "-" || p2 === "-") return 0;
         const r1 = getPlayerWinRate(p1);
         const r2 = getPlayerWinRate(p2);
         return Math.round(((r1 + r2) / 2) * 100);
     }
+
+    // ================== ANALYSIS LOGIC ==================
     async function fetchAnalysisData() {
         if(GAS_WEB_APP_URL.includes("ここに")) return;
         try {
@@ -1531,44 +1450,55 @@
             }
         } catch(e) { console.error(e); }
     }
+
     function filterRanking(sector) {
         currentSector = sector;
         processAnalysisData();
     }
+
     function processAnalysisData() {
         const rRows = rawAnalysisRankings.slice(1);
         let pStats = {}, mDates = new Set(), totalG = 0, logs = {};
         let max = { wins:0, games:0, mvpCount:0, matches:0, sniperCount:0, clutchWins:0, clutchTotal:0, bestWR:0, clutchR:0, sniper:0 };
+
         rRows.forEach(row => {
             if (!row[0] || !row[3]) return;
             const rawName = String(row[3]);
             if(rawName.includes("undefined") || rawName.trim() === "") return;
+
             const court = row[1];
             if (currentSector !== 'ALL' && court !== currentSector) return;
+
             const dObj = new Date(row[0]);
             const y = dObj.getFullYear();
             const m = ('0' + (dObj.getMonth() + 1)).slice(-2);
             const day = ('0' + dObj.getDate()).slice(-2);
             const d = `${y}-${m}-${day}`;
+
             const rk = row[2];
             const nm = rawName.split(' (')[0];
             const w = parseInt(row[4]), l = parseInt(row[5]), g = parseInt(row[7]);
+
             mDates.add(d); totalG += g;
             if(!pStats[nm]) pStats[nm] = {name:nm, wins:0, losses:0, games:0, mvpCount:0, matches:0, history:[], sniperCount:0, clutchWins:0, clutchTotal:0};
             pStats[nm].wins += w; pStats[nm].losses += l; pStats[nm].games += g; pStats[nm].matches += (w+l);
             if(rk==1) pStats[nm].mvpCount++;
+
             const rt = (pStats[nm].wins + pStats[nm].losses) > 0 ? pStats[nm].wins/(pStats[nm].wins+pStats[nm].losses)*100 : 0;
             const hLog = pStats[nm].history.find(h=>h.date===d);
             if(hLog) hLog.rate = rt; else pStats[nm].history.push({date:d, rate:rt});
+
             const k = `${d}_${court}`;
             if(!logs[k]) logs[k] = {date:d, court:court, records:[]};
             logs[k].records.push({ rank:rk, name:nm, win:w, lose:l, rate:row[6], games:g });
         });
+
         let pairStats = {};
         const mRows = rawAnalysisMatches ? rawAnalysisMatches.slice(1) : [];
         mRows.forEach(row => {
             const matchCourt = row[1];
             if (currentSector !== 'ALL' && matchCourt !== currentSector) return;
+
             const pA1=row[4], pA2=row[5], sA=parseInt(row[6]), sB=parseInt(row[7]), pB1=row[8], pB2=row[9];
             if(pA1==="-") return;
             const pairA = [pA1,pA2].sort().join(' & '); const pairB = [pB1,pB2].sort().join(' & ');
@@ -1576,6 +1506,7 @@
             pairStats[pairA].total++; pairStats[pairB].total++;
             if(sA > sB) { pairStats[pairA].wins++; pairStats[pairB].losses++; }
             else if(sB > sA) { pairStats[pairB].wins++; pairStats[pairA].losses++; }
+
             if(sA===4 && sB===0) { if(pStats[pA1]) pStats[pA1].sniperCount++; if(pStats[pA2]) pStats[pA2].sniperCount++; }
             if(sA===0 && sB===4) { if(pStats[pB1]) pStats[pB1].sniperCount++; if(pStats[pB2]) pStats[pB2].sniperCount++; }
             if(Math.abs(sA-sB)===1) {
@@ -1584,6 +1515,7 @@
                 else { if(pStats[pB1]) pStats[pB1].clutchWins++; if(pStats[pB2]) pStats[pB2].clutchWins++; }
             }
         });
+
         let maxWR = 0, maxSn = 0, maxCR = 0;
         Object.values(pStats).forEach(p => {
             if(p.wins>max.wins) max.wins=p.wins;
@@ -1597,12 +1529,15 @@
             if(cr>maxCR && p.clutchTotal>0) maxCR=cr;
         });
         max.sniper = maxSn; max.clutchR = maxCR; max.bestWR = maxWR;
+        
         playerStatsGlobal = pStats;
         playerStatsGlobal._max = max;
+
         document.getElementById('totalMissions').textContent = mDates.size;
         document.getElementById('totalGames').textContent = totalG;
         const avg = mDates.size > 0 ? (totalG / mDates.size).toFixed(1) : "0";
         document.getElementById('avgGames').textContent = avg;
+
         const lastD = Array.from(mDates).sort().pop();
         if(lastD) {
             const todayLogs = logs[Object.keys(logs).find(k=>k.startsWith(lastD))];
@@ -1612,24 +1547,26 @@
                 document.getElementById('latestMvp').textContent = best ? best[0] : '-';
             }
         }
+
         const sortedP = Object.values(pStats).sort((a,b)=>{
             const rA = (a.wins+a.losses)>0?a.wins/(a.wins+a.losses):0;
             const rB = (b.wins+b.losses)>0?b.wins/(b.wins+b.losses):0;
             if(rB!==rA) return rB-rA; return b.wins-a.wins;
         });
+
         renderAnalysisRanking(sortedP);
         renderAnalysisPairs(pairStats);
         renderAnalysisLogs(logs);
         renderAnalysisChart(sortedP);
-        if(currentSector === 'ALL') { 
-            updateSchedule('r1'); updateSchedule('r2'); 
-            if(currentSquadSize === 4) updateSchedule('r3');
-        }
+
+        if(currentSector === 'ALL') { updateSchedule('r1'); updateSchedule('r2'); }
     }
+
     function getRankInfo(games) {
         for(let i=CREW_RANKS.length-1; i>=0; i--) { if(games>=CREW_RANKS[i].min) return {current:CREW_RANKS[i], next:CREW_RANKS[i+1]||null}; }
         return {current:CREW_RANKS[0], next:CREW_RANKS[1]};
     }
+
     function getMedals(p, m) {
         let h = "";
         const r = (p.wins+p.losses)>0 ? p.wins/(p.wins+p.losses) : 0;
@@ -1642,6 +1579,7 @@
         if(cr===m.clutchR && m.clutchR>0 && p.clutchTotal>0) h+='<span class="medal-icon">❤️‍🔥</span>';
         return h;
     }
+
     function renderAnalysisRanking(players) {
         const tb = document.getElementById('leaderboardBody'); tb.innerHTML="";
         players.forEach((p,i)=>{
@@ -1656,6 +1594,7 @@
             tb.appendChild(tr);
         });
     }
+
     function renderAnalysisPairs(ps) {
         const tb = document.getElementById('pairRankingBody'); tb.innerHTML="";
         const pairs = Object.entries(ps).map(([n,s])=>({name:n,...s})).filter(p=>p.total>=2)
@@ -1670,6 +1609,7 @@
             tb.appendChild(tr);
         });
     }
+
     function renderAnalysisLogs(logs) {
         const c = document.getElementById('logsContainer'); c.innerHTML="";
         Object.keys(logs).sort().reverse().forEach(k => {
@@ -1690,6 +1630,7 @@
             c.appendChild(div);
         });
     }
+
     function renderAnalysisChart(players) {
         if(winRateChartInstance) winRateChartInstance.destroy();
         const ctx = document.getElementById('winRateChart').getContext('2d');
@@ -1723,6 +1664,7 @@
             }
         });
     }
+
     function showModal(name) {
         const p = playerStatsGlobal[name]; const max = playerStatsGlobal._max; if(!p) return;
         document.getElementById('modalPlayerName').textContent = p.name;
@@ -1743,9 +1685,12 @@
             <div class="rank-bar-bg"><div class="rank-bar-fill" style="width:${barW}%"></div></div>`;
         
         document.getElementById('playerModal').style.display = 'flex';
+
         const ctxR = document.getElementById('radarChart').getContext('2d');
         if(radarChartInstance) radarChartInstance.destroy();
+        const tr = (p.wins+p.losses)>0?p.wins/(p.wins+p.losses)*100:0;
         
+        // 【修正 21】 Safe Calculation & Fixed Scale
         const safeCalc = (val, maxVal) => maxVal > 0 ? (val / maxVal) * 100 : 0;
 
         radarChartInstance = new Chart(ctxR, {
@@ -1772,9 +1717,9 @@
                         angleLines:{color:'rgba(255,255,255,0.2)'}, 
                         grid:{color:'rgba(255,255,255,0.2)'}, 
                         pointLabels:{color:'#00ffff',font:{size:9}}, 
-                        ticks:{display:false}, 
-                        min: 0, 
-                        max: 100 
+                        ticks:{display:false}, // Hide numbers
+                        min: 0, // Fixed min
+                        max: 100 // Fixed max for everyone
                     }
                 },
                 plugins: {
@@ -1788,6 +1733,7 @@
                 }
             } 
         });
+
         const ctxH = document.getElementById('historyChart').getContext('2d');
         if(historyChartInstance) historyChartInstance.destroy();
         const hist = p.history.sort((a,b)=>new Date(a.date)-new Date(b.date));
@@ -1796,47 +1742,6 @@
             data: { labels: hist.map(h=>h.date.slice(5)), datasets: [{ label:'勝率推移', data: hist.map(h=>h.rate), borderColor:'#f0f', backgroundColor:'rgba(255,0,255,0.1)', borderWidth:2, tension:0.3, fill:true }] },
             options: { responsive:true, maintainAspectRatio:false, scales:{y:{beginAtZero:true,max:100,grid:{color:'rgba(255,255,255,0.1)'}},x:{grid:{display:false}}} }
         });
-    }
-    // 【修正 23】 Map functions
-    function updateMapDisplay(target) {
-        const mapFrame = document.getElementById('googleMap');
-        const statusText = document.getElementById('mapStatusText');
-        const infoPanel = document.getElementById('mapInfoPanel');
-        const navBtn = document.getElementById('navButton');
-        
-        if (target === '-') {
-            mapFrame.style.display = 'none';
-            statusText.style.display = 'block';
-            statusText.textContent = 'NO TARGET SELECTED';
-            infoPanel.style.display = 'none';
-            navBtn.style.display = 'none';
-            return;
-        }
-
-        statusText.style.display = 'block';
-        statusText.textContent = 'SCANNING...';
-        
-        // Show map
-        const query = target; 
-        mapFrame.src = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
-        mapFrame.onload = function() { statusText.style.display = 'none'; };
-        mapFrame.style.display = 'block';
-
-        // Update Info Panel
-        const info = COURT_DATA[target];
-        if (info) {
-            document.getElementById('infoName').textContent = target;
-            document.getElementById('infoAddress').textContent = info.address;
-            document.getElementById('infoTel').textContent = info.tel;
-            document.getElementById('infoHours').textContent = info.hours;
-            infoPanel.style.display = 'block';
-        } else {
-            infoPanel.style.display = 'none';
-        }
-
-        // Update Nav Button
-        navBtn.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-        navBtn.style.display = 'flex';
     }
 
     function closeModal(e) { if(e.target.id==='playerModal'||e.target.className==='close-btn') document.getElementById('playerModal').style.display='none'; }
