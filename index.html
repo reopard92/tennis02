@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TENNIS CHRONICLES: INTEGRATED</title>
+    <title>CODE NAME: 24B</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* =========================================
@@ -800,7 +800,7 @@
     const members = ["周平", "すが", "凌矢", "祐介", "志村", "加登", "小田"];
     const STORAGE_KEY = 'tennis_match_data_v7_holo';
     const CREW_RANKS = [
-        { name: '候補生',     min: 0,    icon: '🌑' },
+        { name: '候補生',     min: 0,   icon: '🌑' },
         { name: 'パイロット', min: 100,  icon: '🛸' },
         { name: '士官',       min: 300,  icon: '🛰️' },
         { name: '指揮官',     min: 600,  icon: '🚀' },
@@ -869,7 +869,7 @@
     const courtDatabase = {
         "MOGUSA": {
             name: "百草テニスガーデン",
-            address: "〒191-0033 東京都日野市百草８７８−１",
+            address: "〒191-0033 東京都日野市百草878−1",
             tel: "042-591-1212",
             hours: "9:00～18:00",
             // Standard Google Maps Embed for search query "百草テニスガーデン"
@@ -890,17 +890,52 @@
             return;
         }
 
+        const displayAddress = "〒191-0033<br>東京都日野市百草878−1";
+
         c.innerHTML = `
             <div class="map-frame">
                 <iframe src="${data.mapSrc}" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
             </div>
             <div class="info-card">
                 <div class="info-row"><div class="info-label">SECTOR</div><div class="info-val" style="color:#00ffff; font-weight:bold;">${data.name}</div></div>
-                <div class="info-row"><div class="info-label">ADDRESS</div><div class="info-val">${data.address}</div></div>
+                <div class="info-row">
+                    <div class="info-label">ADDRESS</div>
+                    <div class="info-val">
+                        ${displayAddress}
+                        <button onclick="copyToClipboard('${data.address}')" style="background:rgba(0,255,255,0.1); border:1px solid #00ffff; color:#00ffff; border-radius:4px; cursor:pointer; margin-left:10px; padding:2px 6px; font-size:0.7rem;">📋</button>
+                    </div>
+                </div>
                 <div class="info-row"><div class="info-label">TEL</div><div class="info-val"><a href="tel:${data.tel}" style="color:#fff;text-decoration:none;">${data.tel}</a></div></div>
                 <div class="info-row"><div class="info-label">HOURS</div><div class="info-val">${data.hours}</div></div>
+                <div class="info-row"><div class="info-label">COST</div><div class="info-val">¥4,500/h</div></div>
+
+                <div style="margin-top:15px; padding-top:15px; border-top:1px dashed rgba(255,255,255,0.2);">
+                    <div style="font-size:0.75rem; color:#00ffff; margin-bottom:5px; letter-spacing:1px;">SPLIT CALCULATOR</div>
+                    <div style="display:flex; align-items:center; gap:8px; font-size:0.9rem;">
+                        COST ÷ 
+                        <select id="calcMembers" onchange="calcSplit()" style="background:rgba(0,0,0,0.5); color:#fff; border:1px solid #555; padding:4px; border-radius:4px;">
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                        = <span id="calcResult" style="color:#00ffff; font-weight:bold; font-size:1.1rem; margin-left:5px;">¥1,125</span>
+                    </div>
+                </div>
             </div>
         `;
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast("ADDRESS COPIED");
+        });
+    }
+
+    function calcSplit() {
+        const cost = 4500;
+        const members = parseInt(document.getElementById('calcMembers').value);
+        const result = Math.ceil(cost / members);
+        document.getElementById('calcResult').innerText = '¥' + result.toLocaleString();
     }
 
     // ================== LEARN PAGE LOGIC (UPDATED: Option A - Modal Play with fixed sizing) ==================
