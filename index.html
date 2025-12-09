@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CODE NAME: 24B</title>
+    <title>CODE NAME: 26</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* =========================================
@@ -810,17 +810,17 @@
 
     // 【修正 18】 Training Videos Data (Samples deleted, User ID added, titles modified)
     const trainingVideos = [
-        { id: "IPfPjZyKzK4", cat: "SERVE", title: "サーブ上達講座", desc: "あゆタロウチャンネル：威力と確率を上げる" },
-        { id: "XotQwO2eLjM", cat: "STROKE", title: "ストレート・クロス強打", desc: "あゆタロウチャンネル：力強い球を打つ方法" },
-        { id: "_xhTeqqF80U", cat: "VOLLEY", title: "ローボレー・ハイボレー", desc: "あゆタロウチャンネル：ボレーのコツ伝授" },
-        { id: "4tuxGRkZAnk", cat: "STROKE", title: "バックハンド安定のコツ", desc: "あゆタロウチャンネル" },
-        { id: "qXhtrKC8gjA", cat: "STROKE", title: "豪速球！肩甲骨の使い方", desc: "あゆタロウチャンネル" },
-        { id: "kSsq_s1OoB8", cat: "SERVE", title: "小柄でも速いサーブ", desc: "あゆタロウチャンネル" },
-        { id: "66Pky_Ogyl0", cat: "TACTICS", title: "前衛のポーチに出るタイミング！", desc: "あゆタロウチャンネル" },
-        { id: "J-xSKZRI9kI", cat: "SERVE", title: "最強のカットサーブ", desc: "あゆタロウチャンネル" },
-        { id: "HOwBO9yljQ4", cat: "STROKE", title: "乱打が続かない人へ", desc: "あゆタロウチャンネル" },
-        { id: "-8pVUELG1gE", cat: "STROKE", title: "バックハンドが苦手な人へ", desc: "あゆタロウチャンネル" },
-        { id: "mfDwhROR3H8", cat: "VOLLEY", title: "スマッシュの基本", desc: "あゆタロウチャンネル" }
+        { id: "IPfPjZyKzK4", cat: "SERVE", title: "切るサーブの打ち方", desc: "回転をかけるためのグリップとスイング" },
+        { id: "XotQwO2eLjM", cat: "STROKE", title: "ストロークの身体操作", desc: "腰の回転より重要な膝の使い方" },
+        { id: "_xhTeqqF80U", cat: "VOLLEY", title: "ボレーの基本姿勢", desc: "ラケットセットと足の運び" },
+        { id: "4tuxGRkZAnk", cat: "STROKE", title: "バックハンドの基本", desc: "安定する打点と身体の向き" },
+        { id: "qXhtrKC8gjA", cat: "STROKE", title: "肩甲骨ストローク", desc: "可動域を使った強力な打球" },
+        { id: "kSsq_s1OoB8", cat: "SERVE", title: "速いサーブのコツ", desc: "小柄な選手でも使える身体操作" },
+        { id: "66Pky_Ogyl0", cat: "TACTICS", title: "ポーチのタイミング", desc: "前衛の飛び出し判断と動き" },
+        { id: "J-xSKZRI9kI", cat: "SERVE", title: "変化するカットサーブ", desc: "ボールの切り方とラケットワーク" },
+        { id: "HOwBO9yljQ4", cat: "STROKE", title: "乱打を続けるコツ", desc: "ミスの原因と修正ポイント" },
+        { id: "-8pVUELG1gE", cat: "STROKE", title: "バックハンドの飛距離", desc: "飛ばない原因と改善ドリル" },
+        { id: "mfDwhROR3H8", cat: "VOLLEY", title: "スマッシュの基本", desc: "落下地点への入り方とインパクト" }
     ];
 
     let isEditMode = false;
@@ -912,13 +912,23 @@
                 <div style="margin-top:15px; padding-top:15px; border-top:1px dashed rgba(255,255,255,0.2);">
                     <div style="font-size:0.75rem; color:#00ffff; margin-bottom:5px; letter-spacing:1px;">SPLIT CALCULATOR</div>
                     <div style="display:flex; align-items:center; gap:8px; font-size:0.9rem;">
-                        COST ÷ 
+                        COST × 
+                        <select id="calcHours" onchange="calcSplit()" style="background:rgba(0,0,0,0.5); color:#fff; border:1px solid #555; padding:4px; border-radius:4px;">
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                        ÷ 
                         <select id="calcMembers" onchange="calcSplit()" style="background:rgba(0,0,0,0.5); color:#fff; border:1px solid #555; padding:4px; border-radius:4px;">
                             <option value="4">4</option>
                             <option value="5">5</option>
                             <option value="6">6</option>
                         </select>
-                        = <span id="calcResult" style="color:#00ffff; font-weight:bold; font-size:1.1rem; margin-left:5px;">¥1,125</span>
+                        = <span id="calcResult" style="color:#00ffff; font-weight:bold; font-size:1.1rem; margin-left:5px;">¥3,375</span>
                     </div>
                 </div>
             </div>
@@ -934,7 +944,8 @@
     function calcSplit() {
         const cost = 4500;
         const members = parseInt(document.getElementById('calcMembers').value);
-        const result = Math.ceil(cost / members);
+        const hours = parseInt(document.getElementById('calcHours').value);
+        const result = Math.ceil((cost * hours) / members);
         document.getElementById('calcResult').innerText = '¥' + result.toLocaleString();
     }
 
