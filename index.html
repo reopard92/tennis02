@@ -64,7 +64,8 @@
             letter-spacing: 2px;
             margin-top: 5px;
         }
-        
+        /* REFRESH button removed */
+
         .view-section { display: none; animation: fadeIn 0.4s ease; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -72,19 +73,6 @@
         /* INPUT STYLES */
         .input-header-area { position: relative; margin-bottom: 40px; min-height: 80px; }
         #matchDate { position: absolute; top: 5px; right: 0; color: #fff; font-size: 0.9rem; letter-spacing: 1px; }
-        
-        .squad-selector {
-            display: flex; justify-content: center; gap: 15px; margin-bottom: 15px;
-        }
-        .squad-btn {
-            background: rgba(0,0,0,0.5); border: 1px solid #444; color: #666;
-            padding: 5px 15px; border-radius: 4px; cursor: pointer; font-size: 0.9rem;
-        }
-        .squad-btn.active {
-            border-color: #00ffff; color: #00ffff; background: rgba(0, 255, 255, 0.1);
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-        }
-
         #courtSelect {
             display: block; margin: 0 auto; padding: 5px 10px; font-size: 1rem;
             border: none; border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -102,6 +90,7 @@
             font-size: 0.7rem; font-weight: bold; color: #333;
             cursor: pointer;
         }
+        /* btn-toss removed */
         .spinning { animation: spin 0.5s infinite ease-in-out; }
         @keyframes spin { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(360deg); } }
         .round-title {
@@ -109,9 +98,6 @@
             margin-bottom: 20px; border-left: 2px solid rgba(255, 255, 255, 0.5); padding-left: 12px; display: inline-block;
         }
         .player-inputs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 25px; }
-        .player-inputs.mode-6 { grid-template-columns: repeat(3, 1fr); }
-        .player-inputs.mode-4 { grid-template-columns: repeat(4, 1fr); }
-
         .input-group label { display: block; margin-bottom: 6px; font-size: 0.7rem; color: #666; text-align: center; }
         select.player-select {
             width: 100%; padding: 8px 4px; font-size: 0.9rem;
@@ -124,9 +110,6 @@
         table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: transparent; }
         th { background: transparent; color: #888; font-weight: 300; font-size: 0.75rem; padding: 10px; text-align: center; }
         td { padding: 12px 5px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.03); font-size: 0.9rem; color: #ddd; }
-        
-        .table-mode-4 th:nth-child(7), .table-mode-4 td:nth-child(7) { display: none; }
-
         .rank-1 { color: #fff; font-weight: bold; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
         .game-count { font-weight: normal; color: #81d4fa; }
         .rest-highlight { color: #e57373; font-size: 0.85rem; padding: 2px 8px; border: none; }
@@ -179,7 +162,7 @@
         .rank-bar-fill { height: 100%; background: #00ffff; width: 0%; box-shadow: 0 0 10px #00ffff; }
         .chart-container { position: relative; height: 250px; width: 100%; margin-bottom: 30px; }
         
-        /* Dropdown styles */
+        /* Dropdown styles for Ranking page */
         .sector-select {
             padding: 8px 15px; font-size: 1rem;
             background-color: rgba(0, 0, 0, 0.6); color: #00ffff;
@@ -189,7 +172,7 @@
 
         .sector-filter::-webkit-scrollbar { display: none; }
 
-        /* LEARN PAGE STYLES */
+        /* LEARN PAGE STYLES (Option B: Hologram/Glass Style) */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -197,11 +180,11 @@
             margin-top: 20px;
         }
         .video-card {
-            background: rgba(20, 30, 40, 0.4); 
-            backdrop-filter: blur(10px);
+            background: rgba(20, 30, 40, 0.4); /* Semi-transparent */
+            backdrop-filter: blur(10px); /* Glass effect */
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3); /* Highlight top */
+            border-radius: 12px; /* Rounded corners */
             overflow: hidden;
             position: relative;
             cursor: pointer;
@@ -285,65 +268,10 @@
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
         }
         #videoPlayer {
-            width: 99%;
-            height: 99%;
+            width: 100%;
+            height: 100%;
         }
         iframe { width: 100%; height: 100%; border: none; }
-        
-        /* MAP STYLES */
-        .map-monitor {
-            position: relative;
-            width: 100%;
-            border: 1px solid #00ffff;
-            padding: 5px;
-            background: rgba(0, 20, 30, 0.5);
-            margin-bottom: 20px;
-            /* Corner brackets decoration */
-            background-image:
-                linear-gradient(to right, #00ffff 2px, transparent 2px),
-                linear-gradient(to bottom, #00ffff 2px, transparent 2px),
-                linear-gradient(to left, #00ffff 2px, transparent 2px),
-                linear-gradient(to top, #00ffff 2px, transparent 2px);
-            background-size: 15px 15px;
-            background-position: top left, top left, bottom right, bottom right;
-            background-repeat: no-repeat;
-        }
-        .map-overlay-text {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: #00ffff; font-family: 'Courier New', monospace; letter-spacing: 2px;
-            text-shadow: 0 0 10px #00ffff; z-index: 0;
-        }
-        #googleMap {
-            position: relative; z-index: 1; width: 100%; height: 350px; border: none; filter: contrast(1.1) brightness(0.9);
-            display: none; /* Hidden by default */
-        }
-        .info-panel {
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 3px solid #00ffff;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-        .info-row {
-            display: flex; margin-bottom: 10px; align-items: flex-start;
-        }
-        .info-label {
-            color: #81d4fa; font-size: 0.8rem; width: 80px; flex-shrink: 0; letter-spacing: 1px;
-        }
-        .info-content {
-            color: #fff; font-size: 0.9rem;
-        }
-        .nav-btn {
-            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
-            color: #fff; border: none; padding: 15px 0; border-radius: 4px;
-            width: 100%; font-size: 1rem; letter-spacing: 2px; cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0, 114, 255, 0.4);
-            display: flex; justify-content: center; align-items: center; gap: 10px;
-            text-decoration: none; /* For <a> tag */
-        }
-        .nav-btn:hover {
-            box-shadow: 0 5px 25px rgba(0, 114, 255, 0.6);
-            transform: translateY(-2px);
-        }
 
 
         /* FOOTER */
@@ -366,9 +294,11 @@
            SMARTPHONE OPTIMIZATION (Layout Fix: Full Width & Align)
            ========================================= */
         @media (max-width: 600px) {
+            /* コンテナの余白を極限まで削る */
             .container { padding: 5px; padding-bottom: 80px; }
             .header-area { margin-top: 10px; }
             
+            /* --- HEADER LAYOUT FIX FOR MOBILE --- */
             .input-header-area {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
@@ -382,6 +312,7 @@
                 top: auto; left: auto;
                 width: auto;
                 grid-column: 1;
+                /* 【修正 09】Left align coin, remove flex column, zero margins */
                 text-align: left;
                 display: block;
                 margin-left: 0;
@@ -392,16 +323,17 @@
                 grid-column: 2;
                 text-align: right;
                 font-size: 0.8rem;
-                margin-top: 8px;
+                margin-top: 8px; /* Vertical align adjustment */
             }
             #courtSelect {
                 grid-column: 1 / 3;
-                width: 80%; 
+                width: 80%; /* not 100% to look like a centered box */
                 max-width: 300px;
-                margin: 0 auto; 
+                margin: 0 auto; /* Center alignment */
                 display: block;
+                /* 【修正】Center text in dropdown */
                 text-align: center;
-                text-align-last: center; 
+                text-align-last: center; /* For iOS Safari */
             }
             .header-ctrl-area {
                 position: relative;
@@ -410,15 +342,15 @@
                 grid-column: 1 / 3;
                 justify-content: flex-end;
             }
+            
+            /* 【修正 09】Larger Icon, force no margin to sit on left edge */
             .coin { width: 40px; height: 40px; font-size: 0.7rem; margin: 0; }
+            /* ----------------------------------- */
             
             .player-inputs {
                 grid-template-columns: 1fr;
                 gap: 8px;
             }
-            .player-inputs.mode-6 { grid-template-columns: repeat(3, 1fr); }
-            .player-inputs.mode-4 { grid-template-columns: repeat(4, 1fr); }
-
             .input-group {
                 display: flex;
                 align-items: center;
@@ -433,20 +365,24 @@
                 font-size: 0.8rem;
             }
             
+            /* 【修正】Center Title, Remove Left Padding */
             h1 { font-size: 1.4rem; padding-left: 0; text-align: center; }
 
+            /* 【修正】INPUTテーブル: 幅制限なし (100%) */
             #r1_matchTableBody, #r2_matchTableBody {
                 display: block;
-                width: 100%;
+                width: 100%; /* フルワイド */
             }
             
+            /* 【重要修正】テーブル自体の表示形式を変更し、幅を強制確保 */
             table {
                 width: 100% !important;
                 display: block;
             }
             
+            /* 【修正 03/04】INPUT対戦テーブル以外のテーブル（ランキング、ペア、ログ）を通常表示に戻す */
             .standard-table {
-                display: table !important;
+                display: table !important; /* ブロック解除 */
                 width: 100% !important;
                 box-sizing: border-box;
             }
@@ -455,7 +391,7 @@
             .standard-table tr { 
                 display: table-row !important; 
                 width: auto !important; 
-                grid-template-columns: none !important;
+                grid-template-columns: none !important; /* grid解除 */
                 border: none !important;
                 background: transparent !important;
                 padding: 0 !important;
@@ -482,6 +418,8 @@
                 border-radius: 4px;
                 background: rgba(20,20,30,0.6);
                 padding: 10px;
+                
+                /* 【修正】幅を固定せず100%にする (max-width削除) */
                 width: 100% !important;
                 max-width: none !important;
                 margin-left: 0;
@@ -498,6 +436,7 @@
                 text-align: center;
             }
 
+            /* 1. 試合番号 */
             #r1_matchTableBody td:nth-of-type(1), #r2_matchTableBody td:nth-of-type(1) {
                 grid-row: 1;
                 text-align: center;
@@ -508,17 +447,19 @@
                 margin-bottom: 5px;
             }
             
+            /* 2. ペアA (名前) 【修正：左寄せ】 */
             #r1_matchTableBody td:nth-of-type(2), #r2_matchTableBody td:nth-of-type(2) {
                 grid-row: 2;
-                text-align: left !important;
+                text-align: left !important; /* 強制左寄せ */
                 font-size: 0.9rem;
                 border: none;
                 padding: 2px 0;
                 color: #fff;
-                white-space: normal;
+                white-space: normal; /* 折り返し許可 */
                 word-break: break-all;
             }
             
+            /* 3. スコアA */
             #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3) {
                 grid-row: 3;
                 text-align: left;
@@ -528,6 +469,7 @@
                 align-items: center;
             }
 
+            /* 4. VS & ゲージ (中央) */
             #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
                 grid-row: 3;
                 text-align: center;
@@ -545,6 +487,7 @@
                 gap: 5px;
             }
 
+            /* 5. スコアB */
              #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
                 grid-row: 3;
                 text-align: right;
@@ -555,17 +498,19 @@
                 align-items: center;
             }
 
+            /* 6. ペアB (名前) 【修正：右寄せ】 */
             #r1_matchTableBody td:nth-of-type(6), #r2_matchTableBody td:nth-of-type(6) {
                 grid-row: 4;
-                text-align: right !important;
+                text-align: right !important; /* 強制右寄せ */
                 font-size: 0.9rem;
                 border: none;
                 padding: 2px 0;
                 color: #fff;
-                white-space: normal;
+                white-space: normal; /* 折り返し許可 */
                 word-break: break-all;
             }
 
+            /* 7. REST */
             #r1_matchTableBody td:nth-of-type(7), #r2_matchTableBody td:nth-of-type(7) {
                 grid-row: 5;
                 text-align: center;
@@ -579,8 +524,9 @@
                 color: #888;
             }
             
+            /* 配置調整用のグリッド再定義（行内） */
             #r1_matchTableBody tr, #r2_matchTableBody tr {
-                 grid-template-columns: 60px 1fr 60px;
+                 grid-template-columns: 60px 1fr 60px; /* スコア - 名前/VS - スコア */
             }
             #r1_matchTableBody td:nth-of-type(1), 
             #r1_matchTableBody td:nth-of-type(2), 
@@ -590,23 +536,25 @@
             #r2_matchTableBody td:nth-of-type(2), 
             #r2_matchTableBody td:nth-of-type(6), 
             #r2_matchTableBody td:nth-of-type(7) {
-                grid-column: 1 / 4;
+                grid-column: 1 / 4; /* 全幅 */
             }
             #r1_matchTableBody td:nth-of-type(3), #r2_matchTableBody td:nth-of-type(3) {
-                grid-column: 1;
+                grid-column: 1; /* 左 */
             }
             #r1_matchTableBody td:nth-of-type(4), #r2_matchTableBody td:nth-of-type(4) {
-                grid-column: 2;
+                grid-column: 2; /* 中央 (VSゲージ) */
             }
              #r1_matchTableBody td:nth-of-type(5), #r2_matchTableBody td:nth-of-type(5) {
-                grid-column: 3;
+                grid-column: 3; /* 右 */
             }
             
             .stat-value { font-size: 1.5rem; }
+            /* Legend Fix for Mobile: Horizontal */
             .medal-legend span, .rank-legend span { display: inline-block; margin-right: 8px; margin-bottom: 3px; font-size: 0.65rem; }
             
+            /* 【修正 21】 Mobile Video Grid: 2 Columns */
             .video-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr); /* 2 columns */
                 gap: 10px;
             }
             .video-title { font-size: 0.75rem; }
@@ -635,12 +583,6 @@
                 <div id="coin" class="coin" onclick="startCoinToss()">HEAD</div>
             </div>
             <div id="matchDate"></div>
-            <div class="squad-selector">
-                <button class="squad-btn" onclick="changeSquadSize(4)">4</button>
-                <button class="squad-btn active" onclick="changeSquadSize(5)">5</button>
-                <button class="squad-btn" onclick="changeSquadSize(6)">6</button>
-            </div>
-            
             <select id="courtSelect" onchange="saveState()" disabled>
                 <option value="-">-</option>
                 <option value="練馬ステップイン">練馬ステップイン</option>
@@ -655,15 +597,14 @@
         </div>
 
         <div class="round-title">ROUND 01</div>
-        <div class="player-inputs" id="r1_inputs">
+        <div class="player-inputs">
             <div class="input-group"><label>I</label><select id="r1_p1" class="player-select" onchange="updateSchedule('r1')" disabled></select></div>
             <div class="input-group"><label>II</label><select id="r1_p2" class="player-select" onchange="updateSchedule('r1')" disabled></select></div>
             <div class="input-group"><label>III</label><select id="r1_p3" class="player-select" onchange="updateSchedule('r1')" disabled></select></div>
             <div class="input-group"><label>IV</label><select id="r1_p4" class="player-select" onchange="updateSchedule('r1')" disabled></select></div>
-            <div class="input-group" id="r1_p5_div"><label>V</label><select id="r1_p5" class="player-select" onchange="updateSchedule('r1')" disabled></select></div>
-            <div class="input-group" id="r1_p6_div" style="display:none"><label>VI</label><select id="r1_p6" class="player-select" onchange="updateSchedule('r1')" disabled></select></div>
+            <div class="input-group"><label>V</label><select id="r1_p5" class="player-select" onchange="updateSchedule('r1')" disabled></select></div>
         </div>
-        <table class="input-match-table" id="r1_table">
+        <table class="input-match-table">
             <thead><tr><th>No.</th><th>PAIR A</th><th>G</th><th></th><th>G</th><th>PAIR B</th><th>REST</th></tr></thead>
             <tbody id="r1_matchTableBody"></tbody>
         </table>
@@ -674,15 +615,14 @@
         </table>
 
         <div class="round-title">ROUND 02</div>
-        <div class="player-inputs" id="r2_inputs">
+        <div class="player-inputs">
             <div class="input-group"><label>I</label><select id="r2_p1" class="player-select" onchange="updateSchedule('r2')" disabled></select></div>
             <div class="input-group"><label>II</label><select id="r2_p2" class="player-select" onchange="updateSchedule('r2')" disabled></select></div>
             <div class="input-group"><label>III</label><select id="r2_p3" class="player-select" onchange="updateSchedule('r2')" disabled></select></div>
             <div class="input-group"><label>IV</label><select id="r2_p4" class="player-select" onchange="updateSchedule('r2')" disabled></select></div>
-            <div class="input-group" id="r2_p5_div"><label>V</label><select id="r2_p5" class="player-select" onchange="updateSchedule('r2')" disabled></select></div>
-            <div class="input-group" id="r2_p6_div" style="display:none"><label>VI</label><select id="r2_p6" class="player-select" onchange="updateSchedule('r2')" disabled></select></div>
+            <div class="input-group"><label>V</label><select id="r2_p5" class="player-select" onchange="updateSchedule('r2')" disabled></select></div>
         </div>
-        <table class="input-match-table" id="r2_table">
+        <table class="input-match-table">
             <thead><tr><th>No.</th><th>PAIR A</th><th>G</th><th></th><th>G</th><th>PAIR B</th><th>REST</th></tr></thead>
             <tbody id="r2_matchTableBody"></tbody>
         </table>
@@ -691,14 +631,6 @@
             <thead><tr><th>#</th><th>NAME</th><th>WIN</th><th>RATE</th><th>G</th></tr></thead>
             <tbody id="r2_rankingTableBody"></tbody>
         </table>
-
-        <div id="round3_area" style="display:none;">
-            <div class="round-title">ROUND 03</div>
-            <table class="input-match-table" id="r3_table">
-                <thead><tr><th>No.</th><th>PAIR A</th><th>G</th><th></th><th>G</th><th>PAIR B</th><th>REST</th></tr></thead>
-                <tbody id="r3_matchTableBody"></tbody>
-            </table>
-        </div>
 
         <div style="text-align: center; margin-top:30px;" class="ranking-area"><h3 style="color:#fff;">TOTAL RANKING (TODAY)</h3></div>
         <table class="standard-table">
@@ -763,33 +695,10 @@
     </div>
 
     <div id="view-map" class="view-section">
-        <div class="section-title">TARGET ZONE NAVIGATION</div>
-        
-        <div style="text-align:center; margin-bottom:20px;">
-             <select id="mapTargetSelect" class="sector-select" onchange="updateMapDisplay(this.value)">
-                <option value="-">SELECT TARGET</option>
-                <option value="練馬ステップイン">練馬ステップイン</option>
-                <option value="百草テニスガーデン">百草テニスガーデン</option>
-                <option value="モリパーク テニスガーデン">モリパーク テニスガーデン</option>
-                <option value="白子町">白子町</option>
-            </select>
+        <div class="section-title">COURT NAVIGATION</div>
+        <div style="text-align:center; padding:50px; color:#666;">
+            NO MAP DATA LOADED
         </div>
-
-        <div class="map-monitor">
-             <div class="map-overlay-text" id="mapStatusText">NO TARGET SELECTED</div>
-             <iframe id="googleMap" src="" allowfullscreen></iframe>
-        </div>
-
-        <div id="mapInfoPanel" class="info-panel" style="display:none;">
-            <div style="color:#00ffff; font-size:1.1rem; margin-bottom:15px; border-bottom:1px solid #00ffff; padding-bottom:5px;">DATA: <span id="infoName"></span></div>
-            <div class="info-row"><span class="info-label">ADDRESS</span><span class="info-content" id="infoAddress"></span></div>
-            <div class="info-row"><span class="info-label">COMM</span><span class="info-content" id="infoTel"></span></div>
-            <div class="info-row"><span class="info-label">HOURS</span><span class="info-content" id="infoHours"></span></div>
-        </div>
-
-        <a id="navButton" href="#" target="_blank" class="nav-btn" style="display:none;">
-            <span>🚀</span> INITIATE NAVIGATION
-        </a>
     </div>
 
     <div id="view-learn" class="view-section">
@@ -854,15 +763,7 @@
         { name: '提督',       min: 2000, icon: '🌌' }
     ];
 
-    const COURT_DATA = {
-        "百草テニスガーデン": {
-            address: "〒191-0033 東京都日野市百草８７８−１",
-            tel: "042-591-1212",
-            hours: "9:00～18:00",
-            query: "百草テニスガーデン"
-        }
-    };
-
+    // 【修正 18】 Training Videos Data (Samples deleted, User ID added, titles modified)
     const trainingVideos = [
         { id: "IPfPjZyKzK4", cat: "SERVE", title: "サーブ上達講座", desc: "あゆタロウチャンネル：威力と確率を上げる" },
         { id: "XotQwO2eLjM", cat: "STROKE", title: "ストレート・クロス強打", desc: "あゆタロウチャンネル：力強い球を打つ方法" },
@@ -877,21 +778,6 @@
         { id: "mfDwhROR3H8", cat: "VOLLEY", title: "スマッシュの基本", desc: "あゆタロウチャンネル" }
     ];
 
-    const PATTERNS = {
-        4: [
-            [1,2,3,4], [1,3,2,4], [1,4,2,3],
-            [1,2,3,4], [1,3,2,4], [1,4,2,3],
-            [1,2,3,4], [1,3,2,4], [1,4,2,3]
-        ],
-        5: [
-            [1,2,3,4,5], [1,5,2,3,4], [1,4,2,5,3], [1,3,4,5,2], [2,4,3,5,1]
-        ],
-        6: [
-            [1,2,3,5,4,6], [1,6,2,4,3,5], [3,6,4,5,1,2], [1,5,2,6,3,4], [1,4,3,5,2,6],
-            [2,3,4,6,1,5], [1,4,5,6,2,3], [1,3,2,5,4,6], [2,6,3,4,1,5]
-        ]
-    };
-
     let isEditMode = false;
     let isLoading = false;
     let playerStatsGlobal = {};
@@ -902,26 +788,16 @@
     let rawAnalysisRankings = [];
     let rawAnalysisMatches = [];
     let currentSector = 'ALL';
-    
-    let currentSquadSize = 5;
 
     window.onload = function() {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if(saved) {
-             try {
-                 const d = JSON.parse(saved);
-                 if(d.meta && d.meta.squadSize) currentSquadSize = d.meta.squadSize;
-             } catch(e){}
-        }
-        changeSquadSize(currentSquadSize); 
-        
+        initSelectors();
         const today = new Date();
         const yyyy = today.getFullYear();
         const mm = String(today.getMonth() + 1).padStart(2, '0');
         const dd = String(today.getDate()).padStart(2, '0');
         document.getElementById('matchDate').textContent = `${yyyy}-${mm}-${dd}`;
         fetchAnalysisData();
-        renderVideos('ALL');
+        renderVideos('ALL'); // Initial render for Learn page
         setTimeout(() => {
             document.getElementById('loadingScreen').style.opacity = 0;
             setTimeout(() => { document.getElementById('loadingScreen').style.display = 'none'; }, 800);
@@ -931,6 +807,7 @@
     function switchMainView(viewName) {
         document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
         const navs = document.querySelectorAll('.nav-item');
+        // Nav Mapping: INPUT(0), TOP(1), RANK(2), MAP(3), LEARN(4)
         if(viewName === 'match') navs[0].classList.add('active');
         if(viewName === 'dashboard') navs[1].classList.add('active');
         if(viewName === 'ranking') navs[2].classList.add('active');
@@ -943,44 +820,7 @@
         document.getElementById('pageTitle').textContent = titles[viewName] || 'TENNIS CHRONICLES';
     }
 
-    function updateMapDisplay(target) {
-        const mapFrame = document.getElementById('googleMap');
-        const statusText = document.getElementById('mapStatusText');
-        const infoPanel = document.getElementById('mapInfoPanel');
-        const navBtn = document.getElementById('navButton');
-        
-        if (target === '-') {
-            mapFrame.style.display = 'none';
-            statusText.style.display = 'block';
-            statusText.textContent = 'NO TARGET SELECTED';
-            infoPanel.style.display = 'none';
-            navBtn.style.display = 'none';
-            return;
-        }
-
-        statusText.style.display = 'block';
-        statusText.textContent = 'SCANNING...';
-        
-        const query = target; 
-        mapFrame.src = `https://maps.google.com/maps?output=embed&q=${encodeURIComponent(query)}&t=m&z=15`;
-        mapFrame.onload = function() { statusText.style.display = 'none'; };
-        mapFrame.style.display = 'block';
-
-        const info = COURT_DATA[target];
-        if (info) {
-            document.getElementById('infoName').textContent = target;
-            document.getElementById('infoAddress').textContent = info.address;
-            document.getElementById('infoTel').textContent = info.tel;
-            document.getElementById('infoHours').textContent = info.hours;
-            infoPanel.style.display = 'block';
-        } else {
-            infoPanel.style.display = 'none';
-        }
-
-        navBtn.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-        navBtn.style.display = 'flex';
-    }
-
+    // ================== LEARN PAGE LOGIC (UPDATED: Option A - Modal Play with fixed sizing) ==================
     function renderVideos(category) {
         const grid = document.getElementById('videoGrid');
         grid.innerHTML = "";
@@ -989,10 +829,12 @@
         filtered.forEach(v => {
             const card = document.createElement('div');
             card.className = 'video-card';
+            // 【修正 15】 Revert to playVideo (Modal)
             card.onclick = function() { playVideo(v.id); };
             
             const thumbUrl = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
             
+            // 【修正 19】 Option B Design (Glass) - Play icon updated
             card.innerHTML = `
                 <div class="video-thumb" style="background-image: url('${thumbUrl}');">
                     <div class="video-overlay"><div class="video-play-icon">▶</div></div>
@@ -1006,62 +848,37 @@
         });
     }
 
+    // 【修正 15】 Option A: Modal Player Logic
     function playVideo(id) {
         const modal = document.getElementById('videoModal');
         const player = document.getElementById('videoPlayer');
+        // Autoplay enabled
         player.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
         modal.style.display = 'flex';
     }
 
     function closeVideoModal(e) {
+        // Close if clicked on background or explicitly called
         if(e.target.id === 'videoModal') {
             document.getElementById('videoModal').style.display = 'none';
-            document.getElementById('videoPlayer').innerHTML = ''; 
+            document.getElementById('videoPlayer').innerHTML = ''; // Stop video by removing iframe
         }
     }
 
-    function changeSquadSize(size) {
-        currentSquadSize = size;
-        document.querySelectorAll('.squad-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.squad-btn')[size - 4].classList.add('active');
-        
-        document.getElementById('r1_p5_div').style.display = size >= 5 ? 'block' : 'none';
-        document.getElementById('r2_p5_div').style.display = size >= 5 ? 'block' : 'none';
-        document.getElementById('r1_p6_div').style.display = size >= 6 ? 'block' : 'none';
-        document.getElementById('r2_p6_div').style.display = size >= 6 ? 'block' : 'none';
-        
-        document.querySelectorAll('.player-inputs').forEach(el => {
-            el.classList.remove('mode-6', 'mode-4');
-            if(size === 6) el.classList.add('mode-6');
-            if(size === 4) el.classList.add('mode-4');
-        });
-
-        document.getElementById('round3_area').style.display = size === 4 ? 'block' : 'none';
-
-        document.querySelectorAll('.input-match-table').forEach(t => {
-            if(size === 4) t.classList.add('table-mode-4');
-            else t.classList.remove('table-mode-4');
-        });
-
-        initSelectors(); 
-        saveState();
-    }
+    // ================== INPUT LOGIC ==================
+    const patterns = [[1, 2, 3, 4, 5],[1, 5, 2, 3, 4],[1, 4, 2, 5, 3],[1, 3, 4, 5, 2],[2, 4, 3, 5, 1]];
 
     function initSelectors() {
-        ['r1', 'r2', 'r3'].forEach(r => {
-            for(let i=1; i<=6; i++) {
+        ['r1', 'r2'].forEach(r => {
+            [1,2,3,4,5].forEach(i => {
                 const el = document.getElementById(`${r}_p${i}`);
-                if(!el) continue;
-                if(el.options.length <= 1) { 
-                    members.forEach(m => { const op = document.createElement("option"); op.value = m; op.text = m; el.appendChild(op); });
-                    el.value = "-";
-                }
-            }
+                if(!el) return;
+                const def = document.createElement("option"); def.value = "-"; def.text = "-"; el.appendChild(def);
+                members.forEach(m => { const op = document.createElement("option"); op.value = m; op.text = m; el.appendChild(op); });
+                el.value = "-";
+            });
         });
-        if (!loadState()) { 
-            updateSchedule('r1'); updateSchedule('r2'); 
-            if(currentSquadSize === 4) updateSchedule('r3');
-        }
+        if (!loadState()) { updateSchedule('r1'); updateSchedule('r2'); }
     }
 
     function toggleEditMode() {
@@ -1099,6 +916,7 @@
 
     function startCoinToss() {
         const c = document.getElementById('coin');
+        // Removed button reference
         c.classList.add('spinning');
         setTimeout(() => { c.classList.remove('spinning'); c.textContent = Math.random() < 0.5 ? "HEAD" : "TAIL"; }, 1500);
     }
@@ -1110,17 +928,13 @@
             document.querySelectorAll('.score-select').forEach(s => s.value = "-"); 
             document.getElementById('courtSelect').value = "-";
             localStorage.removeItem(STORAGE_KEY);
-            updateSchedule('r1'); updateSchedule('r2'); updateSchedule('r3');
+            updateSchedule('r1'); updateSchedule('r2');
             showToast("RESET DONE");
         }
     }
 
     function updatePlayerOptions(rp) {
-        const selects = []; 
-        for(let i=1; i<=6; i++) {
-            const el = document.getElementById(`${rp}_p${i}`);
-            if(el) selects.push(el);
-        }
+        const selects = []; for(let i=1; i<=5; i++) selects.push(document.getElementById(`${rp}_p${i}`));
         const vals = selects.map(s => s.value).filter(v => v !== "-");
         selects.forEach(s => {
             s.querySelectorAll('option').forEach(o => {
@@ -1144,13 +958,9 @@
     }
 
     function updateSchedule(rp) {
-        const p = {}; 
-        for(let i=1; i<=6; i++) {
-            const el = document.getElementById(`${rp}_p${i}`);
-            if(el) p[i] = el.value;
-        }
+        const p = {}; for(let i=1; i<=5; i++) p[i] = document.getElementById(`${rp}_p${i}`).value;
         updatePlayerOptions(rp);
-        const pl = {1:p[1], 2:p[2], 3:p[3], 4:p[4], 5:p[5], 6:p[6]};
+        const pl = {1:p[1], 2:p[2], 3:p[3], 4:p[4], 5:p[5]};
         
         const currentScores = [];
         const oldTbody = document.getElementById(`${rp}_matchTableBody`);
@@ -1165,36 +975,18 @@
             }
         }
 
-        const tb = document.getElementById(`${rp}_matchTableBody`); 
-        tb.innerHTML = "";
-
-        let roundPatterns = [];
-        const fullPattern = PATTERNS[currentSquadSize];
-        
-        if(currentSquadSize === 4) {
-            if(rp === 'r1') roundPatterns = fullPattern.slice(0,3);
-            if(rp === 'r2') roundPatterns = fullPattern.slice(3,6);
-            if(rp === 'r3') roundPatterns = fullPattern.slice(6,9);
-        } else if(currentSquadSize === 5) {
-            roundPatterns = fullPattern; 
-        } else if(currentSquadSize === 6) {
-             if(rp === 'r1') roundPatterns = fullPattern.slice(0,5);
-             if(rp === 'r2') roundPatterns = fullPattern.slice(5,9);
-        }
-
-        roundPatterns.forEach((pat, idx) => {
+        const tb = document.getElementById(`${rp}_matchTableBody`); tb.innerHTML = "";
+        patterns.forEach((pat, idx) => {
             const row = document.createElement("tr");
             row.dataset.pA1=pl[pat[0]]; row.dataset.pA2=pl[pat[1]]; row.dataset.pB1=pl[pat[2]]; row.dataset.pB2=pl[pat[3]];
             
-            let matchNo = idx + 1;
-            if(currentSquadSize === 6 && rp === 'r2') matchNo += 5;
-            if(currentSquadSize === 4 && rp === 'r2') matchNo += 3;
-            if(currentSquadSize === 4 && rp === 'r3') matchNo += 6;
-
-            const cNo = document.createElement("td"); cNo.textContent=`MATCH ${matchNo}`; row.appendChild(cNo);
+            // --- スマホリスト型レイアウト対応 ---
+            const cNo = document.createElement("td"); cNo.textContent=`MATCH ${idx+1}`; row.appendChild(cNo);
             
+            // ペアA
             const cTA = document.createElement("td"); cTA.textContent=`${pl[pat[0]]} & ${pl[pat[1]]}`; row.appendChild(cTA);
             
+            // スコアA
             const cSA = document.createElement("td"); cSA.className="score-cell";
             const sA = createScoreSelect(); sA.setAttribute('data-type','scoreA'); 
             if(currentScores[idx]) sA.value = currentScores[idx].a;
@@ -1216,23 +1008,17 @@
                 </div>`;
             row.appendChild(cVs);
             
+            // スコアB
             const cSB = document.createElement("td"); cSB.className="score-cell";
             const sB = createScoreSelect(); sB.setAttribute('data-type','scoreB'); 
             if(currentScores[idx]) sB.value = currentScores[idx].b;
             cSB.appendChild(sB); row.appendChild(cSB);
             
+            // ペアB
             const cTB = document.createElement("td"); cTB.textContent=`${pl[pat[2]]} & ${pl[pat[3]]}`; row.appendChild(cTB);
             
-            // REST Display Logic
-            const cR = document.createElement("td"); cR.className="rest-highlight"; 
-            if(currentSquadSize === 4) {
-                cR.textContent = "-"; 
-            } else if(currentSquadSize === 5) {
-                cR.textContent = pl[pat[4]];
-            } else if(currentSquadSize === 6) {
-                cR.textContent = `${pl[pat[4]]}, ${pl[pat[5]]}`;
-            }
-            row.appendChild(cR);
+            // REST
+            const cR = document.createElement("td"); cR.className="rest-highlight"; cR.textContent=pl[pat[4]]; row.appendChild(cR);
             
             sA.onchange = () => checkWinner(sA, sB, cTA, cSA, cSB, cTB, rp);
             sB.onchange = () => checkWinner(sA, sB, cTA, cSA, cSB, cTB, rp);
@@ -1243,15 +1029,8 @@
     }
 
     function calculateStats(rp) {
-        const p={}; 
-        for(let i=1; i<=6; i++) {
-            const el = document.getElementById(`${rp}_p${i}`);
-            if(el) p[i] = el.value;
-        }
-        
-        let st={}; 
-        Object.values(p).forEach(n=>{if(n && n!=="-") st[n]={wins:0,losses:0,games:0}});
-        
+        const p={}; for(let i=1;i<=5;i++) p[i]=document.getElementById(`${rp}_p${i}`).value;
+        let st={}; [p[1],p[2],p[3],p[4],p[5]].forEach(n=>{if(n!=="-") st[n]={wins:0,losses:0,games:0}});
         const rows = document.getElementById(`${rp}_matchTableBody`).rows;
         for(let row of rows) {
             const sA=row.querySelector('select[data-type="scoreA"]').value;
@@ -1267,25 +1046,33 @@
         return st;
     }
 
+    function updateInputRanking(rp) {
+        const st = calculateStats(rp);
+        const pl = Object.keys(st).sort((a,b)=>{
+            const rA=(st[a].wins+st[a].losses)>0 ? st[a].wins/(st[a].wins+st[a].losses) : 0;
+            const rB=(st[b].wins+st[b].losses)>0 ? st[b].wins/(st[b].wins+st[b].losses) : 0;
+            if(rB!==rA) return rB-rA;
+            if(st[b].wins!==st[a].wins) return st[b].wins-st[a].wins;
+            return st[b].games-st[a].games;
+        });
+        const tb=document.getElementById(`${rp}_rankingTableBody`); tb.innerHTML="";
+        pl.forEach((n,i)=>{
+            const tr=document.createElement("tr");
+            const tot=st[n].wins+st[n].losses;
+            const rate=tot>0 ? ((st[n].wins/tot)*100).toFixed(0)+"%" : "-";
+            tr.innerHTML=`<td class="${i===0?'rank-1':''}">${i+1}</td><td>${n}</td><td>${st[n].wins}-${st[n].losses}</td><td>${rate}</td><td>${st[n].games}</td>`;
+            tb.appendChild(tr);
+        });
+        updateInputTotalRanking();
+    }
+
     function updateInputTotalRanking() {
         const s1 = calculateStats('r1');
         const s2 = calculateStats('r2');
-        const s3 = (currentSquadSize === 4) ? calculateStats('r3') : {};
-        
         let total = {};
-        const allP = new Set([...Object.keys(s1), ...Object.keys(s2), ...Object.keys(s3)]);
+        const allP = new Set([...Object.keys(s1), ...Object.keys(s2)]);
         allP.forEach(n => { total[n] = {wins:0, losses:0, games:0}; });
-        
-        [s1, s2, s3].forEach(s => { 
-            for(let n in s) { 
-                if(total[n]) {
-                    total[n].wins += s[n].wins; 
-                    total[n].losses += s[n].losses; 
-                    total[n].games += s[n].games; 
-                }
-            } 
-        });
-        
+        [s1, s2].forEach(s => { for(let n in s) { total[n].wins += s[n].wins; total[n].losses += s[n].losses; total[n].games += s[n].games; } });
         const sorted = Array.from(allP).sort((a,b)=>{
             const rA=(total[a].wins+total[a].losses)>0 ? total[a].wins/(total[a].wins+total[a].losses) : 0;
             const rB=(total[b].wins+total[b].losses)>0 ? total[b].wins/(total[b].wins+total[b].losses) : 0;
@@ -1293,7 +1080,6 @@
             if(total[b].wins!==total[a].wins) return total[b].wins-total[a].wins;
             return total[b].games-total[a].games;
         });
-        
         const tb=document.getElementById('total_input_rankingTableBody'); tb.innerHTML="";
         sorted.forEach((n,i)=>{
             const tr=document.createElement("tr");
@@ -1308,16 +1094,13 @@
         if(isLoading) return;
         const court = document.getElementById('courtSelect').value;
         const rd = {};
-        ['r1','r2','r3'].forEach(r => {
-            const pl={}; for(let i=1;i<=6;i++) {
-                const el = document.getElementById(`${r}_p${i}`);
-                if(el) pl[`p${i}`] = el.value;
-            }
+        ['r1','r2'].forEach(r => {
+            const pl={}; for(let i=1;i<=5;i++) pl[`p${i}`]=document.getElementById(`${r}_p${i}`).value;
             const sc=[]; const rows=document.getElementById(`${r}_matchTableBody`).rows;
             for(let row of rows) { sc.push({a:row.querySelector('select[data-type="scoreA"]').value, b:row.querySelector('select[data-type="scoreB"]').value}); }
             rd[r]={players:pl, scores:sc};
         });
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({meta:{court, squadSize: currentSquadSize}, rounds:rd}));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({meta:{court}, rounds:rd}));
     }
 
     function loadState() {
@@ -1325,21 +1108,11 @@
         try {
             isLoading = true;
             const data=JSON.parse(json);
-            if(data.meta) {
-                if(data.meta.court) document.getElementById('courtSelect').value=data.meta.court;
-                if(data.meta.squadSize) {
-                    currentSquadSize = data.meta.squadSize;
-                    changeSquadSize(currentSquadSize);
-                }
-            }
-            
-            ['r1','r2','r3'].forEach(r => {
+            if(data.meta && data.meta.court) document.getElementById('courtSelect').value=data.meta.court;
+            ['r1','r2'].forEach(r => {
                 if(data.rounds && data.rounds[r]) {
                     const rd=data.rounds[r];
-                    for(let i=1;i<=6;i++) {
-                        const el = document.getElementById(`${r}_p${i}`);
-                        if(el && rd.players[`p${i}`]) el.value = rd.players[`p${i}`];
-                    }
+                    for(let i=1;i<=5;i++) document.getElementById(`${r}_p${i}`).value=rd.players[`p${i}`];
                     updateSchedule(r); 
                     const rows=document.getElementById(`${r}_matchTableBody`).rows;
                     rd.scores.forEach((s, idx)=>{
@@ -1356,7 +1129,6 @@
             });
             updatePlayerOptions('r1');
             updatePlayerOptions('r2');
-            if(currentSquadSize===4) updatePlayerOptions('r3');
             applyEditMode();
             isLoading = false;
             return true;
@@ -1369,12 +1141,9 @@
         const date = document.getElementById('matchDate').textContent;
         const court = document.getElementById('courtSelect').value === '-' ? 'コート未定' : document.getElementById('courtSelect').value;
         let rankings = [];
-        
-        const roundsToSend = (currentSquadSize === 4) ? ['r1', 'r2', 'r3'] : ['r1', 'r2'];
-        
-        roundsToSend.forEach(r => {
+        ['r1', 'r2'].forEach(r => {
             const rows = document.getElementById(`${r}_rankingTableBody`).querySelectorAll('tr');
-            const roundName = (r==='r1')?'1回戦':(r==='r2'?'2回戦':'3回戦');
+            const roundName = r==='r1' ? '1回戦' : '2回戦';
             rows.forEach(row => {
                 const cols = row.querySelectorAll('td');
                 if(cols.length>0) {
@@ -1387,7 +1156,7 @@
             });
         });
         let matches = [];
-        roundsToSend.forEach(r => {
+        ['r1', 'r2'].forEach(r => {
             const rows = document.getElementById(`${r}_matchTableBody`).rows;
             for(let i=0; i<rows.length; i++) {
                 const row = rows[i];
@@ -1396,7 +1165,7 @@
                     const sB = row.querySelector('select[data-type="scoreB"]').value;
                     if(sA!=="-" && sB!=="-") {
                         matches.push({
-                            round: r, no: i+1,
+                            round: r==='r1'?1:2, no: i+1,
                             pA1: row.dataset.pA1, pA2: row.dataset.pA2, scoreA: sA, scoreB: sB,
                             pB1: row.dataset.pB1, pB2: row.dataset.pB2
                         });
@@ -1453,6 +1222,7 @@
 
     function filterRanking(sector) {
         currentSector = sector;
+        // Selectボックスの場合はactiveクラスの切り替え不要（ブラウザ標準）
         processAnalysisData();
     }
 
@@ -1688,7 +1458,6 @@
 
         const ctxR = document.getElementById('radarChart').getContext('2d');
         if(radarChartInstance) radarChartInstance.destroy();
-        const tr = (p.wins+p.losses)>0?p.wins/(p.wins+p.losses)*100:0;
         
         // 【修正 21】 Safe Calculation & Fixed Scale
         const safeCalc = (val, maxVal) => maxVal > 0 ? (val / maxVal) * 100 : 0;
