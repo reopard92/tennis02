@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CODE NAME: 34</title>
+    <title>CODE NAME: 35</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -97,6 +97,34 @@
             box-shadow: 0 0 5px #00ffff;
             transition: 0.3s;
         }
+
+        /* REFRESH BUTTON (NEW) */
+        .refresh-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 4001;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(0,255,255,0.5);
+            border-radius: 4px;
+            padding: 4px;
+            cursor: pointer;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0,255,255,0.2);
+            color: #00ffff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            user-select: none;
+        }
+        .refresh-btn:active {
+            background: rgba(0,255,255,0.2);
+            transform: scale(0.95);
+        }
+
         .side-menu-overlay {
             position: fixed;
             top: 0;
@@ -653,6 +681,8 @@
     <div class="loader-bar"></div>
 </div>
 
+<div class="refresh-btn" onclick="manualReload()">↻</div>
+
 <div class="hamburger-btn" onclick="toggleSideMenu()">
     <div class="hamburger-bar"></div>
     <div class="hamburger-bar"></div>
@@ -668,7 +698,7 @@
 
 <div class="container">
     <header class="app-header">
-        <h1 id="pageTitle">TENNIS CHRONICLES</h1>
+        <h1 id="pageTitle">MATCH INPUT</h1>
         <div class="subtitle">DEEP SPACE INTEGRATED SYSTEM</div>
     </header>
 
@@ -802,6 +832,9 @@
 
     <div id="view-schedule" class="view-section">
         <div class="section-title">MISSION SCHEDULE</div>
+        <div style="text-align:center; margin-bottom:20px;">
+            <a href="https://liff.line.me/2008858372-NgwrDQlQ" target="_blank" style="color:#00ffff; text-decoration:none; border-bottom:1px solid #00ffff; padding-bottom:2px;">日程調整記入はこちらから</a>
+        </div>
         <div id="scheduleTabs" class="month-tabs-area"></div>
         <div id="scheduleList" class="schedule-list">
             <div style="padding:20px; text-align:center; color:#888;">LOADING DATA...</div>
@@ -946,6 +979,16 @@
         document.getElementById('matchDate').textContent = `${yyyy}-${mm}-${dd}`;
         fetchAnalysisData();
         fetchScheduleData(); // Real Fetch
+        
+        // Restore last view
+        const lastView = sessionStorage.getItem('lastView');
+        if (lastView) {
+            switchMainView(lastView);
+        } else {
+            // Default to MATCH INPUT if no history
+            switchMainView('match'); 
+        }
+
         setTimeout(() => {
             document.getElementById('loadingScreen').style.opacity = 0;
             setTimeout(() => { document.getElementById('loadingScreen').style.display = 'none'; }, 800);
@@ -975,7 +1018,7 @@
             // Show Tennis Views
             switchMainView('match'); // Default to match input
             bottomNav.classList.remove('hidden');
-            pageTitle.textContent = "TENNIS CHRONICLES";
+            // pageTitle set by switchMainView
             subTitle.textContent = "DEEP SPACE INTEGRATED SYSTEM";
         } else if (mode === 'game') {
             items[1].classList.add('active');
@@ -985,10 +1028,14 @@
             bottomNav.classList.add('hidden');
             pageTitle.textContent = "GAME ARCHIVE";
             subTitle.textContent = "TACTICAL SIMULATION MODULES";
+            sessionStorage.setItem('lastView', 'game');
         }
     }
 
     function switchMainView(viewName) {
+        // Save state for refresh
+        sessionStorage.setItem('lastView', viewName);
+
         document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
         const navs = document.querySelectorAll('.nav-item');
         if(viewName === 'match') navs[0].classList.add('active');
@@ -998,10 +1045,16 @@
         if(viewName === 'schedule') navs[4].classList.add('active');
         
         document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
-        document.getElementById(`view-${viewName}`).classList.add('active');
+        
+        const targetSection = document.getElementById(`view-${viewName}`);
+        if(targetSection) targetSection.classList.add('active');
         
         const titles = { 'match': 'MATCH INPUT', 'dashboard': 'DASHBOARD', 'ranking': 'RANKING', 'map': 'COURT MAP', 'schedule': 'MISSION SCHEDULE' };
         document.getElementById('pageTitle').textContent = titles[viewName] || 'TENNIS CHRONICLES';
+    }
+
+    function manualReload() {
+        location.reload();
     }
 
     // --- COIN TOSS GAME LOGIC ---
