@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CODE NAME: 35</title>
+    <title>CODE NAME: 36</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* =========================================
-           GLOBAL THEME: DEEP SPACE (12/3 1:00 Ver. Preserved)
+           GLOBAL THEME: DEEP SPACE (CODE NAME: 36)
            ========================================= */
         body {
             font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
@@ -46,85 +46,69 @@
             margin-top: 20px;
             min-height: 80vh;
         }
+
+        /* --- HEADER STYLES (NEW DESIGN) --- */
         .app-header {
             text-align: center;
             margin-bottom: 40px;
-            padding-top: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-top: 15px;
             padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative; /* For button positioning */
+            min-height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
         h1 {
-            text-align: center;
             color: #ffffff;
             font-weight: 300;
-            font-size: 1.8rem;
-            letter-spacing: 4px;
+            font-size: 1.6rem;
+            letter-spacing: 3px;
             margin: 0;
-            padding-top: 15px;
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             text-transform: uppercase;
         }
         .subtitle {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #81d4fa;
             letter-spacing: 2px;
-            margin-top: 5px;
-        }
-        
-        /* HAMBURGER MENU */
-        .hamburger-btn {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 4001;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid rgba(0,255,255,0.5);
-            border-radius: 4px;
-            padding: 4px;
-            cursor: pointer;
-            width: 26px;
-            height: 26px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: 0 0 10px rgba(0,255,255,0.2);
-        }
-        .hamburger-bar {
-            width: 16px;
-            height: 2px;
-            background-color: #00ffff;
-            box-shadow: 0 0 5px #00ffff;
-            transition: 0.3s;
+            margin-top: 3px;
         }
 
-        /* REFRESH BUTTON (NEW) */
-        .refresh-btn {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 4001;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid rgba(0,255,255,0.5);
+        /* Header Buttons (Integrated) */
+        .header-btn {
+            position: absolute;
+            top: 20px; /* Aligned with title */
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #00ffff;
+            width: 32px;
+            height: 32px;
             border-radius: 4px;
-            padding: 4px;
-            cursor: pointer;
-            width: 26px;
-            height: 26px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 10px rgba(0,255,255,0.2);
-            color: #00ffff;
+            cursor: pointer;
             font-size: 1.2rem;
-            font-weight: bold;
-            user-select: none;
+            z-index: 100;
+            transition: 0.2s;
         }
-        .refresh-btn:active {
-            background: rgba(0,255,255,0.2);
+        .header-btn:active {
+            background: rgba(0, 255, 255, 0.2);
             transform: scale(0.95);
         }
-
+        .header-btn.left {
+            left: 10px;
+            font-weight: bold;
+        }
+        .header-btn.right {
+            right: 10px;
+            font-size: 1.4rem; /* For hamburger icon */
+        }
+        
+        /* SIDE MENU */
         .side-menu-overlay {
             position: fixed;
             top: 0;
@@ -397,7 +381,7 @@
         }
 
         /* =========================================
-           SCHEDULE VIEW STYLES (New)
+           SCHEDULE VIEW STYLES
            ========================================= */
         .month-tabs-area {
             display: flex;
@@ -681,14 +665,6 @@
     <div class="loader-bar"></div>
 </div>
 
-<div class="refresh-btn" onclick="manualReload()">↻</div>
-
-<div class="hamburger-btn" onclick="toggleSideMenu()">
-    <div class="hamburger-bar"></div>
-    <div class="hamburger-bar"></div>
-    <div class="hamburger-bar"></div>
-</div>
-
 <div id="sideMenu" class="side-menu-overlay" onclick="closeSideMenu(event)">
     <div class="side-menu-content">
         <div class="menu-item active" onclick="selectAppMode('tennis')">🎾 TENNIS</div>
@@ -698,8 +674,10 @@
 
 <div class="container">
     <header class="app-header">
+        <div class="header-btn left" onclick="manualReload()">↻</div>
         <h1 id="pageTitle">MATCH INPUT</h1>
         <div class="subtitle">DEEP SPACE INTEGRATED SYSTEM</div>
+        <div class="header-btn right" onclick="toggleSideMenu()">≡</div>
     </header>
 
     <div id="view-match" class="view-section active">
@@ -832,8 +810,8 @@
 
     <div id="view-schedule" class="view-section">
         <div class="section-title">MISSION SCHEDULE</div>
-        <div style="text-align:center; margin-bottom:20px;">
-            <a href="https://liff.line.me/2008858372-NgwrDQlQ" target="_blank" style="color:#00ffff; text-decoration:none; border-bottom:1px solid #00ffff; padding-bottom:2px;">日程調整記入はこちらから</a>
+        <div style="text-align:center; margin: 15px 0 25px 0;">
+            <a href="https://liff.line.me/2008858372-NgwrDQlQ" target="_blank" style="color:#00ffff; text-decoration:none; border-bottom:1px solid #00ffff; padding-bottom:3px; font-size:0.9rem; letter-spacing:1px;">日程調整記入はこちらから ↗</a>
         </div>
         <div id="scheduleTabs" class="month-tabs-area"></div>
         <div id="scheduleList" class="schedule-list">
@@ -980,12 +958,12 @@
         fetchAnalysisData();
         fetchScheduleData(); // Real Fetch
         
-        // Restore last view
+        // Restore last view from sessionStorage to keep page state on refresh
         const lastView = sessionStorage.getItem('lastView');
         if (lastView) {
             switchMainView(lastView);
         } else {
-            // Default to MATCH INPUT if no history
+            // Default to MATCH INPUT
             switchMainView('match'); 
         }
 
@@ -1007,7 +985,6 @@
     function selectAppMode(mode) {
         document.getElementById('sideMenu').classList.remove('open');
         const bottomNav = document.getElementById('bottomNav');
-        const pageTitle = document.getElementById('pageTitle');
         const subTitle = document.querySelector('.subtitle');
 
         const items = document.querySelectorAll('.side-menu-content .menu-item');
@@ -1016,9 +993,8 @@
         if (mode === 'tennis') {
             items[0].classList.add('active');
             // Show Tennis Views
-            switchMainView('match'); // Default to match input
+            switchMainView('match'); 
             bottomNav.classList.remove('hidden');
-            // pageTitle set by switchMainView
             subTitle.textContent = "DEEP SPACE INTEGRATED SYSTEM";
         } else if (mode === 'game') {
             items[1].classList.add('active');
@@ -1026,14 +1002,14 @@
             document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
             document.getElementById('view-game').classList.add('active');
             bottomNav.classList.add('hidden');
-            pageTitle.textContent = "GAME ARCHIVE";
+            document.getElementById('pageTitle').textContent = "GAME ARCHIVE";
             subTitle.textContent = "TACTICAL SIMULATION MODULES";
             sessionStorage.setItem('lastView', 'game');
         }
     }
 
     function switchMainView(viewName) {
-        // Save state for refresh
+        // Save current view for refresh
         sessionStorage.setItem('lastView', viewName);
 
         document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
