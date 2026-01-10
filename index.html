@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CODE NAME: 40</title>
+    <title>CODE NAME: 39</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* =========================================
-           GLOBAL THEME: DEEP SPACE (CODE NAME: 40)
+           GLOBAL THEME: DEEP SPACE (CODE NAME: 39)
            ========================================= */
         body {
             font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
@@ -109,10 +109,10 @@
         }
         .header-btn.right {
             right: 10px;
-            font-size: 2rem;
+            font-size: 2rem; /* Restore simple icon size */
         }
 
-        /* --- SIDE MENU ANIMATION --- */
+        /* --- SIDE MENU ANIMATION (FIXED) --- */
         .side-menu-overlay {
             position: fixed;
             top: 0;
@@ -122,10 +122,13 @@
             background: rgba(0,0,0,0.85);
             backdrop-filter: blur(10px);
             z-index: 6000;
+            
+            /* Changed from display:none to visibility for animation */
             visibility: hidden;
             opacity: 0;
-            display: flex;
+            display: flex; /* Always flex, but hidden */
             justify-content: flex-end;
+            
             transition: opacity 0.4s ease, visibility 0.4s ease;
         }
         .side-menu-overlay.open {
@@ -141,14 +144,17 @@
             padding-top: 90px;
             display: flex;
             flex-direction: column;
+            
+            /* Slide Animation Setting */
             transform: translateX(100%);
+            /* Smooth organic easing */
             transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
         .side-menu-overlay.open .side-menu-content {
             transform: translateX(0);
         }
 
-        /* Stagger Animation */
+        /* Stagger Animation for Menu Items */
         .menu-item {
             padding: 20px 30px;
             color: #fff;
@@ -157,17 +163,20 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
             cursor: pointer;
             text-transform: uppercase;
+            
+            /* Initial state for stagger */
             opacity: 0;
             transform: translateX(30px);
             transition: all 0.4s ease;
         }
+        
         .side-menu-overlay.open .menu-item {
             opacity: 1;
             transform: translateX(0);
         }
+        /* Delays */
         .side-menu-overlay.open .menu-item:nth-child(1) { transition-delay: 0.2s; }
         .side-menu-overlay.open .menu-item:nth-child(2) { transition-delay: 0.3s; }
-        .side-menu-overlay.open .menu-item:nth-child(3) { transition-delay: 0.4s; }
 
         .menu-item:hover {
             background: rgba(0,255,255,0.1);
@@ -183,167 +192,6 @@
         .view-section { display: none; animation: fadeIn 0.4s ease; padding-top: 20px; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- COCKPIT STYLES (NEW) --- */
-        .cockpit-login-container {
-            text-align: center;
-            padding: 20px 0;
-        }
-        .login-step {
-            animation: fadeIn 0.5s ease;
-        }
-        .member-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .member-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #fff;
-            padding: 15px 5px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.9rem;
-        }
-        .member-btn:hover, .member-btn.selected {
-            background: rgba(0,255,255,0.2);
-            border-color: #00ffff;
-            color: #00ffff;
-        }
-        
-        .pin-input-area {
-            margin-top: 30px;
-        }
-        .pin-display {
-            font-size: 2rem;
-            letter-spacing: 10px;
-            margin-bottom: 20px;
-            color: #00ffff;
-            min-height: 40px;
-            font-family: monospace;
-        }
-        .numpad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            max-width: 280px;
-            margin: 0 auto;
-        }
-        .num-btn {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: #fff;
-            font-size: 1.5rem;
-            padding: 15px 0;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .num-btn:active { background: rgba(0,255,255,0.3); }
-        .num-btn.clear { color: #ff5555; font-size: 1rem; display: flex; justify-content: center; align-items: center; }
-        .num-btn.enter { background: #00ffff; color: #000; font-weight: bold; font-size: 1rem; display: flex; justify-content: center; align-items: center; }
-
-        /* Cockpit Main UI */
-        .cockpit-profile {
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
-        }
-        .cockpit-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #444, #111);
-            border: 3px solid #00ffff;
-            margin: 0 auto 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2.5rem;
-            color: #fff;
-            box-shadow: 0 0 20px rgba(0,255,255,0.3);
-        }
-        .cockpit-name {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-        .cockpit-rank-badge {
-            display: inline-block;
-            background: linear-gradient(90deg, #303f9f, #7b1fa2);
-            padding: 5px 20px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: #fff;
-            letter-spacing: 1px;
-            border: 1px solid rgba(255,255,255,0.3);
-            margin-bottom: 20px;
-        }
-        
-        .cockpit-stats-row {
-            display: flex;
-            justify-content: space-around;
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 4px;
-            margin-bottom: 30px;
-        }
-        .c-stat-item { text-align: center; }
-        .c-stat-val { font-size: 1.2rem; color: #00ffff; font-weight: bold; }
-        .c-stat-label { font-size: 0.7rem; color: #aaa; }
-
-        .cockpit-section {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 20px;
-            margin-bottom: 20px;
-        }
-        .cockpit-title {
-            color: #81d4fa;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }
-        
-        .title-placeholder {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-        }
-        .title-tag {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #555;
-            color: #888;
-            padding: 5px 10px;
-            font-size: 0.8rem;
-            border-radius: 4px;
-        }
-        .title-tag.active {
-            border-color: #ffd700;
-            color: #ffd700;
-            background: rgba(255,215,0,0.1);
-            box-shadow: 0 0 10px rgba(255,215,0,0.1);
-        }
-
-        .btn-logout {
-            background: transparent;
-            border: 1px solid #ff5555;
-            color: #ff5555;
-            width: 100%;
-            padding: 12px;
-            margin-top: 30px;
-            border-radius: 4px;
-            cursor: pointer;
-            letter-spacing: 2px;
-            transition: 0.3s;
-        }
-        .btn-logout:hover {
-            background: rgba(255, 85, 85, 0.1);
-        }
 
         /* INPUT STYLES */
         .input-header-area { position: relative; margin-bottom: 40px; min-height: 80px; }
@@ -847,7 +695,6 @@
     <div class="side-menu-content">
         <div class="menu-item active" onclick="selectAppMode('tennis')">🎾 TENNIS</div>
         <div class="menu-item" onclick="selectAppMode('game')">🎮 GAME</div>
-        <div class="menu-item" onclick="switchMainView('cockpit')">🚀 COCKPIT</div>
     </div>
 </div>
 
@@ -1028,83 +875,6 @@
         </div>
     </div>
 
-    <div id="view-cockpit" class="view-section">
-        <div id="cockpit-login" class="cockpit-login-container">
-            <div id="step-select-user" class="login-step">
-                <div class="section-title" style="border:none; text-align:center;">IDENTIFY YOURSELF</div>
-                <div style="font-size:0.8rem; color:#888; margin-bottom:15px;">登録するメンバー名を選択してください</div>
-                <div id="loginUserGrid" class="member-grid"></div>
-            </div>
-            
-            <div id="step-pin-input" class="login-step" style="display:none;">
-                <div class="section-title" style="border:none; text-align:center;">SECURITY CHECK</div>
-                <div id="pinInstruction" style="font-size:0.8rem; color:#888; margin-bottom:15px;">4桁のパスコードを入力</div>
-                
-                <div class="pin-input-area">
-                    <div id="pinDisplay" class="pin-display"></div>
-                    <div class="numpad">
-                        <button class="num-btn" onclick="typePin('1')">1</button>
-                        <button class="num-btn" onclick="typePin('2')">2</button>
-                        <button class="num-btn" onclick="typePin('3')">3</button>
-                        <button class="num-btn" onclick="typePin('4')">4</button>
-                        <button class="num-btn" onclick="typePin('5')">5</button>
-                        <button class="num-btn" onclick="typePin('6')">6</button>
-                        <button class="num-btn" onclick="typePin('7')">7</button>
-                        <button class="num-btn" onclick="typePin('8')">8</button>
-                        <button class="num-btn" onclick="typePin('9')">9</button>
-                        <button class="num-btn clear" onclick="clearPin()">CLR</button>
-                        <button class="num-btn" onclick="typePin('0')">0</button>
-                        <button class="num-btn enter" onclick="submitPin()">OK</button>
-                    </div>
-                    <div style="margin-top:20px;">
-                        <button onclick="resetLoginStep()" style="background:none; border:none; color:#555; text-decoration:underline;">戻る</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="cockpit-main" style="display:none;">
-            <div class="cockpit-profile">
-                <div class="cockpit-avatar">👤</div>
-                <div id="cpName" class="cockpit-name">PLAYER</div>
-                <div id="cpRank" class="cockpit-rank-badge">RANK: UNKNOWN</div>
-            </div>
-
-            <div class="cockpit-stats-row">
-                <div class="c-stat-item">
-                    <div class="c-stat-val">0</div>
-                    <div class="c-stat-label">COINS</div>
-                </div>
-                <div class="c-stat-item">
-                    <div class="c-stat-val">0</div>
-                    <div class="c-stat-label">EXP</div>
-                </div>
-                <div class="c-stat-item">
-                    <div class="c-stat-val">0</div>
-                    <div class="c-stat-label">WINS</div>
-                </div>
-            </div>
-
-            <div class="cockpit-section">
-                <div class="cockpit-title">ACQUIRED TITLES</div>
-                <div class="title-placeholder">
-                    <div class="title-tag active">ROOKIE</div>
-                    <div class="title-tag">EARLY BIRD</div>
-                    <div class="title-tag">SNIPER</div>
-                </div>
-            </div>
-
-            <div class="cockpit-section">
-                <div class="cockpit-title">HANGAR (VEHICLE)</div>
-                <div style="text-align:center; padding:20px; border:1px dashed #333; color:#555;">
-                    NO VEHICLE ASSIGNED
-                </div>
-            </div>
-
-            <button class="btn-logout" onclick="logoutCockpit()">LOGOUT</button>
-        </div>
-    </div>
-
 </div>
 
 <nav id="bottomNav" class="bottom-nav">
@@ -1180,8 +950,6 @@
     
     const members = ["周平", "すが", "凌矢", "祐介", "志村", "カトケン", "小田"];
     const STORAGE_KEY = 'tennis_match_data_v7_holo';
-    const LOGIN_KEY = 'tennis_user_login_v1'; // Key for login persistence
-
     const CREW_RANKS = [
         { name: '候補生',     min: 0,   icon: '🌑' },
         { name: 'パイロット', min: 100,  icon: '🛸' },
@@ -1202,13 +970,9 @@
     let rawAnalysisRankings = [];
     let rawAnalysisMatches = [];
     let currentSector = 'ALL';
+    
+    // スケジュールデータ保存用
     let globalScheduleData = [];
-
-    // Login State Variables
-    let loginState = {
-        selectedUser: null,
-        inputPin: ""
-    };
 
     window.onload = function() {
         initSelectors();
@@ -1218,17 +982,16 @@
         const dd = String(today.getDate()).padStart(2, '0');
         document.getElementById('matchDate').textContent = `${yyyy}-${mm}-${dd}`;
         fetchAnalysisData();
-        fetchScheduleData(); 
+        fetchScheduleData(); // Real Fetch
         
+        // Restore last view from sessionStorage to keep page state on refresh
         const lastView = sessionStorage.getItem('lastView');
         if (lastView) {
             switchMainView(lastView);
         } else {
+            // Default to MATCH INPUT
             switchMainView('match'); 
         }
-
-        // Init Cockpit Login Grid
-        initLoginGrid();
 
         setTimeout(() => {
             document.getElementById('loadingScreen').style.opacity = 0;
@@ -1236,136 +999,22 @@
         }, 1000);
     };
 
-    // --- COCKPIT LOGIN LOGIC ---
-    function initLoginGrid() {
-        const grid = document.getElementById('loginUserGrid');
-        grid.innerHTML = "";
-        members.forEach(m => {
-            const btn = document.createElement('div');
-            btn.className = 'member-btn';
-            btn.textContent = m;
-            btn.onclick = () => selectLoginUser(m, btn);
-            grid.appendChild(btn);
-        });
-    }
-
-    function selectLoginUser(name, btnElement) {
-        document.querySelectorAll('.member-btn').forEach(b => b.classList.remove('selected'));
-        btnElement.classList.add('selected');
-        loginState.selectedUser = name;
-        
-        // Move to PIN input
-        setTimeout(() => {
-            document.getElementById('step-select-user').style.display = 'none';
-            document.getElementById('step-pin-input').style.display = 'block';
-            document.getElementById('pinInstruction').textContent = `${name} さんのパスコードを設定/入力`;
-            clearPin();
-        }, 300);
-    }
-
-    function typePin(num) {
-        if(loginState.inputPin.length < 4) {
-            loginState.inputPin += num;
-            updatePinDisplay();
-        }
-    }
-
-    function clearPin() {
-        loginState.inputPin = "";
-        updatePinDisplay();
-    }
-
-    function updatePinDisplay() {
-        // Show dots instead of numbers
-        const dots = "•".repeat(loginState.inputPin.length);
-        document.getElementById('pinDisplay').textContent = dots;
-    }
-
-    function submitPin() {
-        if(loginState.inputPin.length !== 4) {
-            showToast("4桁入力してください");
-            return;
-        }
-        
-        // Logic: HTML only, so we save to localStorage
-        // In a real app, we would verify with server
-        
-        const userData = {
-            name: loginState.selectedUser,
-            pin: loginState.inputPin, // Storing PIN locally (Basic Security)
-            loginTime: new Date().getTime()
-        };
-        
-        localStorage.setItem(LOGIN_KEY, JSON.stringify(userData));
-        showToast("LOGIN SUCCESS");
-        
-        // Reset Steps for next time
-        resetLoginStep();
-        
-        // Reload cockpit view to show logged in state
-        checkCockpitLogin();
-    }
-
-    function resetLoginStep() {
-        loginState.selectedUser = null;
-        loginState.inputPin = "";
-        document.getElementById('step-select-user').style.display = 'block';
-        document.getElementById('step-pin-input').style.display = 'none';
-        document.querySelectorAll('.member-btn').forEach(b => b.classList.remove('selected'));
-    }
-
-    function checkCockpitLogin() {
-        const stored = localStorage.getItem(LOGIN_KEY);
-        const loginScreen = document.getElementById('cockpit-login');
-        const mainScreen = document.getElementById('cockpit-main');
-        
-        if (stored) {
-            // Logged In
-            const user = JSON.parse(stored);
-            loginScreen.style.display = 'none';
-            mainScreen.style.display = 'block';
-            
-            // Populate Dummy Data
-            document.getElementById('cpName').textContent = user.name;
-            // 仮のランク表示ロジック（実際はanalysisデータから引くのが理想）
-            const pStats = playerStatsGlobal[user.name];
-            let rankText = "候補生";
-            if (pStats) {
-                const ri = getRankInfo(pStats.games);
-                rankText = ri.current.name;
-            }
-            document.getElementById('cpRank').textContent = `RANK: ${rankText}`;
-            
-        } else {
-            // Not Logged In
-            loginScreen.style.display = 'block';
-            mainScreen.style.display = 'none';
-        }
-    }
-
-    function logoutCockpit() {
-        if(confirm("ログアウトしますか？")) {
-            localStorage.removeItem(LOGIN_KEY);
-            resetLoginStep();
-            checkCockpitLogin();
-            showToast("LOGOUT");
-        }
-    }
-
     // --- NAVIGATION LOGIC ---
     function toggleSideMenu() {
         document.getElementById('sideMenu').classList.toggle('open');
-        // document.getElementById('menuToggleBtn').classList.toggle('active');
+        // document.getElementById('menuToggleBtn').classList.toggle('active'); // Removed morph trigger
     }
     
     function closeSideMenu(e) {
         if(e.target.id === 'sideMenu') {
             document.getElementById('sideMenu').classList.remove('open');
+            // document.getElementById('menuToggleBtn').classList.remove('active'); // Removed morph trigger
         }
     }
 
     function selectAppMode(mode) {
         document.getElementById('sideMenu').classList.remove('open');
+        // document.getElementById('menuToggleBtn').classList.remove('active'); // Removed morph trigger
         
         const bottomNav = document.getElementById('bottomNav');
         const subTitle = document.querySelector('.subtitle');
@@ -1375,12 +1024,13 @@
 
         if (mode === 'tennis') {
             items[0].classList.add('active');
+            // Show Tennis Views
             switchMainView('match'); 
             bottomNav.classList.remove('hidden');
-            document.getElementById('pageTitle').textContent = "MATCH INPUT";
             subTitle.textContent = "DEEP SPACE INTEGRATED SYSTEM";
         } else if (mode === 'game') {
             items[1].classList.add('active');
+            // Show Game Portal
             document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
             document.getElementById('view-game').classList.add('active');
             bottomNav.classList.add('hidden');
@@ -1391,6 +1041,7 @@
     }
 
     function switchMainView(viewName) {
+        // Save current view for refresh
         sessionStorage.setItem('lastView', viewName);
 
         document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
@@ -1406,20 +1057,8 @@
         const targetSection = document.getElementById(`view-${viewName}`);
         if(targetSection) targetSection.classList.add('active');
         
-        const titles = { 
-            'match': 'MATCH INPUT', 
-            'dashboard': 'DASHBOARD', 
-            'ranking': 'RANKING', 
-            'map': 'COURT MAP', 
-            'schedule': 'MISSION SCHEDULE',
-            'cockpit': 'MY COCKPIT' // New Title
-        };
+        const titles = { 'match': 'MATCH INPUT', 'dashboard': 'DASHBOARD', 'ranking': 'RANKING', 'map': 'COURT MAP', 'schedule': 'MISSION SCHEDULE' };
         document.getElementById('pageTitle').textContent = titles[viewName] || 'TENNIS CHRONICLES';
-
-        if (viewName === 'cockpit') {
-            document.getElementById('sideMenu').classList.remove('open'); // Close menu if opened from there
-            checkCockpitLogin(); // Check login status
-        }
     }
 
     function manualReload() {
@@ -2053,10 +1692,6 @@
         renderAnalysisPairs(pairStats);
         renderAnalysisLogs(logs);
         renderAnalysisChart(sortedP);
-        
-        // Update Cockpit Rank Info (If logged in)
-        checkCockpitLogin();
-        
         if(currentSector === 'ALL') { updateSchedule('r1'); updateSchedule('r2'); }
     }
 
