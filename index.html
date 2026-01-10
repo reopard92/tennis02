@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CODE NAME: 36</title>
+    <title>CODE NAME: 37</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* =========================================
-           GLOBAL THEME: DEEP SPACE (CODE NAME: 36)
+           GLOBAL THEME: DEEP SPACE (CODE NAME: 37)
            ========================================= */
         body {
             font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
@@ -43,23 +43,31 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(5px);
             position: relative;
-            margin-top: 20px;
+            margin-top: 0; /* Changed for sticky header */
             min-height: 80vh;
         }
 
-        /* --- HEADER STYLES (NEW DESIGN) --- */
+        /* --- HEADER STYLES (CODE NAME: 37 FIX) --- */
         .app-header {
             text-align: center;
-            margin-bottom: 40px;
+            /* margin-bottom removed to prevent gap with sticky */
             padding-top: 15px;
             padding-bottom: 15px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            position: relative; /* For button positioning */
+            
+            /* Sticky Header Settings */
+            position: sticky; 
+            top: 0;
+            z-index: 5000;
+            background: rgba(2, 2, 4, 0.85); /* Semi-transparent background */
+            backdrop-filter: blur(10px);      /* Glass effect */
+            
             min-height: 60px;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            width: 100%;
         }
         h1 {
             color: #ffffff;
@@ -77,35 +85,40 @@
             margin-top: 3px;
         }
 
-        /* Header Buttons (Integrated) */
+        /* Header Buttons (Stylish No-Border) */
         .header-btn {
             position: absolute;
-            top: 20px; /* Aligned with title */
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 255, 255, 0.3);
+            top: 20px;
+            
+            /* Remove box styling */
+            background: transparent;
+            border: none;
+            
             color: #00ffff;
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
+            width: 40px; /* Keep hit area */
+            height: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            font-size: 1.2rem;
             z-index: 100;
-            transition: 0.2s;
+            transition: 0.3s;
+            
+            /* Text glow effect */
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
         }
         .header-btn:active {
-            background: rgba(0, 255, 255, 0.2);
-            transform: scale(0.95);
+            transform: scale(0.9);
+            text-shadow: 0 0 20px rgba(0, 255, 255, 1);
         }
         .header-btn.left {
             left: 10px;
             font-weight: bold;
+            font-size: 1.8rem; /* Larger icon */
         }
         .header-btn.right {
             right: 10px;
-            font-size: 1.4rem; /* For hamburger icon */
+            font-size: 2rem; /* Larger icon */
         }
         
         /* SIDE MENU */
@@ -117,7 +130,7 @@
             height: 100%;
             background: rgba(0,0,0,0.85);
             backdrop-filter: blur(10px);
-            z-index: 4000;
+            z-index: 6000; /* Higher than header */
             display: none;
             justify-content: flex-end;
             opacity: 0;
@@ -163,7 +176,7 @@
             background: rgba(0,255,255,0.05);
         }
 
-        .view-section { display: none; animation: fadeIn 0.4s ease; }
+        .view-section { display: none; animation: fadeIn 0.4s ease; padding-top: 20px; /* Added padding for spacing */ }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
