@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CODE NAME: 37</title>
+    <title>CODE NAME: 38</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* =========================================
-           GLOBAL THEME: DEEP SPACE (CODE NAME: 37)
+           GLOBAL THEME: DEEP SPACE (CODE NAME: 38)
            ========================================= */
         body {
             font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
@@ -43,25 +43,21 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(5px);
             position: relative;
-            margin-top: 0; /* Changed for sticky header */
+            margin-top: 0;
             min-height: 80vh;
         }
 
-        /* --- HEADER STYLES (CODE NAME: 37 FIX) --- */
+        /* --- STICKY HEADER --- */
         .app-header {
             text-align: center;
-            /* margin-bottom removed to prevent gap with sticky */
             padding-top: 15px;
             padding-bottom: 15px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            
-            /* Sticky Header Settings */
             position: sticky; 
             top: 0;
             z-index: 5000;
-            background: rgba(2, 2, 4, 0.85); /* Semi-transparent background */
-            backdrop-filter: blur(10px);      /* Glass effect */
-            
+            background: rgba(2, 2, 4, 0.85); 
+            backdrop-filter: blur(10px);
             min-height: 60px;
             display: flex;
             justify-content: center;
@@ -85,26 +81,21 @@
             margin-top: 3px;
         }
 
-        /* Header Buttons (Stylish No-Border) */
+        /* --- ANIMATED BUTTONS --- */
         .header-btn {
             position: absolute;
             top: 20px;
-            
-            /* Remove box styling */
             background: transparent;
             border: none;
-            
             color: #00ffff;
-            width: 40px; /* Keep hit area */
-            height: 40px;
+            width: 44px;
+            height: 44px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             z-index: 100;
             transition: 0.3s;
-            
-            /* Text glow effect */
             text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
         }
         .header-btn:active {
@@ -114,14 +105,37 @@
         .header-btn.left {
             left: 10px;
             font-weight: bold;
-            font-size: 1.8rem; /* Larger icon */
-        }
-        .header-btn.right {
-            right: 10px;
-            font-size: 2rem; /* Larger icon */
+            font-size: 1.8rem;
         }
         
-        /* SIDE MENU */
+        /* Morphing Hamburger Icon Styles */
+        .header-btn.right {
+            right: 10px;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .hamburger-line {
+            width: 24px;
+            height: 2px;
+            background-color: #00ffff;
+            box-shadow: 0 0 5px #00ffff;
+            border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bouncy Morph */
+        }
+        
+        /* Active State for Morphing (X shape) */
+        .header-btn.right.active .hamburger-line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .header-btn.right.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+        .header-btn.right.active .hamburger-line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* --- SIDE MENU ANIMATION --- */
         .side-menu-overlay {
             position: fixed;
             top: 0;
@@ -130,11 +144,11 @@
             height: 100%;
             background: rgba(0,0,0,0.85);
             backdrop-filter: blur(10px);
-            z-index: 6000; /* Higher than header */
+            z-index: 6000;
             display: none;
             justify-content: flex-end;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s ease;
         }
         .side-menu-overlay.open {
             display: flex;
@@ -146,15 +160,20 @@
             height: 100%;
             background: rgba(10, 15, 20, 0.95);
             border-left: 1px solid rgba(0,255,255,0.3);
-            padding-top: 80px;
+            padding-top: 90px;
             display: flex;
             flex-direction: column;
+            
+            /* Slide Animation Setting */
             transform: translateX(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            /* Smooth organic easing (Ease-out Expo ish) */
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
         .side-menu-overlay.open .side-menu-content {
             transform: translateX(0);
         }
+
+        /* Stagger Animation for Menu Items */
         .menu-item {
             padding: 20px 30px;
             color: #fff;
@@ -162,9 +181,23 @@
             letter-spacing: 2px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             cursor: pointer;
-            transition: 0.2s;
             text-transform: uppercase;
+            
+            /* Initial state for stagger */
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.4s ease;
         }
+        
+        /* When menu is open, items slide in with delay */
+        .side-menu-overlay.open .menu-item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        /* Delays */
+        .side-menu-overlay.open .menu-item:nth-child(1) { transition-delay: 0.2s; }
+        .side-menu-overlay.open .menu-item:nth-child(2) { transition-delay: 0.3s; }
+
         .menu-item:hover {
             background: rgba(0,255,255,0.1);
             padding-left: 40px;
@@ -176,7 +209,7 @@
             background: rgba(0,255,255,0.05);
         }
 
-        .view-section { display: none; animation: fadeIn 0.4s ease; padding-top: 20px; /* Added padding for spacing */ }
+        .view-section { display: none; animation: fadeIn 0.4s ease; padding-top: 20px; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -690,7 +723,11 @@
         <div class="header-btn left" onclick="manualReload()">↻</div>
         <h1 id="pageTitle">MATCH INPUT</h1>
         <div class="subtitle">DEEP SPACE INTEGRATED SYSTEM</div>
-        <div class="header-btn right" onclick="toggleSideMenu()">≡</div>
+        <div class="header-btn right" id="menuToggleBtn" onclick="toggleSideMenu()">
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+        </div>
     </header>
 
     <div id="view-match" class="view-section active">
@@ -989,14 +1026,20 @@
     // --- NAVIGATION LOGIC ---
     function toggleSideMenu() {
         document.getElementById('sideMenu').classList.toggle('open');
+        document.getElementById('menuToggleBtn').classList.toggle('active'); // Trigger morph
     }
     
     function closeSideMenu(e) {
-        if(e.target.id === 'sideMenu') document.getElementById('sideMenu').classList.remove('open');
+        if(e.target.id === 'sideMenu') {
+            document.getElementById('sideMenu').classList.remove('open');
+            document.getElementById('menuToggleBtn').classList.remove('active');
+        }
     }
 
     function selectAppMode(mode) {
         document.getElementById('sideMenu').classList.remove('open');
+        document.getElementById('menuToggleBtn').classList.remove('active'); // Reset morph
+        
         const bottomNav = document.getElementById('bottomNav');
         const subTitle = document.querySelector('.subtitle');
 
