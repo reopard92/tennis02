@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CODE NAME: 48</title>
+    <title>CODE NAME: 47</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -31,8 +31,6 @@
             min-height: 100vh;
             overflow-x: hidden;
             padding-bottom: 80px;
-            /* Prevent swipe navigation on iOS */
-            overscroll-behavior-x: none;
         }
         .container {
             max-width: 900px;
@@ -387,21 +385,6 @@
             display: flex; justify-content: center; align-items: center;
             font-size: 2.5rem;
             box-shadow: 0 0 20px rgba(0,255,255,0.3);
-            cursor: pointer;
-            overflow: hidden;
-            position: relative;
-        }
-        .mypage-avatar-large:hover::after {
-            content: 'EDIT';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0,255,255,0.5);
-            color: #000;
-            font-size: 0.6rem;
-            font-weight: bold;
-            padding: 2px 0;
         }
         .mypage-name { font-size: 1.5rem; color: #fff; letter-spacing: 2px; font-weight: bold; }
         .mypage-title { color: #00ffff; font-size: 0.9rem; letter-spacing: 1px; margin-top: 5px; }
@@ -855,7 +838,6 @@
         <div id="myPageContent">
             <!-- Content injected by JS -->
         </div>
-        <input type="file" id="avatarInput" hidden accept="image/*" onchange="handleAvatarUpload(this)">
     </div>
 
     <div id="view-match" class="view-section active">
@@ -1151,25 +1133,6 @@
             document.getElementById('loadingScreen').style.opacity = 0;
             setTimeout(() => { document.getElementById('loadingScreen').style.display = 'none'; }, 800);
         }, 1000);
-        
-        // Swipe Logic
-        let touchStartX = 0;
-        document.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, {passive: true});
-
-        document.addEventListener('touchend', e => {
-            const touchEndX = e.changedTouches[0].screenX;
-            // 右端(画面幅-100px以内)から左へスワイプでオープン
-            if(touchStartX > window.innerWidth - 100 && touchStartX - touchEndX > 50) {
-                document.getElementById('sideMenu').classList.add('open');
-                updateSideMenuActiveState();
-            }
-            // 右へスワイプでクローズ
-            if(touchEndX - touchStartX > 50) {
-                document.getElementById('sideMenu').classList.remove('open');
-            }
-        }, {passive: true});
     };
 
     // --- AUTHENTICATION LOGIC ---
@@ -1321,21 +1284,9 @@
         // Dummy Coin Calculation: Wins * 50 + Games * 10
         const coins = (pStats.wins * 50) + (pStats.games * 10);
         
-        // Avatar Logic
-        const storedAvatar = localStorage.getItem(`avatar_${name}`);
-        let avatarStyle = '';
-        let avatarContent = name.charAt(0);
-        
-        if(storedAvatar) {
-            avatarStyle = `background-image: url(${storedAvatar}); background-size: cover; background-position: center; color: transparent;`;
-            avatarContent = '';
-        }
-        
         const html = `
             <div class="mypage-header">
-                <div class="mypage-avatar-large" style="${avatarStyle}" onclick="document.getElementById('avatarInput').click()">
-                    ${avatarContent}
-                </div>
+                <div class="mypage-avatar-large">${name.charAt(0)}</div>
                 <div class="mypage-name">${name}</div>
                 <div class="mypage-title">${rankInfo.current.icon} ${rankInfo.current.name}</div>
             </div>
@@ -1369,41 +1320,11 @@
         document.getElementById('myPageContent').innerHTML = html;
         document.getElementById('pageTitle').textContent = "MY PAGE";
     }
-    
-    function handleAvatarUpload(input) {
-        if (input.files && input.files[0] && currentUser) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const base64 = e.target.result;
-                localStorage.setItem(`avatar_${currentUser.name}`, base64);
-                renderMyPage(); // Re-render to show new image
-                showToast("AVATAR UPDATED");
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
 
     // --- NAVIGATION LOGIC ---
     function toggleSideMenu() {
-        const menu = document.getElementById('sideMenu');
-        menu.classList.toggle('open');
-        if(menu.classList.contains('open')) {
-            updateSideMenuActiveState();
-        }
-    }
-    
-    function updateSideMenuActiveState() {
-        const currentView = sessionStorage.getItem('lastView') || 'top';
-        const items = document.querySelectorAll('.side-menu-content .menu-item');
-        items.forEach(i => i.classList.remove('active'));
-        
-        if(currentView === 'mypage') {
-            items[2].classList.add('active'); // My Page
-        } else if (currentView === 'game') {
-            items[1].classList.add('active'); // Game
-        } else {
-            items[0].classList.add('active'); // Tennis (default for all tennis views)
-        }
+        document.getElementById('sideMenu').classList.toggle('open');
+        // document.getElementById('menuToggleBtn').classList.toggle('active'); // Removed morph trigger
     }
     
     function closeSideMenu(e) {
